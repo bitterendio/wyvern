@@ -17,29 +17,29 @@
 
 1. Download latest version of Wordpress
 
-```
-https://wordpress.org/download/
-```
+    ```
+    https://wordpress.org/download/
+    ```
 
 2. Setup your wp-config.php
 
 3. Clone this repository to /wp-content/themes
 
-```
-git clone https://github.com/sanatorium/wyvern.git
-```
+    ```
+    git clone https://github.com/sanatorium/wyvern.git
+    ```
 
 4. Install dependencies for Wyvern theme
 
-```
-yarn install
-```
+    ```
+    yarn install
+    ```
 
-or
+    or
 
-```
-npm install
-```
+    ```
+    npm install
+    ```
 
 5. Install Wordpress and then install and activate all [necessary](#necessary-plugins) and optionally even [recommended](#recommended-plugins)  plugins
 
