@@ -1,5 +1,4 @@
-![Insane Wyvern](/screenshot.png?raw=true)
-
+![Insane Wyvern](/insane_wyvern.png?raw=true)
 
 # Contents
 - [Installation](#installation)
@@ -9,9 +8,7 @@
 - [Development](#development)
     - [Development commands](#development-cmds)
     - [Styles](#styles)
-- [Levels](#levels)
-- [Checklist](#checklist)
-- [TODOs](#todos)
+- [Credits](#credits)
 
 #<a name="installation"></a>Installation
 
@@ -35,7 +32,7 @@
     yarn install
     ```
 
-     or
+    or
 
     ```
     npm install
@@ -96,48 +93,7 @@ Webpack configuration is stored in ``webpack.config.js``
 - [PostCSS][post-css] configruation is stored in ``postcss.config.js``
 - [PostCSS][post-css] uses [PostCSS SCSS][postcss-scss] as parser and [PreCSS][precss], [PostCSS-Assets][postcss-assets], [PostCSS-Calc][postcss-calc] as plugins 
 
-
-##<a name="levels"></a>Levels
-
-- Intro
-
-##<a name="checklist"></a>Checklist
-
-- [ ] Screenshot.png exists and contains valid preview
-- [ ] node_modules is ignored in git
-
-##<a name="todos"></a>TODOs
-
-* ~~Implementing WordPress menus instead of just outputting a list of pages~~
-* ~~Implementing Google Analytics~~
-* ~~Implement loading indicators and transitions~~
-* ~~More advanced post/page components~~
-* ~~Vue 2~~
-* ~~Links when tunneling~~
-* ~~Caching~~
-* allow theme for home page
-* ~~search~~
-* ~~axios~~
-* Widgets + support:
-  - Archives
-  - Categories
-  - Calendar
-  - Custom Menu
-  - Meta
-  - Pages
-  - Recent comments
-  - Recent posts
-  - RSS
-  - Search
-  - Tag cloud
-  - Text
-* ~~Child theme~~
-  * ~~vue component overrides~~
-* ~~Separate some vue components from theme~~
-* Paginated list of posts
-* ~~dynamic routes~~
-
-### Credits
+#<a name="credits"></a>Credits
 
 Based on [Gilbert Pellegrom](http://gilbert.pellegrom.me) WP REST Theme
 
