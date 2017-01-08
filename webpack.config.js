@@ -3,7 +3,6 @@
  */
 const webpack    = require('webpack');
 const path       = require('path');
-const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 module.exports = {
     entry: __dirname + '/lib/src/main.js',
@@ -44,16 +43,6 @@ module.exports = {
                 ]
             }
         ],
-    },
-
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                screw_ie8: true,
-                warnings: false
-            }
-        }),
-        new LiveReloadPlugin({appendScriptTag: true}),
-    ]
+    }
 
 };

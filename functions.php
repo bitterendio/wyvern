@@ -53,7 +53,7 @@ function rest_theme_scripts() {
 
         // Configurations
         'keys'          => [
-            'mapbox'    => env('MAPBOX_TOKEN'),
+            'mapbox'    => //env('MAPBOX_TOKEN'),
         ],
 
         // Inline configurations

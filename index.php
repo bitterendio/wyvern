@@ -55,7 +55,5 @@
 
 <?php wp_footer(); ?>
 
-<?php include( __DIR__ . '/../tenancy.php'); ?>
-
 </body>
 </html>
