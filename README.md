@@ -8,7 +8,6 @@
 - [Development](#development)
     - [Development commands](#development-cmds)
     - [Styles](#styles)
-- [Credits](#credits)
 
 #<a name="installation"></a>Installation
 
@@ -92,10 +91,6 @@ Webpack configuration is stored in ``webpack.config.js``
 - Styles are transforming to ``.css`` by [PostCSS][post-css]
 - [PostCSS][post-css] configruation is stored in ``postcss.config.js``
 - [PostCSS][post-css] uses [PostCSS SCSS][postcss-scss] as parser and [PreCSS][precss], [PostCSS-Assets][postcss-assets], [PostCSS-Calc][postcss-calc] as plugins 
-
-#<a name="credits"></a>Credits
-
-Based on [Gilbert Pellegrom](http://gilbert.pellegrom.me) WP REST Theme
 
 [acf-account]: https://www.advancedcustomfields.com/my-account/
 [akismet]: https://wordpress.org/plugins/akismet/
