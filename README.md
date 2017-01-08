@@ -35,7 +35,7 @@
     yarn install
     ```
 
-    or
+     or
 
     ```
     npm install
