@@ -4,8 +4,8 @@
     "vue": "vue/dist/vue.common"
   },
   "scripts": {
-    "build": "webpack --config webpack.config.prod.js --progress --colors --display-error-details",
-    "dev": "webpack --config webpack.config.dev.js --progress --colors --display-error-details --watch"
+    "build": "webpack --config ./build/webpack.config.prod.js --progress --colors --display-error-details",
+    "dev": "webpack --config ./build/webpack.config.dev.js --progress --colors --display-error-details --watch"
   },
   "dependencies": {
     "axios": "^0.15.3",

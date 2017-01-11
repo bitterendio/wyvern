@@ -5,10 +5,10 @@ const webpack    = require('webpack');
 const path       = require('path');
 
 module.exports = {
-    entry: __dirname + '/lib/src/main.js',
+    entry: './src/main.js',
 
     output: {
-        path: __dirname + '/lib/dist',
+        path: './dist',
         filename: 'build.js'
     },
 
@@ -18,7 +18,7 @@ module.exports = {
             'vue$': 'vue/dist/vue.common.js',
         },
         modules: [
-            path.resolve('./lib/src'),
+            path.resolve('./src'),
             'node_modules'
         ],
     },

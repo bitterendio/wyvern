@@ -37,7 +37,7 @@ function rest_theme_scripts() {
     wp_deregister_style('mailpoet_public');
     //wp_deregister_style('style');
 
-    wp_enqueue_script( 'wyvern-vue', get_stylesheet_directory_uri() . '/lib/dist/build.js', array(), '1.0.0', true );
+    wp_enqueue_script( 'wyvern-vue', get_stylesheet_directory_uri() . '/dist/build.js', array(), '1.0.0', true );
 
     $base_url  = esc_url_raw( home_url() );
     $base_path = rtrim( parse_url( $base_url, PHP_URL_PATH ), '/' );
@@ -53,7 +53,7 @@ function rest_theme_scripts() {
 
         // Configurations
         'keys'          => [
-            'mapbox'    => //env('MAPBOX_TOKEN'),
+            'mapbox'    => '', //env('MAPBOX_TOKEN'),
         ],
 
         // Inline configurations
@@ -983,3 +983,21 @@ function wyvern_theme_sanitize_extras_options( $input ) {
     return apply_filters( 'wyvern_theme_sanitize_extras_options', $output, $input );
 
 } // end wyvern_theme_sanitize_extras_options
+
+/*
+ * Include api files from /api directory
+ */
+
+if ($handle = opendir(get_template_directory() . '/api')) {
+
+    while (false !== ($entry = readdir($handle))) {
+
+        if ($entry != "." && $entry != "..") {
+
+            require_once (get_template_directory() . '/api/' . $entry);
+
+        }
+    }
+
+    closedir($handle);
+}
