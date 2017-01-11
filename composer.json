@@ -1,4 +1,6 @@
 {
   "name": "sanatorium/wyvern",
-  "type": "wordpress-theme"
+  "type": "wordpress-theme",
+  "author": "Sane",
+  "license": "MIT"
 }
