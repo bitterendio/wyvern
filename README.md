@@ -25,6 +25,12 @@
     ```
     git clone https://github.com/sanatorium/wyvern.git
     ```
+    
+    or
+    
+    ```
+    composer require sanatorium/wyvern
+    ```
 
 4. Install dependencies for Wyvern theme
 
