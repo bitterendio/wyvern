@@ -4,7 +4,7 @@
     "vue": "vue/dist/vue.common"
   },
   "author": "Sane",
-  "license": "MIT",
+  "license": "MIT", 
   "scripts": {
     "build": "webpack --config ./build/webpack.config.prod.js --progress --colors --display-error-details",
     "dev": "webpack --config ./build/webpack.config.dev.js --progress --colors --display-error-details --watch"

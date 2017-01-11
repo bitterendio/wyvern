@@ -50,7 +50,7 @@
 
 #<a name="folder-structure"></a>Folder structure
 
-    ```
+   ```
     wyvern
     |
     |   postcss.config.js           PostCSS configuration file
@@ -65,7 +65,7 @@
     |   └───webpack.config.prod.js      Webpack config for production
     └───dist                        Compiled javascripts with styles
     └───src                         Main logic (.js and .vue files)
-    ```
+   ```
 
 #<a name="plugins"></a>Plugins
 
