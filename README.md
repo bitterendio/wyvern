@@ -2,6 +2,7 @@
 
 # Contents
 - [Installation](#installation)
+- [Folder structure](#folder-structure)
 - [Plugins](#plugins)
     - [Necessary](#necessary-plugins)
     - [Recommended](#recommended-plugins)
@@ -40,6 +41,25 @@
 5. Install Wordpress and then install and activate all [necessary](#necessary-plugins) and optionally even [recommended](#recommended-plugins)  plugins
 
 6. Activate and enjoy insanely awesome Wyvern Theme!
+
+#<a name="folder-structure"></a>Folder structure
+
+```
+wyvern
+|
+|   postcss.config.js           PostCSS configuration file
+|   style.scss                  PostCSS styles with Sass markup
+|   
+└---api                         Files for customization WP Rest Api 2
+|   └---example.php                 Sample code for custom endpoint
+└---assets                      Assets (Images etc.)
+└---build                       Configurations for webpack
+|   └---webpack.config.dev.js       Webpack config for development
+|   └---webpack.config.js           Basic webpack configuration
+|   └---webpack.config.prod.js      Webpack config for production
+└---dist                        Compiled javascripts with styles
+└---src                         Main logic (.js and .vue files)
+```
 
 #<a name="plugins"></a>Plugins
 
