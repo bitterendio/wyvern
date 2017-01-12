@@ -1001,3 +1001,11 @@ if ($handle = opendir(get_template_directory() . '/api')) {
 
     closedir($handle);
 }
+
+/*
+ * Automatically install necessary plugins via TGM plugin activation
+ */
+
+require_once get_template_directory() . '/lib/TGM/class-tgm-plugin-activation.php';
+
+require_once get_template_directory() . '/lib/TGM/plugins.php';

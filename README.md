@@ -64,6 +64,7 @@
     |   └───webpack.config.js           Basic webpack configuration
     |   └───webpack.config.prod.js      Webpack config for production
     └───dist                        Compiled javascripts with styles
+    └───lib                         PHP libraries
     └───src                         Main logic (.js and .vue files)
 ```
 
