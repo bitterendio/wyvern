@@ -19,7 +19,7 @@
     "theme", "wordpress", "vue", "wp"
   ],
   "support": {
-    "issues": "https://github.com/sanatorium/wyvern/issues",
+    "issues": "https://github.com/sanatorium/wyvern/issues"
   },
   "repositories": [
     {
