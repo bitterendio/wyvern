@@ -67,12 +67,12 @@ a:hover, a:focus {
 }
 
 input[type="search"] {
-  background-image: resolve('images/icons/search.svg');
+  background-image: resolve('assets/images/icons/search.svg');
   background-repeat: no-repeat;
   background-position: center right;
   background-size: 30px 28px;
   &.active {
-    background-image: resolve('images/icons/close.svg');
+    background-image: resolve('assets/images/icons/close.svg');
   }
 }
 
