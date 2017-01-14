@@ -20,6 +20,7 @@ add_action( 'tgmpa_register', 'wyvern_register_required_plugins' );
  * This function is hooked into `tgmpa_register`, which is fired on the WP `init` action on priority 10.
  */
 function wyvern_register_required_plugins() {
+
     /*
      * Array of plugin arrays. Required keys are name and slug.
      * If the source is NOT from the .org repo, then source is also required.
@@ -47,6 +48,7 @@ function wyvern_register_required_plugins() {
             'name'        => 'Advanced Custom Fields',
             'slug'        => 'advanced-custom-fields',
             'is_callable' => 'acf',
+            //'is_callable' => ['acf_field_checkbox', 'render_field'],
             'required'    => false,
         ),
 
