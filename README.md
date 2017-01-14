@@ -76,7 +76,7 @@
 
 - Note: Menu API calls require WP API Menus plugin
 
-**getMenuLocation(location, [callback])** allows retrieving menu by it's location
+**getMenuLocation(location, [callback])** allows retrieving menu by it's location. Sample usage in component:
 
 ```
 <script>
