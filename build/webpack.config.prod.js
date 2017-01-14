@@ -8,6 +8,6 @@ config.plugins = [
       warnings: false
     }
   })
-];
+]
 
 module.exports = config;

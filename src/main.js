@@ -4,6 +4,9 @@ import { routes, Vue, VueRouter, capitalize, getTemplateHierarchy } from './app'
 // import Post from './post.vue'
 // Vue.component('Post', Post)
 
+// Import styles
+import './../style.scss'
+
 // Create router instance
 var router = new VueRouter({
     mode: 'history',
@@ -14,11 +17,10 @@ var router = new VueRouter({
 const App = new Vue({
     el: '#app',
 
-    template: '<div class="template-wrapper" :class="{ fullscreen: fullscreen, fullvideo: fullvideo }">' +
-    '<theme-header></theme-header>' +
-    '<router-view></router-view>' +
-    '<theme-footer></theme-footer>' +
-    '<button type="button" class="btn btn-nav btn-fullscreen" @click="fullscreen = !fullscreen"></button>' +
+    template: '<div class="template-wrapper"' +
+        '<theme-header></theme-header>' +
+        '<router-view></router-view>' +
+        '<theme-footer></theme-footer>' +
     '</div>',
 
     router: router,
