@@ -15,6 +15,7 @@
 
                 <div class="entry-content" v-html="page.content.rendered">
                 </div>
+
             </div>
 
         </div>

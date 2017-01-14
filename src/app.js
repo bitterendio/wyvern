@@ -68,6 +68,24 @@ var routes = {
 
   add(route) {
     return this.push([route])
+  },
+
+  /**
+   * Refresh router, when default components,
+   * like Page, Post etc. have been replaced
+   */
+  refresh() {
+    for ( var key in this.listed ) {
+      let original = this.listed[key]
+      this.listed[key] = {
+        path: original.path,
+        component: {
+          extends: Vue.component(original.meta.name)
+        },
+        meta: original.meta
+      }
+      console.log(original.meta.name)
+    }
   }
 
 }
@@ -257,7 +275,8 @@ Vue.mixin({
 if ( wp.show_on_front == 'posts' ) {
   routes.add({
     path: wp.base_path,
-    component: Posts
+    component: Posts,
+    name: 'Posts'
   });
 }
 
@@ -270,7 +289,8 @@ if ( wp.show_on_front == 'page' ) {
       path     : wp.base_path,
       component: Page,
       meta: {
-        postId: wp.page_on_front
+        postId: wp.page_on_front,
+        name: 'Page'
       }
     });
   } else if ( wp.page_on_front != 0 ) {
@@ -279,7 +299,8 @@ if ( wp.show_on_front == 'page' ) {
       path     : wp.base_path,
       component: Post,
       meta: {
-        postId: wp.page_for_posts
+        postId: wp.page_for_posts,
+        name: 'Post'
       }
     });
   }
@@ -294,7 +315,8 @@ wp.routes.forEach(function (wproute) {
     },
     meta: {
       postId: wproute.id,
-      template: wproute.template
+      template: wproute.template,
+      name: getTemplateHierarchy(wproute.type, wproute.id, wproute.template)
     }
   })
 
@@ -306,7 +328,8 @@ wp.routes.forEach(function (wproute) {
     },
     meta: {
       postId: wproute.id,
-      template: wproute.template
+      template: wproute.template,
+      name: getTemplateHierarchy(wproute.type, wproute.id, wproute.template)
     }
   })
 })

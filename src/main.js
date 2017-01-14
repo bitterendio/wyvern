@@ -37,7 +37,7 @@ const App = new Vue({
 
     methods: {
         updateTitle(pageTitle) {
-            document.title = (pageTitle == wp.site_name ? pageTitle : (pageTitle ? pageTitle + ' - ' : '') + wp.site_name)
+            document.title = (pageTitle ? pageTitle + ' - ' : '') + wp.site_name
         },
         trackGA() {
             if ( typeof ga == 'function' ) {

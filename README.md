@@ -5,6 +5,8 @@
 - [Folder structure](#folder-structure)
 - [Mixin methods](#mixin)
   - [Menu](#mixin-menu)
+- [Routes](#routes)
+  - [Override in child theme](#routes-override)
 - [Plugins](#plugins)
     - [Necessary](#necessary-plugins)
     - [Recommended](#recommended-plugins)
@@ -98,6 +100,29 @@ export default {
     </li>
   </ul>
 </template>
+```
+
+#<a name="routes"></a>Routes
+
+##<a name="routes-override"></a>Override in child theme
+
+Sometimes you need to override components in child theme. Wyvern registers some basic components like Page and then registers routes using these components.
+
+```
+// app.js
+import Page from './page.vue'
+Vue.component('Page', Page)
+```
+
+Now your child theme might need different layout for Page component, therefore after you register new component, use **routes.refresh()**.
+
+```
+// main.js (for example child theme)
+import Page from './page.vue'
+Vue.component('Page', Page)
+
+// Replace overridden components in existing routes
+routes.refresh()
 ```
 
 #<a name="plugins"></a>Plugins
