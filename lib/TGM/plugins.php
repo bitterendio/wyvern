@@ -53,12 +53,6 @@ function wyvern_register_required_plugins() {
         ),
 
         array(
-            'name'      => 'Akismet',
-            'slug'      => 'akismet',
-            'required'  => false,
-        ),
-
-        array(
             'name'      => 'Captcha',
             'slug'      => 'captcha',
             'required'  => false,

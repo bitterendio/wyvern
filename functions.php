@@ -47,14 +47,10 @@ function rest_theme_scripts() {
         'base_path'     => $base_path ? $base_path . '/' : '/',
         'nonce'         => wp_create_nonce( 'wp_rest' ),
         'site_name'     => get_bloginfo( 'name' ),
+        'site_desc'     => get_bloginfo('description'),
         'routes'        => rest_theme_routes(),
         'assets_path'   => get_stylesheet_directory_uri() . '/assets',
         'lang'          => get_language_strings(),
-
-        // Configurations
-        'keys'          => [
-            'mapbox'    => '', //env('MAPBOX_TOKEN'),
-        ],
 
         // Inline configurations
         'show_on_front' => get_option('show_on_front'), // (posts|page) Settings -> Reading -> Front page displays
