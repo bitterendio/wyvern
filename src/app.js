@@ -84,7 +84,6 @@ var routes = {
         },
         meta: original.meta
       }
-      console.log(original.meta.name)
     }
   }
 
