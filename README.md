@@ -3,6 +3,8 @@
 # Contents
 - [Installation](#installation)
 - [Folder structure](#folder-structure)
+- [Mixin methods](#mixin)
+  - [Menu](#mixin-menu)
 - [Plugins](#plugins)
     - [Necessary](#necessary-plugins)
     - [Recommended](#recommended-plugins)
@@ -66,6 +68,36 @@
     └───dist                        Compiled javascripts with styles
     └───lib                         PHP libraries
     └───src                         Main logic (.js and .vue files)
+```
+
+#<a name="mixin"></a>Mixin methods
+
+##<a name="mixin-menu"></a>Menu
+
+- Note: Menu API calls require WP API Menus plugin
+
+**getMenuLocation(location, [callback])** allows retrieving menu by it's location
+
+```
+<script>
+export default {
+  mounted() {
+    this.getMenuLocation('primary', data => this.menu = data)
+  },
+  data() {
+    return {
+      menu: []
+    }
+  }
+}
+</script>
+<template>
+  <ul>
+    <li v-for="item in menu">
+      <router-link :to="{ path: item.url }">{{ item.title }}</router-link>
+    </li>
+  </ul>
+</template>
 ```
 
 #<a name="plugins"></a>Plugins
