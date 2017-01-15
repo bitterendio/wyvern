@@ -239,7 +239,7 @@
         data() {
             return {
                 container: 'map',
-                token: wp.keys.mapbox,
+                token: wp.extras.mapbox_key,
                 style: wp.extras.mapbox_style,
                 center: [14.453131, 50.096297],
                 zoom: 3,

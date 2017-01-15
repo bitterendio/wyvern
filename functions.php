@@ -179,10 +179,14 @@ function slug_get_acf( $object, $field_name, $request ) {
 |
 */
 
-function get_virtual_templates() {
-    return [
-        'map' => 'Map template',
-    ];
+if ( !function_exists('get_virtual_templates') )
+{
+    function get_virtual_templates()
+    {
+        return [
+            'custom' => 'Custom template',
+        ];
+    }
 }
 
 /**
@@ -906,6 +910,14 @@ function wyvern_theme_intialize_extras_options() {
         'extras_settings_section'
     );
 
+    add_settings_field(
+        'mapbox_key',
+        'Mapbox key',
+        'wyvern_mapbox_key_callback',
+        'wyvern_theme_extras_options',
+        'extras_settings_section'
+    );
+
     register_setting(
         'wyvern_theme_extras_options',
         'wyvern_theme_extras_options',
@@ -931,7 +943,7 @@ function wyvern_custom_header_html_callback() {
     // Render the output
     echo '<textarea id="custom_header_html" name="wyvern_theme_extras_options[custom_header_html]" rows="8" cols="40">' . $custom_header_html . '</textarea>';
 
-} // end custom_header_html_callback
+} // end wyvern_custom_header_html_callback
 
 function wyvern_footer_text_callback() {
 
@@ -945,21 +957,35 @@ function wyvern_footer_text_callback() {
     // Render the output
     echo '<textarea id="footer_text" name="wyvern_theme_extras_options[footer_text]" rows="8" cols="40">' . $footer_text . '</textarea>';
 
-} // end custom_header_html_callback
+} // end wyvern_footer_text_callback
 
 function wyvern_mapbox_style_callback() {
 
+$options = get_option( 'wyvern_theme_extras_options' );
+
+$mapbox_style = '';
+if( isset( $options['mapbox_style'] ) ) {
+    $mapbox_style = $options['mapbox_style'];
+} // end if
+
+// Render the output
+echo '<textarea id="mapbox_style" name="wyvern_theme_extras_options[mapbox_style]" rows="8" cols="40">' . $mapbox_style . '</textarea>';
+
+} // end wyvern_mapbox_style_callback
+
+function wyvern_mapbox_key_callback() {
+
     $options = get_option( 'wyvern_theme_extras_options' );
 
-    $mapbox_style = '';
-    if( isset( $options['mapbox_style'] ) ) {
-        $mapbox_style = $options['mapbox_style'];
+    $mapbox_key = '';
+    if( isset( $options['mapbox_key'] ) ) {
+        $mapbox_key = $options['mapbox_key'];
     } // end if
 
     // Render the output
-    echo '<textarea id="mapbox_style" name="wyvern_theme_extras_options[mapbox_style]" rows="8" cols="40">' . $mapbox_style . '</textarea>';
+    echo '<textarea id="mapbox_key" name="wyvern_theme_extras_options[mapbox_key]" rows="8" cols="40">' . $mapbox_key . '</textarea>';
 
-} // end custom_header_html_callback
+} // end wyvern_mapbox_key_callback
 
 function wyvern_theme_sanitize_extras_options( $input ) {
 

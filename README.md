@@ -7,6 +7,8 @@
   - [Menu](#mixin-menu)
 - [Routes](#routes)
   - [Override in child theme](#routes-override)
+- [Page templates](#templates)
+  - [Register page templates](#templates-page)
 - [Plugins](#plugins)
     - [Necessary](#necessary-plugins)
     - [Recommended](#recommended-plugins)
@@ -123,6 +125,24 @@ Vue.component('Page', Page)
 
 // Replace overridden components in existing routes
 routes.refresh()
+```
+
+#<a name="templates"></a>Page templates
+
+##<a name="templates-page"></a>Register page templates
+
+Declare **get_virtual_templates()** function in your theme's functions.php. This function should return array value.
+
+```
+if ( !function_exists('get_virtual_templates') )
+{
+    function get_virtual_templates()
+    {
+        return [
+            'custom' => 'Custom template',
+        ];
+    }
+}
 ```
 
 #<a name="plugins"></a>Plugins
