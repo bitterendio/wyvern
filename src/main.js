@@ -17,7 +17,7 @@ var router = new VueRouter({
 const App = new Vue({
     el: '#app',
 
-    template: '<div class="template-wrapper"' +
+    template: '<div class="template-wrapper" :class="this.$route.meta.slug">' +
         '<theme-header></theme-header>' +
         '<router-view></router-view>' +
         '<theme-footer></theme-footer>' +

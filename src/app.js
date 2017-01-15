@@ -275,7 +275,8 @@ if ( wp.show_on_front == 'posts' ) {
   routes.add({
     path: wp.base_path,
     component: Posts,
-    name: 'Posts'
+    name: 'Posts',
+    slug: 'home'
   });
 }
 
@@ -289,7 +290,8 @@ if ( wp.show_on_front == 'page' ) {
       component: Page,
       meta: {
         postId: wp.page_on_front,
-        name: 'Page'
+        name: 'Page',
+        slug: 'home'
       }
     });
   } else if ( wp.page_on_front != 0 ) {
@@ -299,7 +301,8 @@ if ( wp.show_on_front == 'page' ) {
       component: Post,
       meta: {
         postId: wp.page_for_posts,
-        name: 'Post'
+        name: 'Post',
+        slug: 'home'
       }
     });
   }
@@ -315,7 +318,8 @@ wp.routes.forEach(function (wproute) {
     meta: {
       postId: wproute.id,
       template: wproute.template,
-      name: getTemplateHierarchy(wproute.type, wproute.id, wproute.template)
+      name: getTemplateHierarchy(wproute.type, wproute.id, wproute.template),
+      slug: wproute.slug
     }
   })
 
@@ -328,7 +332,8 @@ wp.routes.forEach(function (wproute) {
     meta: {
       postId: wproute.id,
       template: wproute.template,
-      name: getTemplateHierarchy(wproute.type, wproute.id, wproute.template)
+      name: getTemplateHierarchy(wproute.type, wproute.id, wproute.template),
+      slug: wproute.slug
     }
   })
 })

@@ -1,67 +1,10 @@
 <style>
-    .level.level-mapbox #map {
-        width: 100%;
-        position: relative;
-    }
-
-    .level.level-mapbox {
-        position: relative;
-    }
-
     .marker {
         display: block;
         border: none;
         border-radius: 50%;
         cursor: pointer;
         padding: 0;
-    }
-
-    .filter-group {
-        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        font-weight: 600;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 1;
-        border-radius: 3px;
-        width: 120px;
-        color: #fff;
-    }
-
-    .filter-group input[type=checkbox]:first-child + label {
-        border-radius: 3px 3px 0 0;
-    }
-
-    .filter-group label:last-child {
-        border-radius: 0 0 3px 3px;
-        border: none;
-    }
-
-    .filter-group input[type=checkbox] {
-        display: none;
-    }
-
-    .filter-group input[type=checkbox] + label {
-        background-color: #3386c0;
-        display: block;
-        cursor: pointer;
-        padding: 10px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-    }
-
-    .filter-group input[type=checkbox] + label {
-        background-color: #3386c0;
-        text-transform: capitalize;
-    }
-
-    .filter-group input[type=checkbox] + label:hover,
-    .filter-group input[type=checkbox]:checked + label {
-        background-color: #4ea0da;
-    }
-
-    .filter-group input[type=checkbox]:checked + label:before {
-        content: '✔';
-        margin-right: 5px;
     }
 </style>
 
