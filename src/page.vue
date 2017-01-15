@@ -29,9 +29,9 @@
         mounted() {
             var self = this;
             this.getPage(function(data){
-                self.page = data;
-                window.eventHub.$emit('page-title', self.page.title.rendered);
-                window.eventHub.$emit('track-ga');
+                self.page = data
+                window.eventHub.$emit('page-title', self.page.title.rendered)
+                window.eventHub.$emit('track-ga')
             });
         },
 

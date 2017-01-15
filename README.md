@@ -7,6 +7,7 @@
   - [Menu](#mixin-menu)
 - [Routes](#routes)
   - [Override in child theme](#routes-override)
+- [Events](#events)
 - [Page templates](#templates)
   - [Register page templates](#templates-page)
 - [Plugins](#plugins)
@@ -102,6 +103,30 @@ export default {
     </li>
   </ul>
 </template>
+```
+
+#<a name="events"></a>Events
+
+To emit events across all instances, use **window.eventHub** object. See implementation of Google Analytics tracking below as example:
+
+```
+// somewhere in component
+new Vue({
+  methods: {
+    trackGA() {
+      if ( typeof ga == 'function' ) {
+        ga('set', 'page', '/' + window.location.pathname.substr(1))
+        ga('send', 'pageview')
+      }
+    },
+  },
+  created() {
+    window.eventHub.$on('track-ga', this.trackGA)
+  }
+});
+
+// somewhere in another component
+window.eventHub.$emit('track-ga')
 ```
 
 #<a name="routes"></a>Routes

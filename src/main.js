@@ -64,8 +64,6 @@ const App = new Vue({
         // Changed route
         '$route' (to, from) {
             window.eventHub.$emit('changed-route')
-
-            console.log('Changed route', to, from)
         }
     }
 });
