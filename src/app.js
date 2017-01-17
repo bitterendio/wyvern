@@ -89,6 +89,13 @@ var routes = {
 
 }
 
+// Wyvern
+window.wyvern = {
+
+  http: axios
+
+}
+
 // Cache
 window.Cache = {
   data: {},
@@ -252,15 +259,6 @@ Vue.mixin({
 
     getSidebar(sidebarId, callback) {
       axios.get(wp.root + 'wp-json/wp-rest-api-sidebars/v1/sidebars/' + sidebarId).then(function(response) {
-        if ( typeof callback == 'function' )
-          callback(response.data);
-      }).catch(function(error) {
-        console.log(error);
-      });
-    },
-
-    getPlacePosts(callback) {
-      axios.get(wp.root + 'wp/v2/posts?per_page=100').then(function(response) {
         if ( typeof callback == 'function' )
           callback(response.data);
       }).catch(function(error) {

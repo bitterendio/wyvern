@@ -1010,13 +1010,15 @@ function wyvern_theme_sanitize_extras_options( $input ) {
  * Include api files from /api directory
  */
 
-if ($handle = opendir(get_template_directory() . '/api')) {
+$path = get_template_directory() . '/api';
+
+if ($handle = opendir($path)) {
 
     while (false !== ($entry = readdir($handle))) {
 
-        if ($entry != "." && $entry != "..") {
+        if ($entry != "." && $entry != ".." && !is_dir($path . '/' . $entry) ) {
 
-            require_once (get_template_directory() . '/api/' . $entry);
+            require_once ($path . '/' . $entry);
 
         }
     }
