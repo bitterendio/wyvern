@@ -20,9 +20,8 @@
 #<a name="installation"></a>Installation
 
 1. Download latest version of Wordpress
-
     ```
-    <https://wordpress.org/download/>
+    https://wordpress.org/download/
     ```
 
 2. Setup your wp-config.php
@@ -236,3 +235,4 @@ Webpack configuration is stored in ``webpack.config.js``
 [precss]: https://github.com/jonathantneal/precss
 [postcss-assets]: https://github.com/assetsjs/postcss-assets
 [postcss-calc]: https://github.com/postcss/postcss-calc
+[wordpress-download]:(https://wordpress.org/download/)
