@@ -22,7 +22,7 @@
 1. Download latest version of Wordpress
 
     ```
-    https://wordpress.org/download/
+    <a href="https://wordpress.org/download/">https://wordpress.org/download/</a>
     ```
 
 2. Setup your wp-config.php
