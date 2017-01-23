@@ -10,6 +10,8 @@
 - [Events](#events)
 - [Page templates](#templates)
   - [Register page templates](#templates-page)
+- [Theme Options](#theme-options)
+  - [GA tracking](#theme-options-ga-tracking)
 - [Plugins](#plugins)
     - [Necessary](#necessary-plugins)
     - [Recommended](#recommended-plugins)
@@ -168,6 +170,14 @@ if ( !function_exists('get_virtual_templates') )
     }
 }
 ```
+
+#<a name="theme-options"></a> Theme options
+
+You will find theme options under **Appearance > Wyvern Theme**
+
+##<a name="theme-options-ga-tracking"></a> GA Tracking
+
+To start tracking with Google Analytics, use **Appearance > Wyvern Theme > Tracking Options** and fill your Google Analytics ID.
 
 #<a name="plugins"></a>Plugins
 

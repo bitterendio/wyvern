@@ -173,8 +173,8 @@ Vue.mixin({
             if ( typeof callback == 'function' )
               callback(response.data)
           }).catch(function(error) {
-        console.log(error);
-      });
+              console.log(error);
+          });
     },
 
     getCustom(slug, callback) {
@@ -199,9 +199,10 @@ Vue.mixin({
     },
 
     getPage(callback) {
-      var self = this;
+      var self = this
 
-      var cachekey = 'getPage' + this.$route.meta.postId;
+      var cachekey = 'getPage' + this.$route.meta.postId
+
       if ( window.Cache.has(cachekey) ) {
         if ( typeof callback == 'function' )
           return callback(window.Cache.get(cachekey));
@@ -210,32 +211,30 @@ Vue.mixin({
       axios.get(wp.root + 'wp/v2/pages/' + this.$route.meta.postId).then(function(response){
 
         if ( typeof callback == 'function' )
-          callback(response.data);
+          callback(response.data)
 
-        window.Cache.set(cachekey, response.data);
+        window.Cache.set(cachekey, response.data)
 
       }).catch(function(error) {
-        console.log(error);
+        console.log(error)
       });
     },
 
     getPosts() {
-      var self = this;
+      var self = this
       axios.get(wp.root + 'wp/v2/posts').then(function(response) {
-        self.posts = response.data;
-        window.eventHub.$emit('page-title', '');
-        window.eventHub.$emit('track-ga');
+        self.posts = response.data
       }).catch(function(error) {
-        console.log(error);
+        console.log(error)
       });
     },
 
     getPages() {
-      var self = this;
+      var self = this
       axios.get(wp.root + 'wp/v2/pages').then(function(response) {
-        self.pages = response.data;
-      }, function(response) {
-        console.log(response);
+        self.pages = response.data
+      }, function(error) {
+        console.log(error)
       });
     },
 

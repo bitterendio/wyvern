@@ -5,8 +5,8 @@
 <template>
     <div class="theme-header">
         <div class="site-title">
-            <router-link :to="{ path: base_path }" v-show="!wp.display.show_logo">{{ wp.site_name }}</router-link>
-            <router-link :to="{ path: base_path }" v-show="wp.display.show_logo" class="block">
+            <router-link :to="{ path: wp.base_path }" v-show="!wp.display.show_logo">{{ wp.site_name }}</router-link>
+            <router-link :to="{ path: wp.base_path }" v-show="wp.display.show_logo" class="block">
                 <img v-bind:src="wp.assets_path + '/images/logo.svg'"
                      v-bind:alt="wp.site_name"
                      height="40">

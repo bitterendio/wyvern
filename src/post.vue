@@ -28,18 +28,17 @@
 
                 <!-- Entry meta filters -->
                 <div class="entry-meta">
-                    <span class="hidden">{{ post.date | moment("lll") }}</span>
+                    <span>{{ post.date | moment("lll") }}</span>
 
-                    <ul class="categories hidden">
+                    <ul class="categories">
                         <li v-for="category in categories"><a v-bind:href="category.link">{{ category.name }}</a></li>
                     </ul>
 
-                    <em class="hidden">
+                    <em>
                         <a v-bind:href="author.link">
                             {{ author.name }}
                         </a>
                     </em>
-
                 </div>
 
                 <hr>
@@ -80,6 +79,12 @@
                 default() {
                     return [];
                 }
+            },
+            author: {
+                type: Object,
+                default() {
+                    return {};
+                }
             }
         },
 
@@ -91,13 +96,20 @@
 
                     self.post = data
 
-                    // Load category information
-                    self.post.categories.forEach(function(category) {
-                        self.getCategory(category)
-                    });
+                    // Load author
+                    self.getAuthor(self.post.author, (data) => {
+                        console.log(data)
+                        self.author = data
+                    })
 
-                    self.post.tags.forEach(function(tag) {
-                        self.getTag(tag, function(data) {
+                    // Load category
+                    self.post.categories.forEach((category) => {
+                        self.getCategory(category)
+                    })
+
+                    // Load tags
+                    self.post.tags.forEach((tag) => {
+                        self.getTag(tag, (data) => {
                             self.tags.push(data)
                         })
                     })

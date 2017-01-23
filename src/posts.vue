@@ -13,7 +13,7 @@
 <script>
     export default {
         mounted() {
-            this.getPosts();
+            this.getPosts()
         },
 
         data() {
