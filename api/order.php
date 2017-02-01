@@ -104,18 +104,6 @@ if ( !function_exists('wyvern_wc_create_order') )
             do_action( 'woocommerce_add_order_fee_meta', $order_id, $item_id, $fee, $fee_key );
         }
 
-        // Set shipping
-        $packages = WC()->cart->get_shipping_packages();
-
-        $calculated_package = WC()->shipping->calculate_shipping_for_package($packages[0], 0);
-
-        $shipping_methods = [ $_POST['shipping'] ];
-
-        WC()->session->set( 'chosen_shipping_methods', $shipping_methods );
-        WC()->session->set( 'shipping_method_counts', [ count($calculated_package['rates']) ] );
-
-        WC()->shipping->calculate_shipping($packages);
-
         // Store shipping for all packages
         foreach ( WC()->shipping->get_packages() as $package_key => $package ) {
             if ( isset( $package['rates'][ $shipping_methods[ $package_key ] ] ) ) {
@@ -214,7 +202,8 @@ if ( !function_exists('wyvern_wc_create_order') )
         // Conditionally set status
         $order->update_status( 'pending' );
 
-        //WC()->cart->empty_cart();
+        // Empty cart
+        WC()->cart->empty_cart();
 
         // Payment
         $order->set_payment_method( $_POST['payment'] );

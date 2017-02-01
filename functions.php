@@ -109,8 +109,14 @@ function rest_theme_scripts() {
         'cart_total'    => $cart_total,
 
         // Woocommerce settings
-        'gateways'      => WC()->payment_gateways->get_available_payment_gateways(),
-        'shipping'      => $shipping,
+        'gateways'              => WC()->payment_gateways->get_available_payment_gateways(),
+        'shipping'              => $shipping,
+        'decimal_separator'     => wc_get_price_decimal_separator(),
+        'thousand_separator'    => wc_get_price_thousand_separator(),
+        'decimals'              => wc_get_price_decimals(),
+        'price_format'          => get_woocommerce_price_format(),
+        'currency'              => get_woocommerce_currency(),
+        'currency_symbol'       => get_woocommerce_currency_symbol(),
     ) );
 }
 
@@ -228,6 +234,7 @@ if ( !function_exists('get_virtual_templates') )
         return [
             'custom'    => 'Custom template',
             'cart'      => 'Cart template',
+            'pay'       => 'Pay template',
         ];
     }
 }
@@ -1152,3 +1159,21 @@ function sww_add_images_woocommerce_emails( $output, $order ) {
     return $order->email_order_items_table( $args );
 }
 add_filter( 'woocommerce_email_order_items_table', 'sww_add_images_woocommerce_emails', 10, 2 );
+
+/**
+ * Remove all WooCommerce scripts and styles! Forever!
+ *
+ * @author WP Smith, sane
+ * @since 1.0.1
+ */
+function wyvern_remove_woocommerce_styles_scripts() {
+    if ( class_exists('WC_Frontend_Scripts') )
+    {
+        remove_action('wp_enqueue_scripts', [WC_Frontend_Scripts, 'load_scripts']);
+        remove_action('wp_enqueue_scripts', [WC_Frontend_Scripts, 'localize_printed_scripts']);
+        remove_action('wp_enqueue_scripts', [WC_Frontend_Scripts, 'localize_printed_scripts']);
+    }
+}
+
+define( 'WOOCOMMERCE_USE_CSS', false );
+add_action( 'init', 'wyvern_remove_woocommerce_styles_scripts', 99 );
