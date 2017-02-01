@@ -126,6 +126,7 @@ if ( !function_exists('wyvern_wc_get_products_single') )
         'slug',
         'attributes',
         'available_variations',
+        'default_attributes_variation',
     ])
     {
         global $post;
@@ -228,6 +229,14 @@ if ( !function_exists('wyvern_wc_get_products_single') )
 
         if ( method_exists($product, 'get_available_variations') )
             $available_variations = $product->get_available_variations();
+
+        // Default variations
+        $default_attributes_variation = [];
+
+        foreach( $attributes as $attribute_key => $attribute_values )
+        {
+            $default_attributes_variation[$attribute_key] = $product->get_variation_default_attribute( wc_attribute_taxonomy_name($attribute_key) );
+        }
 
         // Product prices
         if ( empty($available_variations) )
