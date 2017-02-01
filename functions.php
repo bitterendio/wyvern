@@ -117,6 +117,11 @@ function rest_theme_scripts() {
         'price_format'          => get_woocommerce_price_format(),
         'currency'              => get_woocommerce_currency(),
         'currency_symbol'       => get_woocommerce_currency_symbol(),
+
+        'wc_selected'           => [
+            'shipping_methods'  => WC()->session->get('wyvern_shipping_methods', []),
+            'payment_method'    => WC()->session->get('wyvern_payment_method'),
+        ],
     ) );
 }
 

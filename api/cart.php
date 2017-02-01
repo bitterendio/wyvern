@@ -68,6 +68,9 @@ if ( !function_exists('wyvern_wc_cart') )
         if ( isset($_GET['shipping']) )
             wyvern_wc_set_shipping($_GET['shipping']);
 
+        if ( isset($_GET['payment']) )
+            wyvern_wc_set_payment($_GET['payment']);
+
         $cart->calculate_totals();
 
         return $cart;
@@ -139,6 +142,9 @@ if ( !function_exists('wyvern_wc_set_shipping') )
         if ( empty($shipping_method) )
             return;
 
+        if ( !empty($shipping_method) )
+            WC()->session->set('wyvern_shipping_methods', [ $shipping_method ]);
+
         // Set shipping
         $packages = WC()->cart->get_shipping_packages();
 
@@ -150,5 +156,17 @@ if ( !function_exists('wyvern_wc_set_shipping') )
         WC()->session->set( 'shipping_method_counts', [ count($calculated_package['rates']) ] );
 
         WC()->shipping->calculate_shipping($packages);
+    }
+}
+
+if ( !function_exists('wyvern_wc_set_payment') )
+{
+    function wyvern_wc_set_payment($payment_method)
+    {
+        if ( empty($payment_method) )
+            return;
+
+        if ( !empty($payment_method) )
+            WC()->session->set('wyvern_payment_method', $payment_method);
     }
 }

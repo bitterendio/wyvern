@@ -161,14 +161,15 @@ if ( !function_exists('wyvern_wc_create_order') )
 
         $order->set_address( $billing_address, 'billing' );
         $order->set_address( $shipping_address, 'shipping' );
-        /*
+
+        // Set totals
         $order->set_total( WC()->cart->shipping_total, 'shipping' );
         $order->set_total( WC()->cart->get_cart_discount_total(), 'cart_discount' );
         $order->set_total( WC()->cart->get_cart_discount_tax_total(), 'cart_discount_tax' );
         $order->set_total( WC()->cart->tax_total, 'tax' );
         $order->set_total( WC()->cart->shipping_tax_total, 'shipping_tax' );
         $order->set_total( WC()->cart->total );
-        */
+
 
         // Update user meta
         if ( $user_id ) {
@@ -195,6 +196,9 @@ if ( !function_exists('wyvern_wc_create_order') )
         //$order->set_payment_method($_POST['payment']);
 
         update_post_meta($order->id, '_payment_method', $_POST['payment']);
+
+        if ( isset($_POST['payment']) )
+            WC()->session->set('wyvern_payment_method', $_POST['payment']);
 
         $order->calculate_shipping();
         $order->calculate_totals();
