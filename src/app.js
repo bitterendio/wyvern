@@ -24,6 +24,14 @@ import Page from './page.vue'
 Vue.component('Page', Page)
 window.wp.templates.push('Page')
 
+import Product from './product.vue'
+Vue.component('Product', Product)
+window.wp.templates.push('Product')
+
+import Cart from './cart.vue'
+Vue.component('Cart', Cart)
+window.wp.templates.push('Cart')
+
 import Header from './theme-header.vue'
 Vue.component('theme-header', Header)
 import Footer from './theme-footer.vue'
@@ -38,6 +46,8 @@ import Intro from './levels/intro.vue'
 Vue.component('intro', Intro)
 import Mapbox from './levels/mapbox.vue'
 Vue.component('mapbox', Mapbox)
+import Woocommerce from './levels/woocommerce.vue'
+Vue.component('woocommerce', Woocommerce)
 
 // Routes
 var routes = {
@@ -263,6 +273,21 @@ Vue.mixin({
       }).catch(function(error) {
         console.log(error);
       });
+    },
+
+    hasClass(ele,cls) {
+      return !!ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+    },
+
+    addClass(ele,cls) {
+      if (!this.hasClass(ele,cls)) ele.className += " "+cls;
+    },
+
+    removeClass(ele,cls) {
+      if (this.hasClass(ele,cls)) {
+        var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+        ele.className=ele.className.replace(reg,' ');
+      }
     }
   }
 });

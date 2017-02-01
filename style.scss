@@ -34,12 +34,16 @@ html, input[type="search"] {
 
 /* Responsive visibility */
 @media(max-width:$screen-xs-max) {
-  .visible-xs {
-    display: block;
-  }
+  .visible-xs { display: block; }
+  .hidden-xs { display: none; }
 }
 @media(min-width:$screen-sm-min) {
-  .visible-xs {
-    display: none;
-  }
+  .visible-xs { display: none; }
+}
+
+/* Buttons */
+.btn {
+  appearance: none;
+  outline: 0;
+  border: 0;
 }

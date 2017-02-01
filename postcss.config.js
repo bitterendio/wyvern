@@ -1,5 +1,5 @@
 /**
- * Created by Insane on 05/01/2017.
+ * Created by sane on 05/01/2017.
  *
  * Config for PostCSS
  */

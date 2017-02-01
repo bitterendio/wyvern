@@ -39,6 +39,38 @@ function rest_theme_scripts() {
 
     wp_enqueue_script( 'wyvern-vue', get_stylesheet_directory_uri() . '/dist/build.js', array(), '1.0.0', true );
 
+    // Total quantity in cart
+    $cart_total = 0;
+
+    foreach( WC()->cart->cart_contents as $item )
+    {
+        $cart_total += $item['quantity'];
+    }
+
+
+    // Shipping
+    // @todo: optimize
+    $packages = WC()->cart->get_shipping_packages();
+    $calculated_package = WC()->shipping->calculate_shipping_for_package($packages[0], 0);
+    $shipping_methods = WC()->shipping->get_shipping_methods();
+    $shipping = [];
+
+    foreach( $shipping_methods as $shipping_method )
+    {
+        foreach( $calculated_package['rates'] as $key => $rate )
+        {
+            if ( strpos($rate->method_id, $shipping_method->id) !== false )
+            {
+                $shipping[] = [
+                    'id' => $rate->id,
+                    'title' => $shipping_method->method_title,
+                    'description' => $shipping_method->method_description,
+                    'cost' => $rate->cost
+                ];
+            }
+        }
+    }
+
     $base_url  = esc_url_raw( home_url() );
     $base_path = rtrim( parse_url( $base_url, PHP_URL_PATH ), '/' );
     wp_localize_script( 'wyvern-vue', 'wp', array(
@@ -69,6 +101,16 @@ function rest_theme_scripts() {
         // Extras options
         'extras'        => get_option ( 'wyvern_theme_extras_options' ),
 
+        // Woocommerce attributes (conditionally remove)
+        'attributes'    => woocommerce_get_all_attributes_with_values(),
+
+        // Woocommerce cart
+        'cart'          => WC()->cart->get_cart(),
+        'cart_total'    => $cart_total,
+
+        // Woocommerce settings
+        'gateways'      => WC()->payment_gateways->get_available_payment_gateways(),
+        'shipping'      => $shipping,
     ) );
 }
 
@@ -184,7 +226,8 @@ if ( !function_exists('get_virtual_templates') )
     function get_virtual_templates()
     {
         return [
-            'custom' => 'Custom template',
+            'custom'    => 'Custom template',
+            'cart'      => 'Cart template',
         ];
     }
 }
@@ -1033,3 +1076,79 @@ if ($handle = opendir($path)) {
 require_once get_template_directory() . '/lib/TGM/class-tgm-plugin-activation.php';
 
 require_once get_template_directory() . '/lib/TGM/plugins.php';
+
+/**
+ * Image sizes
+ */
+add_image_size( 'product_image', 260, 260, false );
+
+/**
+ * Woocommerce
+ */
+
+// Theme support
+add_action( 'after_setup_theme', 'woocommerce_support' );
+function woocommerce_support() {
+    add_theme_support( 'woocommerce' );
+}
+
+// Get all attributes with their values
+if ( !function_exists('woocommerce_get_all_attributes_with_values') )
+{
+    function woocommerce_get_all_attributes_with_values( $options = ['hide_empty' => false] )
+    {
+        $result = [];
+
+        $attributes = wc_get_attribute_taxonomies();
+
+        foreach( $attributes as $attribute )
+        {
+            $options['taxonomy'] = wc_attribute_taxonomy_name($attribute->attribute_name);
+
+            $result[$attribute->attribute_name] = [
+                'id' => $attribute->attribute_id,
+                'label' => $attribute->attribute_label,
+                'type' => $attribute->attribute_type,
+                'orderby' => $attribute->attribute_orderby,
+                'public' => $attribute->attribute_public,
+                'name' => $attribute->attribute_name,
+                'taxonomy' => $options['taxonomy'],
+                'values' => get_terms($options)
+            ];
+        }
+
+        return $result;
+    }
+}
+
+// Image to order email
+/**
+ * Adds product images to the WooCommerce order emails table
+ * Uses WooCommerce 2.5 or newer
+ *
+ * @param string $output the buffered email order items content
+ * @param \WC_Order $order
+ * @return $output the updated output
+ */
+function sww_add_images_woocommerce_emails( $output, $order ) {
+
+    // set a flag so we don't recursively call this filter
+    static $run = 0;
+
+    // if we've already run this filter, bail out
+    if ( $run ) {
+        return $output;
+    }
+
+    $args = array(
+        'show_image'   	=> true,
+        'image_size'    => array( 60, 60 ),
+    );
+
+    // increment our flag so we don't run again
+    $run++;
+
+    // if first run, give WooComm our updated table
+    return $order->email_order_items_table( $args );
+}
+add_filter( 'woocommerce_email_order_items_table', 'sww_add_images_woocommerce_emails', 10, 2 );
