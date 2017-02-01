@@ -72,7 +72,7 @@
 </template>
 
 <script>
-  require('jquery')
+  var jQuery = require('jquery')
 
   export default {
 
