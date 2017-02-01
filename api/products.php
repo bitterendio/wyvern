@@ -233,9 +233,12 @@ if ( !function_exists('wyvern_wc_get_products_single') )
         // Default variations
         $default_attributes_variation = [];
 
-        foreach( $attributes as $attribute_key => $attribute_values )
+        if ( method_exists($product, 'get_variation_default_attribute') )
         {
-            $default_attributes_variation[$attribute_key] = $product->get_variation_default_attribute( wc_attribute_taxonomy_name($attribute_key) );
+            foreach ( $attributes as $attribute_key => $attribute_values )
+            {
+                $default_attributes_variation[ $attribute_key ] = $product->get_variation_default_attribute(wc_attribute_taxonomy_name($attribute_key));
+            }
         }
 
         // Product prices
