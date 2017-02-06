@@ -1,5 +1,5 @@
 <?php
-// Add product to cart
+// Create order
 add_action( 'rest_api_init', function () {
     register_rest_route( 'api', '/order/', [
         'methods' => WP_REST_Server::CREATABLE,
@@ -10,15 +10,36 @@ add_action( 'rest_api_init', function () {
     ] );
 } );
 
+// Get order by id
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'api', '/order/', [
+        'methods' => WP_REST_Server::READABLE,
+        'callback' => 'wyvern_wc_read_order',
+        'args' => [],
+    ] );
+} );
+
+// Deete order by id
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'api', '/order/', [
+        'methods' => WP_REST_Server::DELETABLE,
+        'callback' => 'wyvern_wc_delete_order',
+        'args' => [],
+    ] );
+} );
+
+
 if ( !function_exists('wyvern_wc_create_order') )
 {
     function wyvern_wc_create_order($data)
     {
         $order_options = [];
 
-        if ( $user_id = get_current_user_id() )
+        $customer_id = (int)$_POST['customer_id'];
+
+        if ( $customer_id )
         {
-            $order_options['customer_id'] = $user_id;
+            $order_options['customer_id'] = $customer_id;
         }
 
         // Start transaction if available
@@ -104,6 +125,14 @@ if ( !function_exists('wyvern_wc_create_order') )
             do_action( 'woocommerce_add_order_fee_meta', $order_id, $item_id, $fee, $fee_key );
         }
 
+
+        // Set shipping
+        $packages = WC()->cart->get_shipping_packages();
+
+        $shipping_methods = WC()->session->get('wyvern_shipping_methods');
+
+        WC()->shipping->calculate_shipping($packages);
+
         // Store shipping for all packages
         foreach ( WC()->shipping->get_packages() as $package_key => $package ) {
             if ( isset( $package['rates'][ $shipping_methods[ $package_key ] ] ) ) {
@@ -125,38 +154,24 @@ if ( !function_exists('wyvern_wc_create_order') )
             }
         }
 
-        // Address
-        $address = [];
+        $billing_address = wyvern_wc_get_address($_POST['billing_address']);
 
-        if ( isset($_POST['address']) ) {
-            $address = json_decode( stripslashes ( $_POST['address'] ), true);
-        } else {
-            // Address not specified
-        }
+        if ( isset($_POST['shipping_address']) )
+            $shipping_address = wyvern_wc_get_address($_POST['shipping_address']);
 
-        $address = $address['shipping'];
+        $empty_shipping_address = true;
 
-        if ( isset($address['name']) )
+        foreach( $shipping_address as $key => $value )
         {
-            list($first_name, $last_name) = explode(' ', $address['name'], 1);
-
-            $address['first_name'] = $first_name;
-            $address['last_name'] = $last_name;
-            unset($address['name']);
+            if ( !empty($value) )
+            {
+                $empty_shipping_address = false;
+            }
         }
 
-        if ( isset($address['address']) )
-        {
-            list($address_1, $address_2) = explode("\n", $address['address'], 1);
-            $address['address_1'] = $address_1;
-            $address['address_2'] = $address_2;
-            unset($address['address']);
-        }
+        if ( $empty_shipping_address )
+            $shipping_address = wyvern_wc_get_address($_POST['billing_address']);
 
-        $billing_address = $address;
-        $shipping_address = $address;
-
-        $order->calculate_shipping();
         $order->calculate_totals();
 
         $order->set_address( $billing_address, 'billing' );
@@ -170,20 +185,17 @@ if ( !function_exists('wyvern_wc_create_order') )
         $order->set_total( WC()->cart->shipping_tax_total, 'shipping_tax' );
         $order->set_total( WC()->cart->total );
 
-
         // Update user meta
-        if ( $user_id ) {
-            if ( apply_filters( 'woocommerce_checkout_update_customer_data', true, $this ) ) {
-                foreach ( $billing_address as $key => $value ) {
-                    update_user_meta( $user_id, 'billing_' . $key, $value );
-                }
-                if ( WC()->cart->needs_shipping() ) {
-                    foreach ( $shipping_address as $key => $value ) {
-                        update_user_meta( $user_id, 'shipping_' . $key, $value );
-                    }
+        if ( $customer_id ) {
+            foreach ( $billing_address as $key => $value ) {
+                update_user_meta( $customer_id, 'billing_' . $key, $value );
+            }
+            if ( WC()->cart->needs_shipping() ) {
+                foreach ( $shipping_address as $key => $value ) {
+                    update_user_meta( $customer_id, 'shipping_' . $key, $value );
                 }
             }
-            do_action( 'woocommerce_checkout_update_user_meta', $user_id );
+            do_action( 'woocommerce_checkout_update_user_meta', $customer_id );
         }
 
         // Let plugins add meta
@@ -192,8 +204,11 @@ if ( !function_exists('wyvern_wc_create_order') )
         // If we got here, the order was created without problems!
         wc_transaction_query( 'commit' );
 
-        // Set payment
-        //$order->set_payment_method($_POST['payment']);
+        // Note
+        if ( isset($_POST['note']) )
+        {
+            $order->add_order_note($_POST['note'], false, true);
+        }
 
         update_post_meta($order->id, '_payment_method', $_POST['payment']);
 
@@ -210,16 +225,21 @@ if ( !function_exists('wyvern_wc_create_order') )
         WC()->cart->empty_cart();
 
         // Payment
-        $order->set_payment_method( $_POST['payment'] );
+        $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
+        $order->set_payment_method( $available_gateways[ $_POST['payment'] ] );
 
         $redirect = null;
 
         if ( in_array($_POST['payment'], ['paypal']) )
         {
-            $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
             $result = $available_gateways[ $_POST['payment'] ]->process_payment($order->id);
 
             $redirect = $result['redirect'];
+        }
+
+        if ( empty($redirect) )
+        {
+            $redirect = '/checkout/order-received/' . $order->id . '/?method=' . $_POST['payment'];
         }
 
         return [
@@ -231,44 +251,86 @@ if ( !function_exists('wyvern_wc_create_order') )
     }
 }
 
-/**
-$address = array(
-'first_name' => $customer_name,
-'last_name'  => '',
-'company'    => '',
-'email'      => $customer_email,
-'phone'      => $customer_phone,
-'address_1'  => '',
-'address_2'  => '',
-'city'       => '',
-'state'      => '',
-'postcode'   => '',
-'country'    => ''
-);
+if ( !function_exists('wyvern_wc_get_address') ) {
+    function wyvern_wc_get_address($address)
+    {
+        if ( empty($address) )
+            return [];
 
-$order = wc_create_order();
+        $address = json_decode( stripslashes ( $address ), true);
 
-// add products from cart to order
-$items = WC()->cart->get_cart();
-foreach($items as $item => $values) {
-$product_id = $values['product_id'];
-$product = wc_get_product($product_id);
-$var_id = $values['variation_id'];
-$var_slug = $values['variation']['attribute_pa_weight'];
-$quantity = (int)$values['quantity'];
-$variationsArray = array();
-$variationsArray['variation'] = array(
-'pa_weight' => $var_slug
-);
-$var_product = new WC_Product_Variation($var_id);
-$order->add_product($var_product, $quantity, $variationsArray);
+        if ( isset($address['name']) )
+        {
+            list($first_name, $last_name) = explode(' ', $address['name'], 2);
+
+            $address['first_name'] = $first_name;
+            $address['last_name'] = $last_name;
+            unset($address['name']);
+        }
+
+        if ( isset($address['address']) )
+        {
+            list($address_1, $address_2) = explode("\n", $address['address'], 2);
+            $address['address_1'] = $address_1;
+            $address['address_2'] = $address_2;
+            unset($address['address']);
+        }
+
+        return $address;
+    }
 }
 
-$order->set_address( $address, 'billing' );
-$order->set_address( $address, 'shipping' );
 
-$order->calculate_totals();
-$order->update_status( 'processing' );
+if ( !function_exists('wyvern_wc_read_order') )
+{
+    function wyvern_wc_read_order()
+    {
+        $order = new WC_Order((int)$_GET['order_id']);
 
-WC()->cart->empty_cart();
- */
+        $payment_method = [
+            'id' => get_post_meta($order->id, '_payment_method', true),
+            'title' => get_post_meta($order->id, '_payment_method_title', true),
+        ];
+
+        $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
+
+        $gateway = $available_gateways[$payment_method['id']];
+
+        if ( !$order->is_paid() && $payment_method['id'] == 'cod' )
+        {
+            $order->update_status( 'processing' );
+        }
+
+        return [
+            'is_paid' => $order->is_paid(),
+            'status' => $order->get_status(),
+            'transaction_id' => $order->get_transaction_id(),
+            'gateway' => $gateway,
+            'shipping_methods' => $order->get_shipping_methods(),
+            'billing_address' => $order->get_formatted_billing_address(),
+            'shipping_address' => $order->get_formatted_shipping_address(),
+            'notes' => $order->get_customer_order_notes(),
+            'prices' => [
+                'total' => $order->get_total(),
+                'shipping' => $order->get_total_shipping(),
+            ]
+        ];
+    }
+}
+
+if ( !function_exists('wyvern_wc_delete_order') )
+{
+    function wyvern_wc_delete_order()
+    {
+        if ( !isset($_GET['order_id']) )
+            return [];
+
+        $order_id = (int)$_GET['order_id'];
+
+        $order = new WC_Order($order_id);
+
+        return [
+            'success' => $order->cancel_order()
+        ];
+    }
+}

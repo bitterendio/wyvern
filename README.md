@@ -11,7 +11,9 @@
 - [Page templates](#templates)
   - [Register page templates](#templates-page)
 - [Theme Options](#theme-options)
-  - [GA tracking](#theme-options-ga-tracking)
+  - [Register new settings](#theme-options-register-new-settings)
+  - [WP object](#theme-options-wp-object)
+    - [Customizing WP object](#theme-options-wp-object-customizing)
 - [Plugins](#plugins)
     - [Necessary](#necessary-plugins)
     - [Recommended](#recommended-plugins)
@@ -175,9 +177,24 @@ if ( !function_exists('get_virtual_templates') )
 
 You will find theme options under **Appearance > Wyvern Theme**
 
-##<a name="theme-options-ga-tracking"></a> GA Tracking
+##<a name="theme-options-register-new-settings"></a> Register new settings
 
-To start tracking with Google Analytics, use **Appearance > Wyvern Theme > Tracking Options** and fill your Google Analytics ID.
+```
+Wyvern\Includes\Settings::add('New thing', 'new_thing');
+```
+
+##<a name="theme-options-wp-object"></a> WP object
+
+Globally accessible WP object contains lot of useful stuff to be used in javascript app like **site_name** (``get_bloginfo('name')``) or **site_desc** (``get_bloginfo('description')``).
+
+###<a name="theme-options-wp-object-customizing"></a> Customizing WP object
+
+```
+add_filter( 'wyvern_wp_settings', function($output) { 
+  $output['cart'] = WC()->cart->get_cart();
+  return $output;
+} );
+```
 
 #<a name="plugins"></a>Plugins
 

@@ -13,6 +13,7 @@
 */
 
 @import '_variables.scss';
+@import 'node_modules/normalize.css/normalize.css';
 
 html, input[type="search"] {
   box-sizing: border-box;

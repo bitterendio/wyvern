@@ -72,7 +72,7 @@
 </template>
 
 <script>
-  var jQuery = require('jquery')
+  var querystring = require('querystring')
 
   export default {
 
@@ -86,7 +86,7 @@
       getProducts() {
         let vm = this
 
-        let query = jQuery.param( { filters: vm.filters } )
+        let query = querystring.stringify( { filters: JSON.stringify(vm.filters) } )
 
         window.wyvern.http.get(wp.root + 'api/products/?' + query).then((response) => {
           vm.products = response.data

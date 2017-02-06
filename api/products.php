@@ -58,6 +58,12 @@ if ( !function_exists('wyvern_wc_get_products_index') )
             $filters = $_GET['filters'];
             $prepared = [];
 
+            if ( !empty($filters) ) {
+                $filters = json_decode(stripslashes($filters), true);
+            } else {
+                $filters = [];
+            }
+
             foreach( $filters as $name => $filter )
             {
                 if ( !empty($filter) )

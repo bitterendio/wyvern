@@ -41,7 +41,7 @@
 
 <div id="app"></div>
 
-<?php $tracking_options = get_option ( 'wyvern_theme_tracking_options' ) ?>
+<?php $tracking_options = get_option ( 'wyvern_theme_options_tracking' ) ?>
 <!-- Tracking default -->
 <?php if ( isset($tracking_options['google_analytics_id']) ) : ?>
 <script>

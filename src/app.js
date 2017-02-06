@@ -48,6 +48,14 @@ import Mapbox from './levels/mapbox.vue'
 Vue.component('mapbox', Mapbox)
 import Woocommerce from './levels/woocommerce.vue'
 Vue.component('woocommerce', Woocommerce)
+import Steps from './levels/steps.vue'
+Vue.component('steps', Steps)
+import Headline from './levels/headline.vue'
+Vue.component('headline', Headline)
+import FBPagePlugin from './levels/fb_pageplugin.vue'
+Vue.component('fb_pageplugin', FBPagePlugin)
+import InstagramEmbed from './levels/instagram_embed.vue'
+Vue.component('instagram_embed', InstagramEmbed)
 
 // Routes
 var routes = {
@@ -288,6 +296,12 @@ Vue.mixin({
         var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
         ele.className=ele.className.replace(reg,' ');
       }
+    },
+
+    decode(input) {
+      var txt = document.createElement("textarea");
+      txt.innerHTML = input;
+      return txt.value;
     }
   }
 });

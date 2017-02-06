@@ -3,6 +3,8 @@
  */
 const webpack    = require('webpack');
 const path       = require('path');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
     entry: './src/main.js',
@@ -36,13 +38,25 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                loaders: [
-                    'style-loader',
-                    'css-loader?importLoaders=1',
-                    'postcss-loader?parser=postcss-scss'
-                ]
+                use: ExtractTextPlugin.extract({
+                    fallbackLoader: "style-loader",
+                    loader: [
+                        'css-loader?importLoaders=1',
+                        'postcss-loader?parser=postcss-scss'
+                    ]
+                })
             }
         ],
-    }
+    },
 
-}
+    plugins: [
+        new ExtractTextPlugin("styles.css"),
+        new OptimizeCssAssetsPlugin({
+            assetNameRegExp: /styles\.css/g,
+            cssProcessor: require('cssnano'),
+            cssProcessorOptions: { discardComments: {removeAll: true } },
+            canPrint: true
+        })
+    ]
+
+};

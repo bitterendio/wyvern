@@ -37,7 +37,21 @@ const App = new Vue({
 
     methods: {
         updateTitle(pageTitle) {
-            document.title = (pageTitle ? pageTitle + ' - ' : '') + wp.site_name
+            if ( typeof pageTitle != 'undefined' )
+            {
+                if ( pageTitle != wp.site_name ) {
+                    document.title = this.getTitle(pageTitle)
+                    return
+                }
+            }
+
+            document.title = this.getHomeTitle(pageTitle)
+        },
+        getTitle(pageTitle) {
+            return pageTitle + ' - ' + wp.site_name
+        },
+        getHomeTitle(pageTitle) {
+            return wp.site_name + ' - ' + wp.site_desc
         },
         trackGA() {
             if ( typeof ga == 'function' ) {
