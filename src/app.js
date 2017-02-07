@@ -19,8 +19,6 @@ import InstagramEmbed from './levels/instagram_embed.vue';
 
 require('es6-promise/auto');
 
-require('moment');
-
 Vue.use(VueRouter);
 window.wp.templates = [];
 Vue.component('Post', Post);
