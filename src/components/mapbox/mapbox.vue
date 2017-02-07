@@ -5,127 +5,106 @@
 </template>
 
 <script>
-    export default {
+  export default {
 
-        props: ['bound1', 'bound2'],
+    props: ['bound1', 'bound2'],
 
-        mounted() {
+    mounted() {
+      const self = this;
 
-            var self = this;
-
-            var scripts = [
-                'https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.js',
-                'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.0.3/mapbox-gl-directions.js'
-            ]
+      const scripts = [
+        'https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.js',
+      ];
 
 
-            var styles = [
-                'https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.css',
-                'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.0.3/mapbox-gl-directions.css'
-            ];
+      const styles = [
+        'https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.css',
+      ];
 
-            if ( typeof this.bound1 !== 'undefined' && typeof this.bound2 !== 'undefined' ) {
+      this.loadStyles(styles);
+      this.loadScripts(scripts, () => {
+        window.mapboxgl.accessToken = self.token;
 
-                var bounds = [
-                    JSON.parse(this.bound1),
-                    JSON.parse(this.bound2)
-                ]
+        const mapConfiguration = {
+          container: self.container,
+          style: self.style,
+          center: self.center,
+          zoom: self.zoom,
+        };
+
+        /* eslint-disable */
+        window.map = new window.mapboxgl.Map(mapConfiguration);
+        self.initData();
+      });
+    },
+
+    methods: {
+      loadScripts(scripts, callback) {
+        const total = scripts.length;
+        let loaded = 0;
+
+        Object.keys(scripts).forEach((key) => {
+          const script = scripts[key];
+          this.loadScript(script).onload = function () {
+            loaded += 1;
+            if (loaded === total && typeof callback === 'function') {
+              callback();
             }
+          };
+        });
+      },
 
-            this.loadStyles(styles);
-            this.loadScripts(scripts, function(){
+      loadScript(url) {
+        const element = document.createElement('script');
+        element.setAttribute('src', url);
+        document.head.appendChild(element);
+        return element;
+      },
 
-                mapboxgl.accessToken = self.token;
+      loadStyles(styles, callback) {
+        const total = styles.length;
+        let loaded = 0;
 
-                var mapConfiguration = {
-                    container: self.container,
-                    style: self.style,
-                    center: self.center,
-                    zoom: self.zoom
-                };
+        Object.keys(styles).forEach((key) => {
+          loaded += 1;
+          const style = styles[key];
+          this.loadStyle(style);
 
-                if ( typeof bounds !== 'undefined' ) {
-                    //mapConfiguration['maxBounds'] = bounds;
-                }
+          if (loaded === total && typeof callback === 'function') {
+            callback();
+          }
+        });
+      },
 
-                mapConfiguration['maxBounds'] = bounds;
+      loadStyle(url) {
+        const element = document.createElement('link');
+        element.type = 'text/css';
+        element.rel = 'stylesheet';
+        element.href = url;
+        document.head.appendChild(element);
+        return element;
+      },
 
-                window.map = new mapboxgl.Map(mapConfiguration);
+      initData() {
 
-                self.initData();
-            });
+      },
 
-        },
+      getMap() {
+        return window.map;
+      },
+    },
 
-        methods: {
-            loadScripts(scripts, callback) {
+    data() {
+      return {
+        container: 'map',
+        token: '{MAPBOX_TOKEN_HERE}',
+        style: '{MAPBOX_STYLE_HERE}',
+        center: [14.453131, 50.096297],
+        zoom: 5,
 
-                var total = scripts.length,
-                    loaded = 0;
-
-                for ( var key in scripts ) {
-
-                    var script = scripts[key];
-                    this.loadScript(script).onload = function(){
-
-                        loaded++;
-
-                        if ( loaded == total && typeof callback == 'function' )
-                            callback();
-
-                    }
-
-                }
-
-            },
-
-            loadScript(url) {
-                var element = document.createElement('script');
-                element.setAttribute('src', url);
-                document.head.appendChild(element);
-                return element;
-            },
-
-            loadStyles(styles, callback) {
-
-                for ( var key in styles ) {
-
-                    var style = styles[key];
-                    var styleobj = this.loadStyle(style);
-
-                }
-
-            },
-
-            loadStyle(url) {
-                var element = document.createElement('link')
-                element.type = 'text/css'
-                element.rel = 'stylesheet'
-                element.href = url
-                document.head.appendChild(element)
-                return element
-            },
-
-            initData() {
-
-            },
-
-            getMap() {
-                return window.map;
-            }
-        },
-
-        data() {
-            return {
-                container: 'map',
-                token: '{MAPBOX_TOKEN_HERE}',
-                style: '{MAPBOX_STYLE_HERE}',
-                center: [14.453131, 50.096297],
-                zoom: 5,
-
-                base: true,
-                directions: false
-            }
-        }
-    }
+        base: true,
+        directions: false,
+      };
+    },
+  };
 </script>

@@ -11,6 +11,8 @@
 
   .product {
     cursor: pointer;
+    position: relative;
+    padding: 40px;
     flex: 1;
     width: 100%/$columns;
     max-width: 100%/$columns;
@@ -27,17 +29,63 @@
     height: $product-image-height;
     line-height: $product-image-height;
     display: block;
-    img {
-      vertical-align: middle;
-      max-width: 100%;
-    }
+    max-width: 100%;
+  img {
+    vertical-align: middle;
+    max-width: 100%;
+    height: auto;
+  }
+  }
+
+  .colors {
+    position: absolute;
+    list-style-type: none;
+    top: 40px;
+    left: 40px;
+    padding-left: 0;
+  }
+
+  .color {
+    display: inline-block;
+    min-width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 10px;
+    border-radius: 1px;
+    cursor: pointer;
+    overflow: hidden;
+
+  span {
+    display: block;
+    overflow: hidden;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 700;
+    transition: all 0.5s;
+    width: 0;
+  }
+  &:hover {
+  span {
+    display: inline-block;
+    padding-left: 20px;
+    padding-right: 10px;
+    width: 100px;
+  }
+  }
+  }
+
+  .price__block--discounted {
+  .price--regular {
+    text-decoration: line-through;
+  }
   }
 </style>
 
 <template>
   <div class="products catalog">
 
-    <div v-for="product in products" class="product" @click="showProduct(product)">
+    <div v-for="product in products" class="product" @click="showProduct(product)" v-if="product.attributes">
 
       <div class="product__image__wrapper">
         <div class="product__image" :data-product_id="product.id">
@@ -54,16 +102,22 @@
         </div>
       </div>
 
-      <h3 class="product__title">{{ product.title }}</h3>
+      <h3 class="product__title">{{ decode(product.title) }}</h3>
 
       <div class="product__excerpt">
         {{ product.excerpt }}
       </div>
 
-      <span v-html="product.formatted_prices.regular" class="price price--regular"></span>
+      <div v-if="product.formatted_prices.regular != product.formatted_prices.base" class="price__block--discounted">
+        <span v-html="product.formatted_prices.regular" class="price price--regular"></span>
+        <span v-html="product.formatted_prices.sale" class="price price--sale"></span>
+      </div>
+      <div class="price__block--regular" v-else>
+        <span v-html="product.formatted_prices.regular" class="price price--regular"></span>
+      </div>
 
       <button type="button" @click="addProduct(product)" class="btn btn--cart">
-        Add to cart
+        {{ lang.add_to_cart }}
       </button>
 
     </div>
@@ -72,80 +126,82 @@
 </template>
 
 <script>
-  var querystring = require('querystring')
+  const querystring = require('querystring');
 
   export default {
 
     props: ['level'],
 
     mounted() {
-      this.getProducts()
+      this.getProducts();
     },
 
     methods: {
       getProducts() {
-        let vm = this
+        const vm = this;
 
-        let query = querystring.stringify( { filters: JSON.stringify(vm.filters) } )
+        const query = querystring.stringify({ filters: JSON.stringify(vm.filters) });
 
-        window.wyvern.http.get(wp.root + 'api/products/?' + query).then((response) => {
-          vm.products = response.data
-        })
+        window.wyvern.http.get(`${vm.wp.root}api/products/?${query}`).then((response) => {
+          vm.products = response.data;
+        });
       },
       addProduct(product) {
-
+        console.log(product);
       },
       showProduct(product) {
-        this.$router.push({path: product.permalink})
+        this.$router.push({ path: product.permalink });
       },
       setFilters(filters) {
-        console.log(filters)
-        this.filters = filters
+        this.filters = filters;
 
-        this.getProducts()
-      }
+        this.getProducts();
+      },
+      setFilter(name, value) {
+        this.filters[name] = value;
+
+        this.getProducts();
+      },
     },
 
     updated() {
-      let vm = this
+      const vm = this;
 
       // Mousemove gallery
-      if ( this.mousemove_gallery ) {
-        let images = document.querySelectorAll('.product__image')
+      if (this.mousemove_gallery) {
+        const images = document.querySelectorAll('.product__image');
 
         images.forEach((image) => {
-
           // Swap images on gallery mousemove
           image.addEventListener('mousemove', (event) => {
-            let bodyRect    = document.body.getBoundingClientRect(),
-                elemRect    = image.getBoundingClientRect(),
-                offset      = elemRect.left - bodyRect.left,
-                max         = elemRect.width + offset,
-                share       = (event.clientX - offset)/elemRect.width,
-                order       = Math.abs( parseInt(share / 0.25, 10) ),
-                imgs        = image.querySelectorAll('img')
+            const bodyRect = document.body.getBoundingClientRect();
+            const elemRect = image.getBoundingClientRect();
+            const offset = elemRect.left - bodyRect.left;
+            const share = (event.clientX - offset) / elemRect.width;
+            const order = Math.abs(parseInt(share / 0.25, 10));
+            const imgs = image.querySelectorAll('img');
 
-            if ( typeof imgs[order] !== 'undefined' ) {
+            if (typeof imgs[order] !== 'undefined') {
               imgs.forEach((img) => {
-                vm.addClass(img, 'hidden')
-              })
-              vm.removeClass(imgs[order], 'hidden')
+                vm.addClass(img, 'hidden');
+              });
+              vm.removeClass(imgs[order], 'hidden');
             }
-          })
+          });
 
           // Set #1 image on gallery mouseleave
-          image.addEventListener('mouseleave', (event) => {
-            let imgs        = image.querySelectorAll('img'),
-                order       = 0
+          image.addEventListener('mouseleave', () => {
+            const imgs = image.querySelectorAll('img');
+            const order = 0;
 
-            if ( imgs.length > 1 ) {
+            if (imgs.length > 1) {
               imgs.forEach((img) => {
-                vm.addClass(img, 'hidden')
-              })
-              vm.removeClass(imgs[order], 'hidden')
+                vm.addClass(img, 'hidden');
+              });
+              vm.removeClass(imgs[order], 'hidden');
             }
-          })
-        })
+          });
+        });
       }
     },
 
@@ -155,16 +211,21 @@
 
         filters: {},
 
-        mousemove_gallery: true
-      }
+        mousemove_gallery: true,
+
+        lang: window.lang,
+        wp: window.wp,
+      };
     },
 
     created() {
-      window.eventHub.$on('filters-changed', this.setFilters)
+      window.eventHub.$on('filters-changed', this.setFilters);
+      window.eventHub.$on('filter-changed', this.setFilter);
     },
 
     beforeDestroy() {
-      window.eventHub.$off('filters-changed')
-    }
-  }
+      window.eventHub.$off('filters-changed');
+      window.eventHub.$off('filter-changed');
+    },
+  };
 </script>

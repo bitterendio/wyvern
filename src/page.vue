@@ -3,58 +3,61 @@
 </style>
 
 <template>
-    <div class="page content" :class="[page.slug, page.template]">
+  <div class="page content" :class="[page.slug, page.template]">
 
-        <div v-show="page.id">
+    <div v-show="page.id" class="container cols">
 
-            <component is="levels" :object="page"></component>
+      <sidebar></sidebar>
 
-            <div class="container">
+      <div class="main">
 
-                <h1 class="entry-title">{{ page.title.rendered }}</h1>
+        <h1 class="entry-title">{{ page.title.rendered }}</h1>
 
-                <div class="entry-content" v-html="page.content.rendered">
-                </div>
-
-            </div>
-
+        <div class="entry-content" v-html="page.content.rendered">
         </div>
 
+        <component is="levels" :object="page"></component>
+
+      </div>
+
     </div>
+
+  </div>
 </template>
 
 <script>
 
-    export default {
-        mounted() {
-            var self = this;
-            this.getPage(function(data){
-                self.page = data
-                window.eventHub.$emit('page-title', self.page.title.rendered)
-                window.eventHub.$emit('track-ga')
-            });
+  export default {
+    mounted() {
+      const vm = this;
+      this.getPage((data) => {
+        vm.page = data;
+        window.eventHub.$emit('page-title', vm.page.title.rendered);
+        window.eventHub.$emit('track-ga');
+      });
+    },
+
+    data() {
+      return {
+        page: {
+          id: 0,
+          slug: '',
+          title: { rendered: '' },
+          content: { rendered: '' },
         },
+        lang: window.lang,
+        wp: window.wp,
+      };
+    },
 
-        data() {
-            return {
-                page: {
-                    id: 0,
-                    slug: '',
-                    title: { rendered: '' },
-                    content: { rendered: '' }
-                },
-                lang: wp.lang
-            }
-        },
+    methods: {
 
-        methods: {
+    },
 
-        },
-
-        route: {
-            canReuse() {
-                return false;
-            }
-        }
-    }
+    route: {
+      canReuse() {
+        return false;
+      },
+    },
+  };
 </script>

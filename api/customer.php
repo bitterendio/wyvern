@@ -48,7 +48,7 @@ if ( !function_exists('wyvern_wc_get_customer') )
             $userdata = get_userdata( $customer_id );
 
         return [
-            'customer_id' => $customer_id,
+            'customerId'  => $customer_id,
             'userdata'    => $userdata,
             'orders'      => $orders,
             'billing_address' => [

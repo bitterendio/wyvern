@@ -26,19 +26,19 @@
 
     computed: {
       headline() {
-        return '<' + this.level.priority + ' class="level-headline--' + this.level.priority + '">' + this.level.text + '</' + this.level.priority + '>'
-      }
+        return `<${this.level.priority} class="level-headline--${this.level.priority}">${this.level.text}</${this.level.priority}>`;
+      },
     },
 
     data() {
       return {
-      }
+      };
     },
 
     created() {
     },
 
     beforeDestroy() {
-    }
-  }
+    },
+  };
 </script>

@@ -17,11 +17,11 @@
 
     data() {
       return {
-        assets_path: wp.assets_path,
-        base_path: wp.base_path,
-        site_name: wp.site_name,
-        lang: wp.lang,
-      }
-    }
-  }
+        assets_path: window.wp.assets_path,
+        base_path: window.wp.base_path,
+        site_name: window.wp.site_name,
+        lang: window.lang,
+      };
+    },
+  };
 </script>

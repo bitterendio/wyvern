@@ -14,12 +14,12 @@
 
     data() {
       return {
-        wp: wp
-      }
+        wp: window.wp,
+      };
     },
 
     methods: {
 
-    }
-  }
+    },
+  };
 </script>

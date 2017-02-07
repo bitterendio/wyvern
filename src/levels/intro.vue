@@ -71,17 +71,17 @@
       playVideo() {
         this.show_video = !this.show_video;
         window.eventHub.$emit('toggle-video', this.show_video);
-      }
+      },
     },
 
     data() {
       return {
-        assets_path: wp.assets_path,
-        base_path: wp.base_path,
-        site_name: wp.site_name,
-        lang: wp.lang,
-        show_video: false
-      }
-    }
-  }
+        assets_path: window.wp.assets_path,
+        base_path: window.wp.base_path,
+        site_name: window.wp.site_name,
+        lang: window.lang,
+        show_video: false,
+      };
+    },
+  };
 </script>

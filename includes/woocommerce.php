@@ -24,7 +24,7 @@ function wyvern_wc_settings_footer($input = [])
         {
             if ( strpos($rate->method_id, $shipping_method->id) !== false )
             {
-                $shipping[] = [
+                $shipping[$rate->id] = [
                     'id' => $rate->id,
                     'title' => $rate->label,
                     'description' => $shipping_method->method_description,
@@ -42,7 +42,7 @@ function wyvern_wc_settings_footer($input = [])
 
         // Woocommerce cart
         'cart'               => WC()->cart->get_cart(),
-        'cart_total'         => $cart_total,
+        'cartTotal'          => $cart_total,
 
         // Woocommerce settings
         'gateways'           => WC()->payment_gateways->get_available_payment_gateways(),
@@ -54,7 +54,7 @@ function wyvern_wc_settings_footer($input = [])
         'currency'           => get_woocommerce_currency(),
         'currency_symbol'    => get_woocommerce_currency_symbol(),
 
-        'customer_id' => get_current_user_id(),
+        'customerId'         => get_current_user_id(),
 
         'wc_selected' => [
             'shipping_methods' => WC()->session->get('wyvern_shipping_methods', []),

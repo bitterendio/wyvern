@@ -11,34 +11,31 @@
 </template>
 
 <script>
-    export default {
-        mounted() {
+export default {
+  mounted() {
 
-        },
+  },
 
-        data() {
-            return {
-                wp: window.wp
-            }
-        },
+  data() {
+    return {
+      wp: window.wp,
+    };
+  },
 
-        methods: {
+  methods: {
 
-        },
+  },
 
-        watch: {
+  watch: {
 
-        },
+  },
 
-        // Create listeners
-        created() {
+  created() {
 
-        },
+  },
 
-        // It's good to clean up event listeners before
-        // a component is destroyed.
-        beforeDestroy() {
+  beforeDestroy() {
 
-        },
-    }
+  },
+};
 </script>

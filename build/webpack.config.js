@@ -1,10 +1,12 @@
-/**
- * Created by Insane on 05/01/2017.
- */
 const webpack    = require('webpack');
 const path       = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const eslintFriendlyFormatter = require('eslint-friendly-formatter');
+
+function resolve (dir) {
+    return path.join(__dirname, '..', dir)
+}
 
 module.exports = {
     entry: './src/main.js',
@@ -27,6 +29,15 @@ module.exports = {
 
     module: {
         loaders: [
+            {
+                test: /\.(js|vue)$/,
+                loader: 'eslint-loader',
+                enforce: "pre",
+                include: [resolve('src'), resolve('test')],
+                options: {
+                    formatter: eslintFriendlyFormatter
+                }
+            },
             {
                 test: /\.vue$/,
                 loader: 'vue-loader'

@@ -46,13 +46,13 @@
 
     data() {
       return {
-      }
+      };
     },
 
     created() {
     },
 
     beforeDestroy() {
-    }
-  }
+    },
+  };
 </script>

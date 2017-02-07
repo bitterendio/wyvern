@@ -11,19 +11,19 @@
 </template>
 
 <script>
-    export default {
-        mounted() {
-            this.getPosts()
-        },
+  export default {
+    mounted() {
+      this.getPosts();
+    },
 
-        data() {
-            return {
-                posts: []
-            }
-        },
+    data() {
+      return {
+        posts: [],
+      };
+    },
 
-        methods: {
+    methods: {
 
-        }
-    }
+    },
+  };
 </script>

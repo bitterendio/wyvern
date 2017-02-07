@@ -1,91 +1,69 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import axios from 'axios'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import axios from 'axios';
+import Posts from './posts.vue';
+import Post from './post.vue';
+import Page from './page.vue';
+import Product from './product.vue';
+import Cart from './cart.vue';
+import Footer from './theme-footer.vue';
+import Header from './theme-header.vue';
+import Levels from './levels.vue';
+import Intro from './levels/intro.vue';
+import Mapbox from './levels/mapbox.vue';
+import Woocommerce from './levels/woocommerce.vue';
+import Steps from './levels/steps.vue';
+import Headline from './levels/headline.vue';
+import FBPagePlugin from './levels/fb_pageplugin.vue';
+import InstagramEmbed from './levels/instagram_embed.vue';
 
 require('es6-promise/auto');
 
-const moment = require('moment')
-require('moment/locale/cs')
+require('moment');
 
-Vue.use(require('vue-moment'), {
-  moment
-});
 Vue.use(VueRouter);
-
 window.wp.templates = [];
-
-// Default components
-import Posts from './posts.vue'
-import Post from './post.vue'
-Vue.component('Post', Post)
-window.wp.templates.push('Post')
-
-import Page from './page.vue'
-Vue.component('Page', Page)
-window.wp.templates.push('Page')
-
-import Product from './product.vue'
-Vue.component('Product', Product)
-window.wp.templates.push('Product')
-
-import Cart from './cart.vue'
-Vue.component('Cart', Cart)
-window.wp.templates.push('Cart')
-
-import Header from './theme-header.vue'
-Vue.component('theme-header', Header)
-import Footer from './theme-footer.vue'
-Vue.component('theme-footer', Footer)
-
-// Layout partials
-import Levels from './levels.vue'
-Vue.component('levels', Levels)
-
-// Levels - ACF flexible content layouts
-import Intro from './levels/intro.vue'
-Vue.component('intro', Intro)
-import Mapbox from './levels/mapbox.vue'
-Vue.component('mapbox', Mapbox)
-import Woocommerce from './levels/woocommerce.vue'
-Vue.component('woocommerce', Woocommerce)
-import Steps from './levels/steps.vue'
-Vue.component('steps', Steps)
-import Headline from './levels/headline.vue'
-Vue.component('headline', Headline)
-import FBPagePlugin from './levels/fb_pageplugin.vue'
-Vue.component('fb_pageplugin', FBPagePlugin)
-import InstagramEmbed from './levels/instagram_embed.vue'
-Vue.component('instagram_embed', InstagramEmbed)
+Vue.component('Post', Post);
+window.wp.templates.push('Post');
+Vue.component('Page', Page);
+window.wp.templates.push('Page');
+Vue.component('Product', Product);
+window.wp.templates.push('Product');
+Vue.component('Cart', Cart);
+window.wp.templates.push('Cart');
+Vue.component('theme-header', Header);
+Vue.component('theme-footer', Footer);
+Vue.component('levels', Levels);
+Vue.component('intro', Intro);
+Vue.component('mapbox', Mapbox);
+Vue.component('woocommerce', Woocommerce);
+Vue.component('steps', Steps);
+Vue.component('headline', Headline);
+Vue.component('fb_pageplugin', FBPagePlugin);
+Vue.component('instagram_embed', InstagramEmbed);
 
 // Routes
-var routes = {
+const routes = {
 
   listed: {},
 
   push(obj) {
-
-    var self = this
-    obj.forEach(function(route){
-      self.listed[route.path] = route
-    })
-
+    obj.forEach((route) => {
+      this.listed[route.path] = route;
+    });
   },
 
   get() {
-
-    var self = this,
-        output = []
-
-    for ( var key in this.listed ) {
-      var route = this.listed[key]
-      output.push(route)
-    }
-
-    return output
+    const output = [];
+    Object.keys(this.listed).forEach((key) => {
+      const route = this.listed[key];
+      output.push(route);
+    });
+    return output;
   },
 
   add(route) {
-    return this.push([route])
+    return this.push([route]);
   },
 
   /**
@@ -93,26 +71,23 @@ var routes = {
    * like Page, Post etc. have been replaced
    */
   refresh() {
-    for ( var key in this.listed ) {
-      let original = this.listed[key]
+    Object.keys(this.listed).forEach((key) => {
+      const original = this.listed[key];
       this.listed[key] = {
         path: original.path,
         component: {
-          extends: Vue.component(original.meta.name)
+          extends: Vue.component(original.meta.name),
         },
-        meta: original.meta
-      }
-    }
-  }
-
-}
+        meta: original.meta,
+      };
+    });
+  },
+};
 
 // Wyvern
 window.wyvern = {
-
-  http: axios
-
-}
+  http: axios,
+};
 
 // Cache
 window.Cache = {
@@ -123,284 +98,292 @@ window.Cache = {
   },
 
   get(key) {
-    if ( typeof this.data[key] !== 'undefined' )
+    if (typeof this.data[key] !== 'undefined') {
       return this.data[key];
+    }
+    return null;
   },
 
   has(key) {
-    if ( typeof this.data[key] !== 'undefined' )
+    if (typeof this.data[key] !== 'undefined') {
       return true;
+    }
     return false;
-  }
-}
+  },
+};
 
 // Mixins
 Vue.mixin({
   methods: {
     getMenuLocation(location, callback) {
-      axios.get(wp.root + 'wp-api-menus/v2/menu-locations/' + location)
-          .then(function (response) {
-            if ( typeof callback == 'function' )
-              callback(response.data);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+      axios.get(`${window.wp.root}wp-api-menus/v2/menu-locations/${location}`)
+        .then((response) => {
+          if (typeof callback === 'function') {
+            callback(response.data);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
 
     url2Slug(url) {
-      return url.replace(/^.*\/\/[^\/]+/, '')
+      return url.replace(/^.*\/\/[^/]+/, '');
     },
 
     getPost(callback) {
-      axios.get(wp.root + 'wp/v2/posts/' + this.$route.meta.postId)
-          .then(function(response) {
-            if ( typeof callback == 'function' )
-              callback(response.data);
-          }).catch(function(error) {
-        console.log(error);
-      });
+      axios.get(`${window.wp.root}wp/v2/posts/${this.$route.meta.postId}`)
+        .then((response) => {
+          if (typeof callback === 'function') {
+            callback(response.data);
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
     },
 
     getCategory(categoryId) {
-      var self = this;
-      axios.get(wp.root + 'wp/v2/categories/' + categoryId)
-          .then(function(response) {
-            self.categories.push(response.data)
-          }).catch(function(error) {
-        console.log(error);
-      });
+      axios.get(`${window.wp.root}wp/v2/categories/${categoryId}`)
+        .then((response) => {
+          this.categories.push(response.data);
+        }).catch((error) => {
+          console.error(error);
+        });
     },
 
     getTag(tagId, callback) {
-      var self = this;
-      axios.get(wp.root + 'wp/v2/tags/' + tagId)
-          .then(function(response) {
-            if ( typeof callback == 'function' )
-              callback(response.data)
-          }).catch(function(error) {
-        console.log(error);
-      });
+      axios.get(`${window.wp.root}wp/v2/tags/${tagId}`)
+        .then((response) => {
+          if (typeof callback === 'function') {
+            callback(response.data);
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
     },
 
     getAuthor(authorID, callback) {
       /* todo: CPT - turn to getPost with callback */
-      var self = this;
-      axios.get(wp.root + 'wp/v2/authors/' + authorID + '?_embed=1')
-          .then(function(response) {
-            if ( typeof callback == 'function' )
-              callback(response.data)
-          }).catch(function(error) {
-              console.log(error);
-          });
+      axios.get(`${window.wp.root}wp/v2/authors/${authorID}?_embed=1`)
+        .then((response) => {
+          if (typeof callback === 'function') {
+            callback(response.data);
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
     },
 
     getCustom(slug, callback) {
-      var self = this;
-      axios.get(wp.root + 'wp/v2/' + slug + '/?_embed=1')
-          .then(function(response) {
-            if ( typeof callback == 'function' )
-              callback(response.data)
-          }).catch(function(error) {
-        console.log(error);
-      });
+      axios.get(`${window.wp.root}wp/v2/${slug}/?_embed=1`)
+        .then((response) => {
+          if (typeof callback === 'function') {
+            callback(response.data);
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
     },
 
     getUser(userId) {
-      var self = this;
-      axios.get(wp.root + 'wp/v2/users/' + userId)
-          .then(function(response) {
-            self.author = response.data
-          }).catch(function(error) {
-        console.log(error);
-      });
+      axios.get(`${window.wp.root}wp/v2/users/${userId}`)
+        .then((response) => {
+          this.author = response.data;
+        }).catch((error) => {
+          console.error(error);
+        });
     },
 
     getPage(callback) {
-      var self = this
+      const cachekey = `getPage${this.$route.meta.postId}`;
 
-      var cachekey = 'getPage' + this.$route.meta.postId
-
-      if ( window.Cache.has(cachekey) ) {
-        if ( typeof callback == 'function' )
-          return callback(window.Cache.get(cachekey));
+      if (window.Cache.has(cachekey)) {
+        if (typeof callback === 'function') {
+          callback(window.Cache.get(cachekey));
+          return;
+        }
       }
 
-      axios.get(wp.root + 'wp/v2/pages/' + this.$route.meta.postId).then(function(response){
-
-        if ( typeof callback == 'function' )
-          callback(response.data)
-
-        window.Cache.set(cachekey, response.data)
-
-      }).catch(function(error) {
-        console.log(error)
+      axios.get(`${window.wp.root}wp/v2/pages/${this.$route.meta.postId}`).then((response) => {
+        if (typeof callback === 'function') {
+          callback(response.data);
+        }
+        window.Cache.set(cachekey, response.data);
+      }).catch((error) => {
+        console.error(error);
       });
     },
 
     getPosts() {
-      var self = this
-      axios.get(wp.root + 'wp/v2/posts').then(function(response) {
-        self.posts = response.data
-      }).catch(function(error) {
-        console.log(error)
+      axios.get(`${window.wp.root}wp/v2/posts`).then((response) => {
+        this.posts = response.data;
+      }).catch((error) => {
+        console.error(error);
       });
     },
 
     getPages() {
-      var self = this
-      axios.get(wp.root + 'wp/v2/pages').then(function(response) {
-        self.pages = response.data
-      }, function(error) {
-        console.log(error)
+      axios.get(`${window.wp.root}wp/v2/pages`).then((response) => {
+        this.pages = response.data;
+      }, (error) => {
+        console.error(error);
       });
     },
 
     getSearch(term, callback) {
-      axios.get(wp.root + 'wp/v2/posts?search='+term).then(function(response) {
-        if ( typeof callback == 'function' )
+      axios.get(`${window.wp.root}wp/v2/posts?search=${term}`).then((response) => {
+        if (typeof callback === 'function') {
           callback(response.data);
-      }).catch(function(error) {
-        console.log(error);
+        }
+      }).catch((error) => {
+        console.error(error);
       });
     },
 
     getSidebars(callback) {
-      axios.get(wp.root + 'wp-json/wp-rest-api-sidebars/v1/sidebars').then(function(response) {
-        if ( typeof callback == 'function' )
+      axios.get(`${window.wp.root}wp-json/wp-rest-api-sidebars/v1/sidebars`).then((response) => {
+        if (typeof callback === 'function') {
           callback(response.data);
-      }).catch(function(error) {
-        console.log(error);
+        }
+      }).catch((error) => {
+        console.error(error);
       });
     },
 
     getSidebar(sidebarId, callback) {
-      axios.get(wp.root + 'wp-json/wp-rest-api-sidebars/v1/sidebars/' + sidebarId).then(function(response) {
-        if ( typeof callback == 'function' )
+      axios.get(`${window.wp.root}wp-json/wp-rest-api-sidebars/v1/sidebars/${sidebarId}`).then((response) => {
+        if (typeof callback === 'function') {
           callback(response.data);
-      }).catch(function(error) {
-        console.log(error);
+        }
+      }).catch((error) => {
+        console.error(error);
       });
     },
 
-    hasClass(ele,cls) {
-      return !!ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+    hasClass(ele, cls) {
+      return !!ele.className.match(new RegExp(`(\\s|^)${cls}(\\s|$)`));
     },
 
-    addClass(ele,cls) {
-      if (!this.hasClass(ele,cls)) ele.className += " "+cls;
+    addClass(ele, cls) {
+      /* eslint-disable */
+      if (!this.hasClass(ele,cls)) ele.className += ` ${cls}`;  // @todo refactor
     },
 
-    removeClass(ele,cls) {
-      if (this.hasClass(ele,cls)) {
-        var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
-        ele.className=ele.className.replace(reg,' ');
+    removeClass(ele, cls) {
+      if (this.hasClass(ele, cls)) {
+        const reg = new RegExp(`(\\s|^)${cls}(\\s|$)`);
+        /* eslint-disable */
+        ele.className = ele.className.replace(reg, ' ');  // @todo refactor
       }
     },
 
     decode(input) {
-      var txt = document.createElement("textarea");
-      txt.innerHTML = input;
-      return txt.value;
-    }
-  }
+      return input.replace(
+        /&(\d+);/g,
+        (match, number) => String.fromCharCode(number),
+      );
+    },
+  },
 });
 
-// Front page displays == Your latest posts
-if ( wp.show_on_front == 'posts' ) {
-  routes.add({
-    path: wp.base_path,
-    component: Posts,
-    name: 'Posts',
-    slug: 'home'
-  });
-}
-
-// Front page displays == A static page
-if ( wp.show_on_front == 'page' ) {
-
-  if ( wp.page_on_front != 0 ) {
-    // type is "Front page"
-    routes.add({
-      path     : wp.base_path,
-      component: Page,
-      meta: {
-        postId: wp.page_on_front,
-        name: 'Page',
-        slug: 'home'
-      }
-    });
-  } else if ( wp.page_on_front != 0 ) {
-    // type is "Posts page"
-    routes.add({
-      path     : wp.base_path,
-      component: Post,
-      meta: {
-        postId: wp.page_for_posts,
-        name: 'Post',
-        slug: 'home'
-      }
-    });
-  }
-}
-
-// Dynamically generated routes
-wp.routes.forEach(function (wproute) {
-  routes.add({
-    path: wp.base_path + wproute.slug,
-    component: {
-      extends: Vue.component(getTemplateHierarchy(wproute.type, wproute.id, wproute.template))
-    },
-    meta: {
-      postId: wproute.id,
-      template: wproute.template,
-      name: getTemplateHierarchy(wproute.type, wproute.id, wproute.template),
-      slug: wproute.slug
-    }
-  })
-
-  // When full link is used
-  routes.add({
-    path: wproute.link,
-    component: {
-      extends: Vue.component(getTemplateHierarchy(wproute.type, wproute.id, wproute.template))
-    },
-    meta: {
-      postId: wproute.id,
-      template: wproute.template,
-      name: getTemplateHierarchy(wproute.type, wproute.id, wproute.template),
-      slug: wproute.slug
-    }
-  })
-})
 
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function getTemplateHierarchy(type, id, template) {
-
   // f.e. Map
-  if ( typeof template == 'string' ) {
-    if (window.wp.templates.indexOf(capitalize(template)) !== -1)
+  if (typeof template === 'string') {
+    if (window.wp.templates.indexOf(capitalize(template)) !== -1) {
       return capitalize(template);
+    }
   }
 
   // f.e. Page9
-  if ( typeof type == 'string' && typeof id != 'undefined' ) {
-    if (window.wp.templates.indexOf(capitalize(type) + id) !== -1)
-      return capitalize(type) + id;
+  if (typeof type === 'string' && typeof id !== 'undefined') {
+    if (window.wp.templates.indexOf(`${capitalize(type)}${id}`) !== -1) {
+      return `${capitalize(type)}${id}`;
+    }
   }
 
   // f.e. Page
-  if ( typeof type == 'string' ) {
-    if (window.wp.templates.indexOf(capitalize(type)) !== -1)
+  if (typeof type === 'string') {
+    if (window.wp.templates.indexOf(capitalize(type)) !== -1) {
       return capitalize(type);
+    }
   }
 
+  return '';
 }
+
+// Front page displays == Your latest posts
+if (window.wp.show_on_front === 'posts') {
+  routes.add({
+    path: window.wp.base_path,
+    component: Posts,
+    name: 'Posts',
+    slug: 'home',
+  });
+}
+
+// Front page displays == A static page
+if (window.wp.show_on_front === 'page') {
+  if (parseInt(window.wp.page_on_front, 10) !== 0) {
+    // type is "Front page"
+    routes.add({
+      path: window.wp.base_path,
+      component: Page,
+      meta: {
+        postId: window.wp.page_on_front,
+        name: 'Page',
+        slug: 'home',
+      },
+    });
+  } else if (window.wp.page_on_front !== 0) {
+    // type is "Posts page"
+    routes.add({
+      path: window.wp.base_path,
+      component: Post,
+      meta: {
+        postId: window.wp.page_for_posts,
+        name: 'Post',
+        slug: 'home',
+      },
+    });
+  }
+}
+
+// Dynamically generated routes
+window.wp.routes.forEach((wproute) => {
+  routes.add({
+    path: `${window.wp.base_path}${wproute.slug}`,
+    component: {
+      extends: Vue.component(getTemplateHierarchy(wproute.type, wproute.id, wproute.template)),
+    },
+    meta: {
+      postId: wproute.id,
+      template: wproute.template,
+      name: getTemplateHierarchy(wproute.type, wproute.id, wproute.template),
+      slug: wproute.slug,
+    },
+  });
+
+  // When full link is used
+  routes.add({
+    path: wproute.link,
+    component: {
+      extends: Vue.component(getTemplateHierarchy(wproute.type, wproute.id, wproute.template)),
+    },
+    meta: {
+      postId: wproute.id,
+      template: wproute.template,
+      name: getTemplateHierarchy(wproute.type, wproute.id, wproute.template),
+      slug: wproute.slug,
+    },
+  });
+});
 
 // Register eventHub
 window.eventHub = new Vue();
 
-export { routes, Vue, VueRouter, capitalize, getTemplateHierarchy }
+export { routes, Vue, VueRouter, capitalize, getTemplateHierarchy };

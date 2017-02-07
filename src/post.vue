@@ -55,94 +55,92 @@
 
 <script>
 
-    export default {
-        props: {
-            post: {
-                type: Object,
-                default() {
-                    return {
-                        id: 0,
-                        slug: '',
-                        title: { rendered: '' },
-                        content: { rendered: '' }
-                    }
-                }
-            },
-            categories: {
-                type: Array,
-                default() {
-                    return [];
-                }
-            },
-            tags: {
-                type: Array,
-                default() {
-                    return [];
-                }
-            },
-            author: {
-                type: Object,
-                default() {
-                    return {};
-                }
-            }
+  export default {
+    props: {
+      post: {
+        type: Object,
+        default() {
+          return {
+            id: 0,
+            slug: '',
+            title: { rendered: '' },
+            content: { rendered: '' },
+          };
         },
-
-        mounted() {
-            // If post hasn't been passed by prop
-            if (!this.post.id) {
-                var self = this;
-                this.getPost(function(data){
-
-                    self.post = data
-
-                    // Load author
-                    self.getAuthor(self.post.author, (data) => {
-                        console.log(data)
-                        self.author = data
-                    })
-
-                    // Load category
-                    self.post.categories.forEach((category) => {
-                        self.getCategory(category)
-                    })
-
-                    // Load tags
-                    self.post.tags.forEach((tag) => {
-                        self.getTag(tag, (data) => {
-                            self.tags.push(data)
-                        })
-                    })
-
-                    window.eventHub.$emit('page-title', self.post.title.rendered)
-                    window.eventHub.$emit('track-ga')
-                });
-
-                this.isSingle = true;
-            }
+      },
+      categories: {
+        type: Array,
+        default() {
+          return [];
         },
-
-        updated() {
-            var self = this;
+      },
+      tags: {
+        type: Array,
+        default() {
+          return [];
         },
-
-        data() {
-            return {
-                assets_path: wp.assets_path,
-                base_path: wp.base_path,
-                isSingle: false,
-                lang: wp.lang
-            }
+      },
+      author: {
+        type: Object,
+        default() {
+          return {};
         },
+      },
+    },
 
-        methods: {
+    mounted() {
+      // If post hasn't been passed by prop
+      if (!this.post.id) {
+        const self = this;
+        this.getPost((data) => {
+          self.post = data;
 
-        },
+          // Load author
+          self.getAuthor(self.post.author, (response) => {
+            self.author = response;
+          });
 
-        route: {
-            canReuse() {
-                return false
-            }
-        }
-    }
+          // Load category
+          self.post.categories.forEach((category) => {
+            self.getCategory(category);
+          });
+
+          // Load tags
+          self.post.tags.forEach((tag) => {
+            self.getTag(tag, (response) => {
+              self.tags.push(response);
+            });
+          });
+
+          window.eventHub.$emit('page-title', self.post.title.rendered);
+          window.eventHub.$emit('track-ga');
+        });
+
+        this.isSingle = true;
+      }
+    },
+
+    updated() {
+
+    },
+
+    data() {
+      return {
+        assets_path: window.wp.assets_path,
+        base_path: window.wp.base_path,
+        isSingle: false,
+        lang: window.lang,
+      };
+    },
+
+    methods: {
+
+    },
+
+    route: {
+      canReuse() {
+        return false;
+      },
+    },
+  };
 </script>

@@ -9,34 +9,32 @@
 </template>
 
 <script>
-    import MapboxComponent from '../components/mapbox/mapbox.vue';
+import MapboxComponent from '../components/mapbox/mapbox.vue';
 
-    export default {
+export default {
 
-        extends: MapboxComponent,
+  extends: MapboxComponent,
 
-        props: ['level', 'bound1', 'bound2'],
+  props: ['level', 'bound1', 'bound2'],
 
-        methods: {
-            initData() {
-                var map  = this.getMap(),
-                    self = this
+  methods: {
+    initData() {
+      const map = this.getMap();
 
-                map.on('load', function () {
+      map.on('load', () => {
+        // place for custom logic
+      });
+    },
+  },
 
-                })
-
-            }
-        },
-
-        data() {
-            return {
-                container: 'map',
-                token: wp.extras.mapbox_key,
-                style: wp.extras.mapbox_style,
-                center: [14.453131, 50.096297],
-                zoom: 3
-            }
-        }
-    }
+  data() {
+    return {
+      container: 'map',
+      token: window.wp.extras.mapbox_key,
+      style: window.wp.extras.mapbox_style,
+      center: [14.453131, 50.096297],
+      zoom: 3,
+    };
+  },
+};
 </script>
