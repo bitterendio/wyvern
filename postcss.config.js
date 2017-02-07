@@ -9,7 +9,7 @@ module.exports = {
         require('precss'),
         require('postcss-assets')({
             loadPaths: ['assets/'],
-            baseUrl: '/wp-content/themes/wyvern-shop/'
+            baseUrl: '/wp-content/themes/wyvern/'
         }),
         require('postcss-calc')
     ]
