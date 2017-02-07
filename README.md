@@ -207,11 +207,8 @@ add_filter( 'wyvern_wp_settings', function($output) {
 
 * [ACF Pro][acf]
 * [Akismet][akismet]
-* [Captcha][captcha]
 * [CPT UI][cptui]
-* [MailPoet Newsletters][mailpoet]
 * [Relative URL][relative-url]
-* [wpMandrill][wpmandrill]
 
 #<a name="development"></a>Development
 
