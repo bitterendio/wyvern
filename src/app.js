@@ -16,20 +16,20 @@ import Steps from './levels/steps.vue';
 import Headline from './levels/headline.vue';
 import FBPagePlugin from './levels/fb_pageplugin.vue';
 import InstagramEmbed from './levels/instagram_embed.vue';
-import * as vueMixins from './mixin';
+import * as mixinMethods from './mixinMethods.js';
+
+Vue.mixin({
+  methods: mixinMethods
+});
 
 require('es6-promise/auto');
 
 Vue.use(VueRouter);
-window.wp.templates = [];
+
 Vue.component('Post', Post);
-window.wp.templates.push('Post');
 Vue.component('Page', Page);
-window.wp.templates.push('Page');
 Vue.component('Product', Product);
-window.wp.templates.push('Product');
 Vue.component('Cart', Cart);
-window.wp.templates.push('Cart');
 Vue.component('theme-header', Header);
 Vue.component('theme-footer', Footer);
 Vue.component('levels', Levels);
@@ -40,6 +40,12 @@ Vue.component('steps', Steps);
 Vue.component('headline', Headline);
 Vue.component('fb_pageplugin', FBPagePlugin);
 Vue.component('instagram_embed', InstagramEmbed);
+
+window.wp.templates = [];
+window.wp.templates.push('Post');
+window.wp.templates.push('Page');
+window.wp.templates.push('Product');
+window.wp.templates.push('Cart');
 
 // Routes
 const routes = {
