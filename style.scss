@@ -12,13 +12,17 @@
  Text Domain:  wyvern
 */
 
-@import '_variables.scss';
-@import 'node_modules/normalize.css/normalize.css';
+@import "_variables.scss";
+@import "node_modules/normalize.css/normalize.css";
 
-html, input[type="search"] {
+html,
+input[type="search"] {
   box-sizing: border-box;
 }
-*, *:before, *:after {
+
+*,
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
@@ -31,14 +35,15 @@ html, input[type="search"] {
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 .block { display: block; }
-.hidden { display: none!important }
+.hidden { display: none !important; }
 
 /* Responsive visibility */
-@media(max-width:$screen-xs-max) {
+@media(max-width: $screen-xs-max) {
   .visible-xs { display: block; }
   .hidden-xs { display: none; }
 }
-@media(min-width:$screen-sm-min) {
+
+@media(min-width: $screen-sm-min) {
   .visible-xs { display: none; }
 }
 

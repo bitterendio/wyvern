@@ -3,6 +3,7 @@ const path       = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const eslintFriendlyFormatter = require('eslint-friendly-formatter');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 function resolve (dir) {
     return path.join(__dirname, '..', dir)
@@ -62,6 +63,9 @@ module.exports = {
 
     plugins: [
         new ExtractTextPlugin("styles.css"),
+        new StyleLintPlugin({
+            files: ['style.scss']
+        }),
         new OptimizeCssAssetsPlugin({
             assetNameRegExp: /styles\.css/g,
             cssProcessor: require('cssnano'),

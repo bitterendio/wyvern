@@ -54,6 +54,7 @@ function wyvern_theme_localization_strings() {
         'bic' => __('Swift', 'wyvern-shop'),
         'local_pickup_place' => __('Place for local pickup', 'wyvern-shop'),
         'go_to_admin' => __('Go to Admin', 'wyvern-shop'),
+        'accept_terms' => __('You accept <a href=":terms_link">terms and agreements</a>', 'wyvern-shop'),
 
         'update' => __('Update', 'wyvern-shop'),
     ];

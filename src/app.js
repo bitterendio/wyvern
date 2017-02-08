@@ -16,10 +16,10 @@ import Steps from './levels/steps.vue';
 import Headline from './levels/headline.vue';
 import FBPagePlugin from './levels/fb_pageplugin.vue';
 import InstagramEmbed from './levels/instagram_embed.vue';
-import * as mixinMethods from './mixinMethods.js';
+import * as mixinMethods from './mixinMethods';
 
 Vue.mixin({
-  methods: mixinMethods
+  methods: mixinMethods,
 });
 
 require('es6-promise/auto');
