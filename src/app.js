@@ -46,6 +46,7 @@ window.wp.templates.push('Post');
 window.wp.templates.push('Page');
 window.wp.templates.push('Product');
 window.wp.templates.push('Cart');
+window.wp.templates.push('Home');
 
 // Routes
 const routes = {
