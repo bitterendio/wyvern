@@ -107,7 +107,10 @@ show_admin_bar(false);
 |
 */
 
-add_action( 'rest_api_init', 'slug_register_acf' );
+if ( function_exists('register_api_field') ) {
+    add_action( 'rest_api_init', 'slug_register_acf' );
+}
+
 function slug_register_acf() {
     $post_types = get_post_types(['public' => true], 'names');
     foreach ($post_types as $type) {
