@@ -56,6 +56,8 @@ function wyvern_wc_settings_footer($input = [])
 
         'customerId'         => get_current_user_id(),
 
+        'wc_placeholder'     => wc_placeholder_img_src(),
+
         'wc_selected' => [
             'shipping_methods' => WC()->session->get('wyvern_shipping_methods', []),
             'payment_method'   => WC()->session->get('wyvern_payment_method'),

@@ -36,7 +36,7 @@ function rest_theme_scripts() {
     wp_deregister_script('mailpoet_public');
     wp_deregister_style('mailpoet_public');
 
-    wp_enqueue_script( 'wyvern-vue', get_stylesheet_directory_uri() . '/dist/build.js', array(), '1.0.0', true );
+    wp_enqueue_script( 'wyvern-vue', get_stylesheet_directory_uri() . '/dist/build.js', array(), '1.0.5', true );
 
     $base_url  = esc_url_raw( home_url() );
     $base_path = rtrim( parse_url( $base_url, PHP_URL_PATH ), '/' );
