@@ -21,7 +21,7 @@ input[type="search"] {
 }
 
 /* Jumping scroll fix */
-html { margin-left: calc(100vw - 100%); }
+body { margin-left: calc(100vw - 100%); }
 
 *,
 *::before,

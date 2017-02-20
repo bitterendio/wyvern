@@ -81,6 +81,7 @@ const routes = {
       const original = this.listed[key];
       this.listed[key] = {
         path: original.path,
+        name: original.name,
         component: {
           extends: Vue.component(original.meta.name),
         },
