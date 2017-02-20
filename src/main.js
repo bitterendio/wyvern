@@ -8,6 +8,9 @@ const router = new VueRouter({
   routes: routes.get(),
 });
 
+// Event bus
+const bus = new Vue({});
+
 // Start app
 new Vue({ // eslint-disable-line no-new
   el: '#app',
@@ -22,6 +25,7 @@ new Vue({ // eslint-disable-line no-new
 
   data() {
     return {
+      bus,
     };
   },
 
