@@ -5,7 +5,7 @@
 <template>
     <transition name="slide-fade">
         <div class="posts content" v-show="posts.length">
-            <Post v-for="post in posts" :post="post"></Post>
+            <Post v-for="post in posts" :object="post"></Post>
         </div>
     </transition>
 </template>

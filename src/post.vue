@@ -24,7 +24,14 @@
 
             <div class="container">
 
-                <h1 class="entry-title" v-if="isSingle">{{ post.title.rendered }}</h1>
+                <h1 class="entry-title" v-if="isSingle">
+                  {{ post.title.rendered }}
+                </h1>
+                <h2 class="entry-title" v-else>
+                  <router-link :to="url2Slug(post.link)">
+                    {{ post.title.rendered }}
+                  </router-link>
+                </h2>
 
                 <!-- Entry meta filters -->
                 <div class="entry-meta">
@@ -43,8 +50,8 @@
 
                 <hr>
 
-                <div class="entry-content" v-html="post.content.rendered">
-                </div>
+                <div class="entry-content" v-html="post.content.rendered" v-if="isSingle"></div>
+                <div class="entry-excerpt" v-html="post.excerpt.rendered" v-else></div>
 
             </div>
 
@@ -59,7 +66,7 @@ const moment = require('moment');
 
 export default {
   props: {
-    post: {
+    object: {
       type: Object,
       default() {
         return {
@@ -90,49 +97,61 @@ export default {
     },
   },
 
-  mounted() {
-    // If post hasn't been passed by prop
-    if (!this.post.id) {
-      const self = this;
-      this.getPost((data) => {
-        self.post = data;
-
-        // Load author
-        self.getAuthor(self.post.author, (response) => {
-          self.author = response;
-        });
-
-        // Load category
-        self.post.categories.forEach((category) => {
-          self.getCategory(category);
-        });
-
-        // Load tags
-        self.post.tags.forEach((tag) => {
-          self.getTag(tag, (response) => {
-            self.tags.push(response);
-          });
-        });
-
-        window.eventHub.$emit('page-title', self.post.title.rendered);
-        window.eventHub.$emit('track-ga');
-      });
-
-      this.isSingle = true;
-    }
-  },
-
-  updated() {
-
-  },
-
   data() {
     return {
+      post: {
+        type: Object,
+        default() {
+          return {
+            id: 0,
+            slug: '',
+            title: { rendered: '' },
+            content: { rendered: '' },
+          };
+        },
+      },
       assets_path: window.wp.assets_path,
       base_path: window.wp.base_path,
       isSingle: false,
       lang: window.lang,
     };
+  },
+
+  mounted() {
+    // If post hasn't been passed by prop
+    if (!this.object.id) {
+      this.getPost((data) => {
+        this.post = data;
+
+        // Load author
+        this.getAuthor(this.post.author, (response) => {
+          this.author = response;
+        });
+
+        // Load category
+        this.post.categories.forEach((category) => {
+          this.getCategory(category);
+        });
+
+        // Load tags
+        this.post.tags.forEach((tag) => {
+          this.getTag(tag, (response) => {
+            this.tags.push(response);
+          });
+        });
+
+        window.eventHub.$emit('page-title', this.post.title.rendered);
+        window.eventHub.$emit('track-ga');
+      });
+
+      this.isSingle = true;
+    } else {
+      this.post = this.object;
+    }
+  },
+
+  updated() {
+
   },
 
   methods: {
