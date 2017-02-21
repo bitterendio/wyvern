@@ -81,7 +81,7 @@ const routes = {
       const original = this.listed[key];
       const route = {};
       Object.keys(original).forEach((sub) => {
-        if (sub == 'component') {
+        if (sub === 'component') {
           route[sub] = {
             extends: Vue.component(original.meta.name),
           };
