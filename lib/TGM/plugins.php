@@ -51,25 +51,6 @@ function wyvern_register_required_plugins() {
             //'is_callable' => ['acf_field_checkbox', 'render_field'],
             'required'    => false,
         ),
-
-        array(
-            'name'      => 'Custom Post Type UI',
-            'slug'      => 'custom-post-type-ui',
-            'required'  => false,
-        ),
-
-        array(
-            'name'      => 'Relative URL',
-            'slug'      => 'relative-url',
-            'required'  => false,
-        ),
-
-        array(
-            'name'      => 'wpMandrill',
-            'slug'      => 'wpmandrill',
-            'required'  => false,
-        ),
-
     );
 
     /*

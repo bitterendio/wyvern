@@ -61,6 +61,8 @@ if (!function_exists('wyvern_wc_settings_footer'))
 
             'customerId'         => get_current_user_id(),
 
+            'wc_placeholder'     => wc_placeholder_img_src(),
+
             'wc_selected' => [
                 'shipping_methods' => WC()->session->get('wyvern_shipping_methods', []),
                 'payment_method'   => WC()->session->get('wyvern_payment_method'),
@@ -179,9 +181,9 @@ add_filter( 'woocommerce_email_order_items_table', 'sww_add_images_woocommerce_e
 function wyvern_remove_woocommerce_styles_scripts() {
     if ( class_exists('WC_Frontend_Scripts') )
     {
-        remove_action('wp_enqueue_scripts', [WC_Frontend_Scripts, 'load_scripts']);
-        remove_action('wp_enqueue_scripts', [WC_Frontend_Scripts, 'localize_printed_scripts']);
-        remove_action('wp_enqueue_scripts', [WC_Frontend_Scripts, 'localize_printed_scripts']);
+        remove_action('wp_enqueue_scripts', ['WC_Frontend_Scripts', 'load_scripts']);
+        remove_action('wp_enqueue_scripts', ['WC_Frontend_Scripts', 'localize_printed_scripts']);
+        remove_action('wp_enqueue_scripts', ['WC_Frontend_Scripts', 'localize_printed_scripts']);
     }
 }
 

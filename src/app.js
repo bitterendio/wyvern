@@ -79,13 +79,17 @@ const routes = {
   refresh() {
     Object.keys(this.listed).forEach((key) => {
       const original = this.listed[key];
-      this.listed[key] = {
-        path: original.path,
-        component: {
-          extends: Vue.component(original.meta.name),
-        },
-        meta: original.meta,
-      };
+      const route = {};
+      Object.keys(original).forEach((sub) => {
+        if (sub == 'component') {
+          route[sub] = {
+            extends: Vue.component(original.meta.name),
+          };
+        } else {
+          route[sub] = original[sub];
+        }
+      });
+      this.listed[key] = route;
     });
   },
 };
