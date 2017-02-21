@@ -66,11 +66,26 @@ if ( !function_exists('wyvern_wc_get_products_index') )
 
             foreach( $filters as $name => $filter )
             {
+                $numeric = true;
+
+                if ( is_array($filter) )
+                {
+                    foreach ( $filter as $filter_value ) {
+                        if ( !is_numeric($filter_value) ) {
+                            $numeric = false;
+                        }
+                    }
+                } else {
+                    if ( !is_numeric($filter) ) {
+                        $numeric = false;
+                    }
+                }
+
                 if ( !empty($filter) )
                 {
                     $prepared[] = [
                         'taxonomy' => wc_attribute_taxonomy_name($name),
-                        'field' => 'term_id',
+                        'field' => $numeric ? 'term_id' : 'slug',
                         'terms' => $filter,
                         'operator' => 'IN'
                     ];
