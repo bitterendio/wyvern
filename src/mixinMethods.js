@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export function getMenuLocation(location, callback) {
-  axios.get(`${window.wp.root}wp-api-menus/v2/menu-locations/${location}`)
+  axios.get(`${window.wp.root}api/menu/${location}`)
     .then((response) => {
       if (typeof callback === 'function') {
         callback(response.data);
