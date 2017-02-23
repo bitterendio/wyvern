@@ -198,10 +198,11 @@ export function getSearch(term, callback) {
  * @since 0.1.0
  * @todo review api call on the endpoint
  * @todo potentially create functionality for error
+ * @todo get this call working without plugin
  * @param {function} callback - Callback function
  */
 export function getSidebars(callback) {
-  axios.get(`${window.wp.root}wp-json/wp-rest-api-sidebars/v1/sidebars`).then((response) => {
+  axios.get(`${window.wp.root}api/sidebars`).then((response) => {
     if (typeof callback === 'function') {
       callback(response.data);
     }
@@ -214,6 +215,7 @@ export function getSidebars(callback) {
  * @since 0.1.0
  * @todo review api call on the endpoint
  * @todo potentially create functionality for error
+ * @todo get this call working without plugin
  * @param {number} siderbarId - Sidebar ID
  * @param {function} callback - Callback function
  */

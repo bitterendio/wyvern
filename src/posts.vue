@@ -3,22 +3,31 @@
 </style>
 
 <template>
-    <transition name="slide-fade">
-        <div class="posts content" v-show="posts.length">
+    <div class="cols">
+        <div class="main posts content" v-show="posts.length">
             <Post v-for="post in posts" :object="post"></Post>
         </div>
-    </transition>
+        <ul class="sidebar" v-html="sidebar.rendered">
+        </ul>
+    </div>
 </template>
 
 <script>
   export default {
     mounted() {
       this.getPosts();
+
+      this.getSidebars((data) => {
+        if (typeof data['primary-sidebar'] !== 'undefined') {
+          this.sidebar = data['primary-sidebar'];
+        }
+      });
     },
 
     data() {
       return {
         posts: [],
+        sidebar: {},
       };
     },
 

@@ -50,9 +50,39 @@ body { margin-left: calc(100vw - 100%); }
   .visible-xs { display: none; }
 }
 
+/* Basic layout */
+.cols {
+  display: flex;
+  & > div {
+    flex: 1;
+  }
+}
+
 /* Buttons */
 .btn {
   appearance: none;
   outline: 0;
   border: 0;
+}
+
+.template-wrapper {
+  text-align: center;
+
+  & > * {
+    text-align: left;
+  }
+
+  & > .cols {
+    max-width: $container-max-width;
+    margin: 0 auto;
+  }
+
+  .sidebar {
+    max-width: $sidebar-width;
+  }
+}
+
+ul.sidebar {
+  list-style-type: none;
+  padding-left: 0;
 }
