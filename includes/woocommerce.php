@@ -3,6 +3,35 @@
  * Woocommerce specific starter
  */
 
+// Get all attributes with their values
+if ( !function_exists('woocommerce_get_all_attributes_with_values') )
+{
+    function woocommerce_get_all_attributes_with_values( $options = ['hide_empty' => false] )
+    {
+        $result = [];
+
+        $attributes = wc_get_attribute_taxonomies();
+
+        foreach( $attributes as $attribute )
+        {
+            $options['taxonomy'] = wc_attribute_taxonomy_name($attribute->attribute_name);
+
+            $result[$attribute->attribute_name] = [
+                'id' => $attribute->attribute_id,
+                'label' => $attribute->attribute_label,
+                'type' => $attribute->attribute_type,
+                'orderby' => $attribute->attribute_orderby,
+                'public' => $attribute->attribute_public,
+                'name' => $attribute->attribute_name,
+                'taxonomy' => $options['taxonomy'],
+                'values' => get_terms($options)
+            ];
+        }
+
+        return $result;
+    }
+}
+
 if (!function_exists('wyvern_wc_settings_footer'))
 {
     function wyvern_wc_settings_footer($input = [])
