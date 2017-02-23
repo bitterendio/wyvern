@@ -35,11 +35,16 @@ if ( !function_exists('wyvern_wc_create_order') )
     {
         $order_options = [];
 
-        $customer_id = (int)$_POST['customer_id'];
+        $order_options['customer_id'] = 0;
 
-        if ( $customer_id )
+        if ( isset($_POST['customer_id']) )
         {
-            $order_options['customer_id'] = $customer_id;
+            $customer_id = (int) $_POST['customer_id'];
+
+            if ( $customer_id )
+            {
+                $order_options['customer_id'] = $customer_id;
+            }
         }
 
         // Start transaction if available
@@ -261,19 +266,32 @@ if ( !function_exists('wyvern_wc_get_address') ) {
 
         if ( isset($address['name']) )
         {
-            list($first_name, $last_name) = explode(' ', $address['name'], 2);
+            $parts = explode(' ', $address['name'], 2);
 
-            $address['first_name'] = $first_name;
-            $address['last_name'] = $last_name;
-            unset($address['name']);
+            if (count($parts) === 2)
+            {
+                list($first_name, $last_name) = $parts;
+                $address['first_name'] = $first_name;
+                $address['last_name'] = $last_name;
+                unset($address['name']);
+            } else {
+                $address['first_name'] = $address['name'];
+            }
         }
 
         if ( isset($address['address']) )
         {
-            list($address_1, $address_2) = explode("\n", $address['address'], 2);
-            $address['address_1'] = $address_1;
-            $address['address_2'] = $address_2;
-            unset($address['address']);
+            $parts = explode("\n", $address['address'], 2);
+
+            if (count($parts) === 2)
+            {
+                list($address_1, $address_2) = $parts;
+                $address['address_1'] = $address_1;
+                $address['address_2'] = $address_2;
+                unset($address['address']);
+            } else {
+                $address['address_1'] = $address['address'];
+            }
         }
 
         return $address;
