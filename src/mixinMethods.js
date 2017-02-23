@@ -14,8 +14,8 @@ export function getMenuLocation(location, callback) {
 /**
  * Pass permalink and get relative url
  * @since 0.1.0
- * @param {string} url - Full url (f.e. http://example.com/hello-world)
- * @returns {string} Relative url (f.e. /hello-world)
+ * @param {string} url - Full url - f.e. http://example.com/hello-world
+ * @returns {string} Relative url - f.e. /hello-world
  */
 export function url2Slug(url) {
   return url.replace(/^.*\/\/[^/]+/, '');
@@ -74,7 +74,7 @@ export function getTag(tagId, callback) {
  * Get author object and pass it to callback function
  * @since 0.1.0
  * @todo get rid of this function, replace with getCustom
- * @todo make ?_embed configurable (mayble all params)
+ * @todo make ?_embed configurable - mayble all params
  * @todo potentially create functionality for error
  * @param {number} authorID - Author ID
  * @param {function} callback
@@ -92,10 +92,10 @@ export function getAuthor(authorID, callback) {
 /**
  * Get archive of custom post objects by custom post object slug
  * @since 0.1.0
- * @todo make ?_embed configurable (maybe all params)
+ * @todo make ?_embed configurable - maybe all params
  * @todo make archive/single configurable
  * @todo potentially create functionality for error
- * @param {string} slug - Slug of custom post type (f.e. 'post')
+ * @param {string} slug - Slug of custom post type - f.e. 'post'
  * @param {function} callback - Callback function
  */
 export function getCustom(slug, callback) {
@@ -127,7 +127,7 @@ export function getUser(userId) {
  * Get page by $route.meta.postId and pass it to callback function
  * @since 0.1.0
  * @todo replace $route.meta.postId with param
- * @todo remove local cache (potentially move to global cache)
+ * @todo remove local cache - potentially move to global cache
  * @todo potentially create functionality for error
  * @param {function} callback - Callback function
  */
