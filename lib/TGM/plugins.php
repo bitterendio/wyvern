@@ -29,19 +29,6 @@ function wyvern_register_required_plugins() {
 
         /* Required plugins */
 
-        array(
-            'name'      => 'WP REST API',
-            'slug'      => 'rest-api',
-            //'source'  => 'https://github.com/WP-API/WP-API.git',
-            'required'  => true,
-        ),
-
-        array(
-            'name'      => 'WP REST API Menus',
-            'slug'      => 'wp-api-menus',
-            'required'  => true,
-        ),
-
         /* Recommended plugins */
 
         array(

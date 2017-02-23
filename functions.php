@@ -54,6 +54,8 @@ function rest_theme_scripts() {
         'show_on_front' => get_option('show_on_front'), // (posts|page) Settings -> Reading -> Front page displays
         'page_on_front' => get_option('page_on_front'), // (int) Settings -> Reading -> Front page displays when "page" is selected and type is "Front page"
         'page_for_posts'=> get_option('page_for_posts'), // (int) Settings -> Reading -> Front page displays when "page" is selected and type is "Posts page"
+
+        'excerpt_word'  => get_option('wyvern_theme_options_excerpt')['excerpt_word'],
     ] ) );
 }
 
@@ -100,31 +102,39 @@ show_admin_bar(false);
 
 /*
 |--------------------------------------------------------------------------
-| ACF
+| ACF and Excerpt
 |--------------------------------------------------------------------------
 |
-| All ACF fields to rest api
+| All ACF fields and excerpt to rest api
 |
 */
 
-if ( function_exists('register_api_field') ) {
-    add_action( 'rest_api_init', 'slug_register_acf' );
+if ( function_exists('register_rest_field') ) {
+    add_action( 'rest_api_init', 'wyvern_add_to_posts' );
 }
 
-function slug_register_acf() {
+function wyvern_add_to_posts() {
     $post_types = get_post_types(['public' => true], 'names');
     foreach ($post_types as $type) {
-        register_api_field( $type,
+        register_rest_field( $type,
             'acf',
             array(
-                'get_callback'    => 'slug_get_acf',
+                'get_callback'    => 'wyvern_get_acf',
+                'update_callback' => null,
+                'schema'          => null,
+            )
+        );
+        register_rest_field( $type,
+            'excerpt',
+            array(
+                'get_callback'    => 'wyvern_add_excerpt',
                 'update_callback' => null,
                 'schema'          => null,
             )
         );
     }
 }
-function slug_get_acf( $object, $field_name, $request ) {
+function wyvern_get_acf( $object, $field_name, $request ) {
     if ( function_exists('get_fields') )
     {
         $fields = get_fields($object[ 'id' ]);
@@ -135,7 +145,19 @@ function slug_get_acf( $object, $field_name, $request ) {
     }
 }
 
+function wyvern_add_excerpt($object)
+{
+    $id = $object['id'];
+    $post = get_post($id);
+    $content = $post->post_content;
+
+    $excerpt = wyvern_create_excerpt($content);
+    return $excerpt;
+}
+
 /* If CPT has archive, register archive route */
+
+/* @TODO check if this is still necessary */
 
 $post_types = get_post_types();
 
@@ -160,6 +182,7 @@ foreach( $post_types as $post_type )
 
 /**
  * Add REST API support to an already registered post type.
+ * @TODO Get rid of this!
  */
 add_action( 'init', 'my_custom_post_type_rest_support', 25 );
 function my_custom_post_type_rest_support() {
@@ -248,8 +271,53 @@ autoload_folder($path);
 
 Wyvern\Includes\Settings::add('New thing', 'new_thing');
 
+Wyvern\Includes\Settings::section('wyvern_excerpt_settings', 'Excerpt Options', null, 'wyvern_theme_options_excerpt');
+Wyvern\Includes\Settings::add('Excerpt length', 'excerpt_length', 'number', 20, 'wyvern_excerpt_settings', 'wyvern_theme_options_excerpt');
+Wyvern\Includes\Settings::add('Smart excerpt', 'excerpt_smart', 'checkbox', 0, 'wyvern_excerpt_settings', 'wyvern_theme_options_excerpt');
+Wyvern\Includes\Settings::add('Excerpt word', 'excerpt_word', 'input', 'Read more', 'wyvern_excerpt_settings', 'wyvern_theme_options_excerpt');
+
 Wyvern\Includes\Settings::section('wyvern_tracking_settings', 'Tracking Options', null, 'wyvern_theme_options_tracking');
 Wyvern\Includes\Settings::add('Google Tracking ID', 'google_analytics_id', 'input', null, 'wyvern_tracking_settings', 'wyvern_theme_options_tracking');
 
 Wyvern\Includes\Settings::section('wyvern_woocommerce_settings', 'Woocommerce Options', null, 'wyvern_theme_options_woocommerce');
 Wyvern\Includes\Settings::add('Variations in table', 'variations_table', 'checkbox', 0, 'wyvern_woocommerce_settings', 'wyvern_theme_options_woocommerce');
+
+/*
+|--------------------------------------------------------------------------
+| Custom excerpt
+|--------------------------------------------------------------------------
+|
+| Custom excerpt length and ending word
+| @TODO maybe don't have this in functions.php
+|
+*/
+
+function wyvern_create_excerpt($text)
+{
+    $excerpt_options = get_option('wyvern_theme_options_excerpt');
+    $ending_chars = ['.', ' ', '?', '!'];
+
+    $excerpt_length = $excerpt_options['excerpt_length'];
+
+    if ( strlen($text) <= $excerpt_length )
+        return $text;
+
+    $excerpt_text = substr($text, 0, $excerpt_length);
+
+    if (! isset($excerpt_options['excerpt_smart'])) {
+        $excerpt = $excerpt_text;
+    } else {
+        $counts = [];
+        foreach ( $ending_chars as $char ) {
+            $last_occurrence = strripos($excerpt_text, $char);
+            if ($last_occurrence){
+                array_push($counts, strripos($excerpt_text, $char));
+            }
+        }
+        rsort($counts);
+        $excerpt = substr($excerpt_text, 0, $counts[0]);
+    }
+
+    return $excerpt;
+
+}

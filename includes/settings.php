@@ -197,14 +197,16 @@ class Settings {
         $this->sections[] = compact('id', 'title', 'callback', 'page');
     }
 
+    /* @TODO checkbox default value checked */
     public function render_field($args)
     {
         // First, we read the options collection
         $options = get_option($args['page']);
 
-        $value = '';
         if ( isset($options[$args['slug']]) )
             $value = $options[$args['slug']];
+        else
+            $value = $args['default'];
 
         $name = $args['page'].'['.$args['slug'].']';
 
@@ -222,6 +224,10 @@ class Settings {
             case 'input':
             default:
                 echo '<input type="text" id="' . $args['slug'] . '" name="' . $name . '" value="' . $value . '">';
+                break;
+
+            case 'number':
+                echo '<input type="number" id="' . $args['slug'] . '" name="' . $name . '" value="' . $value . '">';
                 break;
         }
     }
