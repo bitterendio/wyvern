@@ -240,15 +240,6 @@ $path = get_template_directory() . '/api';
 autoload_folder($path);
 
 /*
- * Automatically install necessary plugins via TGM plugin activation
- */
-
-require_once get_template_directory() . '/lib/TGM/class-tgm-plugin-activation.php';
-
-require_once get_template_directory() . '/lib/TGM/plugins.php';
-
-
-/*
 |--------------------------------------------------------------------------
 | Includes
 |--------------------------------------------------------------------------
