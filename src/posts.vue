@@ -3,7 +3,7 @@
 </style>
 
 <template>
-    <div class="cols">
+    <div class="cols container">
         <div class="main posts content" v-show="posts.length">
             <Post v-for="post in posts" :object="post"></Post>
         </div>
