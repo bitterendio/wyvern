@@ -101,7 +101,7 @@ export function getAuthor(authorID, callback) {
  * @param {function} callback - Callback function
  */
 export function getCustom(slug, callback) {
-  axios.get(`${window.wp.root}wp/v2/${slug}/?_embed=1`)
+  axios.get(`${window.wp.root}wp/v2/${slug}/?_embed=1&per_page=100`)
     .then((response) => {
       if (typeof callback === 'function') {
         callback(response.data);
