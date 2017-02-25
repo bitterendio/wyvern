@@ -51,7 +51,7 @@
                 <hr>
 
                 <div class="entry-content" v-html="post.content.rendered" v-if="isSingle"></div>
-                <div class="entry-excerpt" v-html="post.excerpt.rendered" v-else></div>
+                <div class="entry-excerpt" v-html="post.excerpt" v-else></div>
 
             </div>
 

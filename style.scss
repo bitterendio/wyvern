@@ -15,6 +15,9 @@
 @import "_variables.scss";
 @import "node_modules/normalize.css/normalize.css";
 
+// Set of default preview styles, feel free to remove this
+@import "_default.scss";
+
 html,
 input[type="search"] {
   box-sizing: border-box;
@@ -22,6 +25,17 @@ input[type="search"] {
 
 /* Jumping scroll fix */
 body { margin-left: calc(100vw - 100%); }
+
+a {
+  color: $link-color;
+
+  &:hover,
+  &.active,
+  &.router-link-active {
+    color: $hover-color;
+    text-decoration: none;
+  }
+}
 
 *,
 *::before,
@@ -50,9 +64,37 @@ body { margin-left: calc(100vw - 100%); }
   .visible-xs { display: none; }
 }
 
+/* Basic layout */
+.cols {
+  display: flex;
+  & > div {
+    flex: 1;
+  }
+}
+
 /* Buttons */
 .btn {
   appearance: none;
   outline: 0;
   border: 0;
+}
+
+.template-wrapper {
+  text-align: center;
+
+  & > * {
+    text-align: left;
+  }
+  .sidebar {
+    max-width: $sidebar-width;
+  }
+}
+
+ul.sidebar {
+  list-style-type: none;
+}
+
+.container {
+  max-width: $container-max-width;
+  margin: 0 auto;
 }

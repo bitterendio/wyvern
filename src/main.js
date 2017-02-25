@@ -17,7 +17,7 @@ new Vue({ // eslint-disable-line no-new
 
   template: '<div class="template-wrapper" :class="this.$route.meta.slug">' +
     '<theme-header></theme-header>' +
-    '<router-view></router-view>' +
+    '<router-view class="router-view"></router-view>' +
     '<theme-footer></theme-footer>' +
   '</div>',
 

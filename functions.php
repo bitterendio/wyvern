@@ -36,10 +36,11 @@ function rest_theme_scripts() {
     wp_deregister_script('mailpoet_public');
     wp_deregister_style('mailpoet_public');
 
-    wp_enqueue_script( 'wyvern-vue', get_stylesheet_directory_uri() . '/dist/build.js', array(), '1.0.6', true );
+    wp_enqueue_script( 'wyvern-vue', get_stylesheet_directory_uri() . '/dist/build.js', array(), '1.0.8', true );
 
     $base_url  = esc_url_raw( home_url() );
     $base_path = rtrim( parse_url( $base_url, PHP_URL_PATH ), '/' );
+
     wp_localize_script( 'wyvern-vue', 'wp', apply_filters( 'wyvern_wp_settings', [
         'root'          => esc_url_raw( rest_url() ),
         'base_url'      => $base_url,
@@ -55,7 +56,7 @@ function rest_theme_scripts() {
         'page_on_front' => get_option('page_on_front'), // (int) Settings -> Reading -> Front page displays when "page" is selected and type is "Front page"
         'page_for_posts'=> get_option('page_for_posts'), // (int) Settings -> Reading -> Front page displays when "page" is selected and type is "Posts page"
 
-        'excerpt_word'  => get_option('wyvern_theme_options_excerpt')['excerpt_word'],
+        'excerpt_word'  => is_array(get_option('wyvern_theme_options_excerpt')) ? get_option('wyvern_theme_options_excerpt')['excerpt_word'] : 'Read more', // @todo remove hardcoded Read more
     ] ) );
 }
 
@@ -240,15 +241,6 @@ $path = get_template_directory() . '/api';
 autoload_folder($path);
 
 /*
- * Automatically install necessary plugins via TGM plugin activation
- */
-
-require_once get_template_directory() . '/lib/TGM/class-tgm-plugin-activation.php';
-
-require_once get_template_directory() . '/lib/TGM/plugins.php';
-
-
-/*
 |--------------------------------------------------------------------------
 | Includes
 |--------------------------------------------------------------------------
@@ -292,12 +284,12 @@ Wyvern\Includes\Settings::add('Variations in table', 'variations_table', 'checkb
 |
 */
 
-function wyvern_create_excerpt($text)
+function wyvern_create_excerpt($text, $default_excerpt_length = 20)
 {
     $excerpt_options = get_option('wyvern_theme_options_excerpt');
     $ending_chars = ['.', ' ', '?', '!'];
 
-    $excerpt_length = $excerpt_options['excerpt_length'];
+    $excerpt_length = isset($excerpt_options['excerpt_length']) ? $excerpt_options['excerpt_length'] : $default_excerpt_length;
 
     if ( strlen($text) <= $excerpt_length )
         return $text;
