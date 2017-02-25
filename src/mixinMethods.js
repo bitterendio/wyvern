@@ -35,7 +35,7 @@ export function getPost(callback) {
         callback(response.data);
       }
     }).catch(() => {
-    });
+  });
 }
 
 /**
@@ -45,12 +45,14 @@ export function getPost(callback) {
  * @since 0.1.0
  * @param {number} categoryId - Id of the given category
  */
-export function getCategory(categoryId) {
+export function getCategory(categoryId, callback) {
   axios.get(`${window.wp.root}wp/v2/categories/${categoryId}`)
     .then((response) => {
-      this.categories.push(response.data);
+      if (typeof callback === 'function') {
+        callback(response.data);
+      }
     }).catch(() => {
-    });
+  });
 }
 
 /**
@@ -67,7 +69,7 @@ export function getTag(tagId, callback) {
         callback(response.data);
       }
     }).catch(() => {
-    });
+  });
 }
 
 /**
@@ -86,7 +88,7 @@ export function getAuthor(authorID, callback) {
         callback(response.data);
       }
     }).catch(() => {
-    });
+  });
 }
 
 /**
@@ -105,7 +107,7 @@ export function getCustom(slug, callback) {
         callback(response.data);
       }
     }).catch(() => {
-    });
+  });
 }
 
 /**
@@ -120,7 +122,7 @@ export function getUser(userId) {
     .then((response) => {
       this.author = response.data;
     }).catch(() => {
-    });
+  });
 }
 
 /**
@@ -275,8 +277,8 @@ export function removeClass(ele, cls) {
  */
 export function decode(input) {
   return input.replace(
-      /&#(\d+);/g,
-      (match, number) => String.fromCharCode(number),
+    /&#(\d+);/g,
+    (match, number) => String.fromCharCode(number),
   );
 }
 
