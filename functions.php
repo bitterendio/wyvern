@@ -156,9 +156,6 @@ autoload_folder($path);
 
 Wyvern\Includes\Settings::add('New thing', 'new_thing');
 
-Wyvern\Includes\Settings::section('wyvern_acf_settings', 'ACF Options', null, 'wyvern_theme_options_acf');
-Wyvern\Includes\Settings::add('ACF', 'acf_enabled', 'checkbox', 0, 'wyvern_acf_settings', 'wyvern_theme_options_acf');
-
 Wyvern\Includes\Settings::section('wyvern_excerpt_settings', 'Excerpt Options', null, 'wyvern_theme_options_excerpt');
 Wyvern\Includes\Settings::add('Excerpt length', 'excerpt_length', 'number', 20, 'wyvern_excerpt_settings', 'wyvern_theme_options_excerpt');
 Wyvern\Includes\Settings::add('Smart excerpt', 'excerpt_smart', 'checkbox', 0, 'wyvern_excerpt_settings', 'wyvern_theme_options_excerpt');
@@ -169,23 +166,6 @@ Wyvern\Includes\Settings::add('Google Tracking ID', 'google_analytics_id', 'inpu
 
 Wyvern\Includes\Settings::section('wyvern_woocommerce_settings', 'Woocommerce Options', null, 'wyvern_theme_options_woocommerce');
 Wyvern\Includes\Settings::add('Variations in table', 'variations_table', 'checkbox', 0, 'wyvern_woocommerce_settings', 'wyvern_theme_options_woocommerce');
-
-/**
- * ACF Pluggable
- * @TODO Maybe move it from functions.php
- */
-
-if ( get_option('wyvern_theme_options_acf') ) {
-    $acf_options = get_option('wyvern_theme_options_acf');
-
-    if (isset($acf_options['acf_enabled'])) {
-        wyvern_include('acf');
-    } else {
-        wyvern_exclude('acf');
-    }
-} else {
-    wyvern_exclude('acf');
-}
 
 /**
  * Include files from web
@@ -225,3 +205,26 @@ function wyvern_exclude($file_to_exclude) {
 
     }
 }
+
+/**
+ * ACF Pluggable
+ * @TODO Maybe move it from functions.php
+ */
+
+function wyvern_check_plugins() {
+    $acf = ['advanced-custom-fields-pro', 'advanced-custom-fields'];
+    $not_found = 0;
+    foreach ($acf as $plugin) {
+        if ( is_plugin_active($plugin . '/acf.php') ) {
+            wyvern_include('acf');
+        } else {
+            $not_found++;
+        }
+    }
+
+    if ($not_found == count($acf)) {
+        wyvern_exclude('acf');
+    }
+}
+
+add_action('admin_init', 'wyvern_check_plugins');
