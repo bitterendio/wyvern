@@ -34,8 +34,7 @@ export function getPost(callback) {
       if (typeof callback === 'function') {
         callback(response.data);
       }
-    }).catch(() => {
-  });
+    }).catch(() => {});
 }
 
 /**
@@ -51,8 +50,7 @@ export function getCategory(categoryId, callback) {
       if (typeof callback === 'function') {
         callback(response.data);
       }
-    }).catch(() => {
-  });
+    }).catch(() => {});
 }
 
 /**
@@ -68,8 +66,7 @@ export function getTag(tagId, callback) {
       if (typeof callback === 'function') {
         callback(response.data);
       }
-    }).catch(() => {
-  });
+    }).catch(() => {});
 }
 
 /**
@@ -87,8 +84,7 @@ export function getAuthor(authorID, callback) {
       if (typeof callback === 'function') {
         callback(response.data);
       }
-    }).catch(() => {
-  });
+    }).catch(() => {});
 }
 
 /**
@@ -106,8 +102,7 @@ export function getCustom(slug, callback) {
       if (typeof callback === 'function') {
         callback(response.data);
       }
-    }).catch(() => {
-  });
+    }).catch(() => {});
 }
 
 /**
@@ -121,8 +116,7 @@ export function getUser(userId) {
   axios.get(`${window.wp.root}wp/v2/users/${userId}`)
     .then((response) => {
       this.author = response.data;
-    }).catch(() => {
-  });
+    }).catch(() => {});
 }
 
 /**
@@ -148,8 +142,7 @@ export function getPage(callback) {
       callback(response.data);
     }
     window.Cache.set(cachekey, response.data);
-  }).catch(() => {
-  });
+  }).catch(() => {});
 }
 
 /**
@@ -175,8 +168,7 @@ export function getPosts() {
 export function getPages() {
   axios.get(`${window.wp.root}wp/v2/pages`).then((response) => {
     this.pages = response.data;
-  }, () => {
-  });
+  }, () => {});
 }
 
 /**

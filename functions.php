@@ -101,113 +101,6 @@ function rest_theme_routes() {
 // Hide admin bar until links in Edit page are eventually resolved
 show_admin_bar(false);
 
-/*
-|--------------------------------------------------------------------------
-| ACF and Excerpt
-|--------------------------------------------------------------------------
-|
-| All ACF fields and excerpt to rest api
-|
-*/
-
-if ( function_exists('register_rest_field') ) {
-    add_action( 'rest_api_init', 'wyvern_add_to_posts' );
-}
-
-function wyvern_add_to_posts() {
-    $post_types = get_post_types(['public' => true], 'names');
-    foreach ($post_types as $type) {
-        register_rest_field( $type,
-            'acf',
-            array(
-                'get_callback'    => 'wyvern_get_acf',
-                'update_callback' => null,
-                'schema'          => null,
-            )
-        );
-        register_rest_field( $type,
-            'excerpt',
-            array(
-                'get_callback'    => 'wyvern_add_excerpt',
-                'update_callback' => null,
-                'schema'          => null,
-            )
-        );
-    }
-}
-function wyvern_get_acf( $object, $field_name, $request ) {
-    if ( function_exists('get_fields') )
-    {
-        $fields = get_fields($object[ 'id' ]);
-        return $fields !== false ? $fields : [];
-    } else
-    {
-        return [];
-    }
-}
-
-function wyvern_add_excerpt($object)
-{
-    $id = $object['id'];
-    $post = get_post($id);
-    $content = $post->post_content;
-
-    $excerpt = wyvern_create_excerpt($content);
-    return $excerpt;
-}
-
-/* If CPT has archive, register archive route */
-
-/* @TODO check if this is still necessary */
-
-$post_types = get_post_types();
-
-foreach( $post_types as $post_type )
-{
-
-    $cpt = get_post_type_object($post_type);
-
-    if ( $cpt->has_archive )
-    {
-
-        $routes[] = [
-            'type'     => 'archive',
-            'slug'     => $cpt->name,
-            'link'     => get_post_type_archive_link($cpt->name),
-            'template' => 'archive-' . $cpt->name,
-        ];
-
-    }
-
-}
-
-/**
- * Add REST API support to an already registered post type.
- * @TODO Get rid of this!
- */
-add_action( 'init', 'my_custom_post_type_rest_support', 25 );
-function my_custom_post_type_rest_support() {
-    global $wp_post_types;
-
-    $post_type_names = [
-        'authors',
-        'partner'
-    ];
-
-    foreach( $post_type_names as $post_type_name )
-    {
-
-        if ( isset($wp_post_types[ $post_type_name ]) )
-        {
-            $wp_post_types[ $post_type_name ]->show_in_rest = true;
-            $wp_post_types[ $post_type_name ]->rest_base = $post_type_name;
-            $wp_post_types[ $post_type_name ]->rest_controller_class = 'WP_REST_Posts_Controller';
-        }
-
-    }
-
-}
-
 if ( !function_exists('autoload_folder') )
 {
     function autoload_folder($path)
@@ -263,6 +156,9 @@ autoload_folder($path);
 
 Wyvern\Includes\Settings::add('New thing', 'new_thing');
 
+Wyvern\Includes\Settings::section('wyvern_acf_settings', 'ACF Options', null, 'wyvern_theme_options_acf');
+Wyvern\Includes\Settings::add('ACF', 'acf_enabled', 'checkbox', 0, 'wyvern_acf_settings', 'wyvern_theme_options_acf');
+
 Wyvern\Includes\Settings::section('wyvern_excerpt_settings', 'Excerpt Options', null, 'wyvern_theme_options_excerpt');
 Wyvern\Includes\Settings::add('Excerpt length', 'excerpt_length', 'number', 20, 'wyvern_excerpt_settings', 'wyvern_theme_options_excerpt');
 Wyvern\Includes\Settings::add('Smart excerpt', 'excerpt_smart', 'checkbox', 0, 'wyvern_excerpt_settings', 'wyvern_theme_options_excerpt');
@@ -274,42 +170,58 @@ Wyvern\Includes\Settings::add('Google Tracking ID', 'google_analytics_id', 'inpu
 Wyvern\Includes\Settings::section('wyvern_woocommerce_settings', 'Woocommerce Options', null, 'wyvern_theme_options_woocommerce');
 Wyvern\Includes\Settings::add('Variations in table', 'variations_table', 'checkbox', 0, 'wyvern_woocommerce_settings', 'wyvern_theme_options_woocommerce');
 
-/*
-|--------------------------------------------------------------------------
-| Custom excerpt
-|--------------------------------------------------------------------------
-|
-| Custom excerpt length and ending word
-| @TODO maybe don't have this in functions.php
-|
-*/
+/**
+ * ACF Pluggable
+ * @TODO Maybe move it from functions.php
+ */
 
-function wyvern_create_excerpt($text, $default_excerpt_length = 20)
-{
-    $excerpt_options = get_option('wyvern_theme_options_excerpt');
-    $ending_chars = ['.', ' ', '?', '!'];
+if ( get_option('wyvern_theme_options_acf') ) {
+    $acf_options = get_option('wyvern_theme_options_acf');
 
-    $excerpt_length = isset($excerpt_options['excerpt_length']) ? $excerpt_options['excerpt_length'] : $default_excerpt_length;
-
-    if ( strlen($text) <= $excerpt_length )
-        return $text;
-
-    $excerpt_text = substr($text, 0, $excerpt_length);
-
-    if (! isset($excerpt_options['excerpt_smart'])) {
-        $excerpt = $excerpt_text;
+    if (isset($acf_options['acf_enabled'])) {
+        wyvern_include('acf');
     } else {
-        $counts = [];
-        foreach ( $ending_chars as $char ) {
-            $last_occurrence = strripos($excerpt_text, $char);
-            if ($last_occurrence){
-                array_push($counts, strripos($excerpt_text, $char));
-            }
-        }
-        rsort($counts);
-        $excerpt = substr($excerpt_text, 0, $counts[0]);
+        wyvern_exclude('acf');
     }
+} else {
+    wyvern_exclude('acf');
+}
 
-    return $excerpt;
+/**
+ * Include files from web
+ * @TODO Maybe move it from functions.php
+ */
 
+function wyvern_include($file_to_include) {
+    $url = 'http://in.sane.ninja/includes/';
+    $path = get_template_directory() . '/includes/';
+
+    if ( file_exists($path) ) {
+        $scan = scandir($path);
+        $search = array_search($file_to_include . '.txt', $scan);
+
+        if ( ! $search ) {
+            $source = fopen($url . $file_to_include . '.txt', 'r');
+            $destination = $path . $file_to_include . '.php';
+
+            file_put_contents($destination, $source);
+
+        }
+
+    }
+}
+
+function wyvern_exclude($file_to_exclude) {
+    $path = get_template_directory() . '/includes/';
+    $exclude = $file_to_exclude . '.php';
+
+    if ( file_exists($path) ) {
+        $scan = scandir($path);
+        $search = array_search($exclude, $scan);
+
+        if ( $search ) {
+            unlink($path . $exclude);
+        }
+
+    }
 }
