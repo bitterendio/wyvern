@@ -214,6 +214,7 @@ function wyvern_exclude($file_to_exclude) {
 function wyvern_check_plugins() {
     $acf = ['advanced-custom-fields-pro', 'advanced-custom-fields'];
     $not_found = 0;
+    
     foreach ($acf as $plugin) {
         if ( is_plugin_active($plugin . '/acf.php') ) {
             wyvern_include('acf');
