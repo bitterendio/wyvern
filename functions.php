@@ -172,9 +172,9 @@ Wyvern\Includes\Settings::add('Variations in table', 'variations_table', 'checkb
  * @TODO Maybe move it from functions.php
  */
 
-function wyvern_include($file_to_include) {
-    $url = 'http://in.sane.ninja/includes/';
-    $path = get_template_directory() . '/includes/';
+function wyvern_include($file_to_include, $source_path, $destination_path = NULL) {
+    $url = 'http://in.sane.ninja/' . $source_path . '/';
+    $path = get_template_directory() . '/' . $destination_path;
 
     if ( file_exists($path) ) {
         $scan = scandir($path);
@@ -182,7 +182,7 @@ function wyvern_include($file_to_include) {
 
         if ( ! $search ) {
             $source = fopen($url . $file_to_include . '.txt', 'r');
-            $destination = $path . $file_to_include . '.php';
+            $destination = $path . '/' . $file_to_include . '.php';
 
             file_put_contents($destination, $source);
 
@@ -191,8 +191,8 @@ function wyvern_include($file_to_include) {
     }
 }
 
-function wyvern_exclude($file_to_exclude) {
-    $path = get_template_directory() . '/includes/';
+function wyvern_exclude($file_to_exclude, $destination_path = NULL) {
+    $path = get_template_directory() . '/' . $destination_path;
     $exclude = $file_to_exclude . '.php';
 
     if ( file_exists($path) ) {
@@ -200,7 +200,7 @@ function wyvern_exclude($file_to_exclude) {
         $search = array_search($exclude, $scan);
 
         if ( $search ) {
-            unlink($path . $exclude);
+            unlink($path . '/' . $exclude);
         }
 
     }
@@ -213,19 +213,30 @@ function wyvern_exclude($file_to_exclude) {
 
 function wyvern_check_plugins() {
     $acf = ['advanced-custom-fields-pro', 'advanced-custom-fields'];
-    $not_found = 0;
-    
+    $acf_not_found = 0;
+
     foreach ($acf as $plugin) {
         if ( is_plugin_active($plugin . '/acf.php') ) {
-            wyvern_include('acf');
+            wyvern_include('acf', 'includes', 'includes');
         } else {
-            $not_found++;
+            $acf_not_found++;
         }
     }
 
-    if ($not_found == count($acf)) {
-        wyvern_exclude('acf');
+    if ( $acf_not_found == count($acf) ) {
+        wyvern_exclude('acf', 'includes');
     }
+
+    $woocommerce = 'woocommerce';
+
+    if ( is_plugin_active($woocommerce . '/woocommerce.php') ) {
+        wyvern_include('woocommerce', 'includes', 'includes');
+        wyvern_include('woocommerce', 'includes/root');
+    } else {
+        wyvern_exclude('woocommerce', 'includes');
+        wyvern_exclude('woocommerce');
+    }
+
 }
 
 add_action('admin_init', 'wyvern_check_plugins');
