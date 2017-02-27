@@ -1,7 +1,5 @@
 import { routes, Vue, VueRouter } from './app';
 
-import './../style.scss';
-
 // Create router instance
 const router = new VueRouter({
   mode: 'history',

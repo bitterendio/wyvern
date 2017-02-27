@@ -12,11 +12,11 @@
  Text Domain:  wyvern
 */
 
-@import "_variables.scss";
-@import "node_modules/normalize.css/normalize.css";
+@import "_variables";
+@import "../node_modules/normalize.css/normalize.css";
 
 // Set of default preview styles, feel free to remove this
-@import "_default.scss";
+@import "_default";
 
 html,
 input[type="search"] {
@@ -67,6 +67,7 @@ a {
 /* Basic layout */
 .cols {
   display: flex;
+
   & > div {
     flex: 1;
   }
@@ -85,6 +86,7 @@ a {
   & > * {
     text-align: left;
   }
+
   .sidebar {
     max-width: $sidebar-width;
   }

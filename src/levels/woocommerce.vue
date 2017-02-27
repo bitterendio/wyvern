@@ -1,4 +1,4 @@
-<style lang="sass">
+<style lang="scss">
   $product-image-width: 260px;
   $product-image-height: 260px;
 

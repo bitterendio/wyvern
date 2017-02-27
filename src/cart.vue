@@ -1,4 +1,4 @@
-<style lang="sass">
+<style lang="scss">
   @import './../_variables.scss';
 
   .table--cart {
