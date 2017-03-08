@@ -20594,7 +20594,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/cart.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/cart.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] cart.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20628,7 +20628,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/components/mapbox/mapbox.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/components/mapbox/mapbox.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mapbox.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20666,7 +20666,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/levels.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/levels.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] levels.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20704,7 +20704,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/levels/fb_pageplugin.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/levels/fb_pageplugin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] fb_pageplugin.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20742,7 +20742,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/levels/headline.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/levels/headline.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] headline.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20780,7 +20780,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/levels/instagram_embed.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/levels/instagram_embed.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] instagram_embed.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20818,7 +20818,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/levels/intro.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/levels/intro.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] intro.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20856,7 +20856,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/levels/mapbox.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/levels/mapbox.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mapbox.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20894,7 +20894,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/levels/steps.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/levels/steps.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] steps.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20932,7 +20932,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/levels/woocommerce.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/levels/woocommerce.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] woocommerce.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20970,7 +20970,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/page.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/page.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] page.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21008,7 +21008,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/post.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/post.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] post.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21046,7 +21046,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/posts.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/posts.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] posts.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21084,7 +21084,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/product.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/product.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] product.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21122,7 +21122,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/theme-footer.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/theme-footer.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] theme-footer.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21160,7 +21160,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/Mac/Sites/Works/wyverntest/wp-content/themes/wyvern/src/theme-header.vue"
+Component.options.__file = "/Users/Mac/Sites/Works/armymagazin/armadnimagazin.cz/wp-content/themes/wyvern/src/theme-header.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] theme-header.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21221,7 +21221,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": _vm.author.link
     }
-  }, [_vm._v("\n                        " + _vm._s(_vm.author.name) + "\n                    ")])])]), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.isSingle) ? _c('div', {
+  }, [_vm._v("\n                        " + _vm._s(_vm.author.name) + "\n                    ")])])]), _vm._v(" "), (_vm.isSingle) ? _c('div', {
     staticClass: "entry-content",
     domProps: {
       "innerHTML": _vm._s(_vm.post.content.rendered)
@@ -21231,7 +21231,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "innerHTML": _vm._s(_vm.post.excerpt)
     }
-  })])], 1) : _vm._e()])
+  }), _vm._v(" "), _c('hr')])], 1) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
