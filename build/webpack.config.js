@@ -4,6 +4,8 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const eslintFriendlyFormatter = require('eslint-friendly-formatter');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
+const vueLoaderConfig = require('./vue-loader.conf');
+const utils = require('./utils');
 
 function resolve (dir) {
     return path.join(__dirname, '..', dir)
@@ -41,7 +43,8 @@ module.exports = {
             },
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                loader: 'vue-loader',
+                options: vueLoaderConfig
             },
             {
                 test: /\.js$/,
@@ -49,14 +52,12 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    fallbackLoader: "style-loader",
-                    loader: [
-                        'css-loader?importLoaders=1',
-                        'postcss-loader?parser=postcss-scss'
-                    ]
-                })
+                test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf)(\?.*)?$/,
+                loader: 'url-loader',
+                query: {
+                    limit: 10000,
+                    name: utils.assetsPath('[name].[ext]')
+                }
             }
         ],
     },

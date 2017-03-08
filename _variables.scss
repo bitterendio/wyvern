@@ -1,14 +1,14 @@
-$background-color: white;
+$background-color: white!default;
 
-$screen-xs-max: 767px;
-$screen-sm-min: 768px;
-$screen-sm-max: 969px;
-$screen-md-min: 970px;
-$screen-md-max: 1169px;
-$screen-lg-min: 1170px;
+$screen-xs-max: 767px!default;
+$screen-sm-min: 768px!default;
+$screen-sm-max: 969px!default;
+$screen-md-min: 970px!default;
+$screen-md-max: 1169px!default;
+$screen-lg-min: 1170px!default;
 
-$container-max-width: 1170px;
-$sidebar-width: 270px;
+$container-max-width: 1170px!default;
+$sidebar-width: 270px!default;
 
-$hover-color: #142634;
-$link-color: #1e4667;
+$hover-color: #142634!default;
+$link-color: #1e4667!default;

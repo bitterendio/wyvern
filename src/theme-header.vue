@@ -1,5 +1,5 @@
-<style lang="sass">
-    @import '../_variables.scss';
+<style lang="scss">
+    @import '../style';
 </style>
 
 <template>

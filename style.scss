@@ -12,19 +12,21 @@
  Text Domain:  wyvern
 */
 
-@import "_variables.scss";
-@import "node_modules/normalize.css/normalize.css";
+@import "_variables";
+@import "../node_modules/normalize.css/normalize.css";
 
 // Set of default preview styles, feel free to remove this
-@import "_default.scss";
+@import "_default";
 
 html,
 input[type="search"] {
   box-sizing: border-box;
 }
 
-/* Jumping scroll fix */
-body { margin-left: calc(100vw - 100%); }
+html {
+  width: 100vw;
+  overflow-x: hidden;
+}
 
 a {
   color: $link-color;
@@ -67,6 +69,7 @@ a {
 /* Basic layout */
 .cols {
   display: flex;
+
   & > div {
     flex: 1;
   }
@@ -85,6 +88,7 @@ a {
   & > * {
     text-align: left;
   }
+
   .sidebar {
     max-width: $sidebar-width;
   }
