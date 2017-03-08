@@ -1,4 +1,4 @@
-<style lang="scss">
+<style lang="sass">
 
   .level-steps {
     display: flex;

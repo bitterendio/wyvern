@@ -1,4 +1,4 @@
-<style lang="scss">
+<style lang="sass">
     .entry-meta {
         opacity: 0.5;
     }
