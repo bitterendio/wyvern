@@ -17971,6 +17971,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
@@ -20065,12 +20070,7 @@ return Promise;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(120)))
 
 /***/ }),
-/* 158 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 158 */,
 /* 159 */
 /***/ (function(module, exports) {
 
@@ -20996,7 +20996,7 @@ module.exports = Component.exports
 
 
 /* styles */
-__webpack_require__(158)
+__webpack_require__(231)
 
 var Component = __webpack_require__(1)(
   /* script */
@@ -21271,7 +21271,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "object": _vm.page
     }
-  })], 1)], 1)])
+  }), _vm._v(" "), _vm._l((_vm.page._links), function(group) {
+    return _c('ul', _vm._l((group), function(link) {
+      return _c('li', [_vm._v("\n          " + _vm._s(link.href) + "\n        ")])
+    }))
+  })], 2)], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -33894,6 +33898,30 @@ new _app.Vue({ // eslint-disable-line no-new
     }
   }
 });
+
+/***/ }),
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

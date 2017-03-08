@@ -55,6 +55,7 @@
     "vue-template-compiler": "^2.1.8",
     "vue-template-es2015-compiler": "1.5.0",
     "webpack": "^2.2.0-rc.3",
+    "webpack-hot-middleware": "^2.17.1",
     "webpack-livereload-plugin": "^0.9.0",
     "webpack-merge": "^3.0.0"
   }

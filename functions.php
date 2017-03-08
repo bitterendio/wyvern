@@ -105,6 +105,9 @@ if ( !function_exists('autoload_folder') )
 {
     function autoload_folder($path)
     {
+        if (!is_dir($path))
+            return false;
+
         if ($handle = opendir($path)) {
 
             while (false !== ($entry = readdir($handle))) {
@@ -130,8 +133,11 @@ if ( !function_exists('autoload_folder') )
 |
 */
 
-$path = get_template_directory() . '/api';
-autoload_folder($path);
+$relative_path = '/api';
+foreach( array_unique([get_template_directory(), get_stylesheet_directory()]) as $folder )
+{
+    autoload_folder($folder . $relative_path);
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -142,8 +148,11 @@ autoload_folder($path);
 |
 */
 
-$path = get_template_directory() . '/includes';
-autoload_folder($path);
+$relative_path = '/includes';
+foreach( array_unique([get_template_directory(), get_stylesheet_directory()]) as $folder )
+{
+    autoload_folder($folder . $relative_path);
+}
 
 /*
 |--------------------------------------------------------------------------
