@@ -165,6 +165,9 @@ foreach( array_unique([get_template_directory(), get_stylesheet_directory()]) as
 
 Wyvern\Includes\Settings::add('New thing', 'new_thing');
 
+Wyvern\Includes\Settings::section('wyvern_extras_options', 'Extra options', null, 'wyvern_theme_extras_options');
+Wyvern\Includes\Settings::add('Custom header', 'custom_header_html', 'textarea', null, 'wyvern_extras_options', 'wyvern_theme_extras_options');
+
 Wyvern\Includes\Settings::section('wyvern_excerpt_settings', 'Excerpt Options', null, 'wyvern_theme_options_excerpt');
 Wyvern\Includes\Settings::add('Excerpt length', 'excerpt_length', 'number', 20, 'wyvern_excerpt_settings', 'wyvern_theme_options_excerpt');
 Wyvern\Includes\Settings::add('Smart excerpt', 'excerpt_smart', 'checkbox', 0, 'wyvern_excerpt_settings', 'wyvern_theme_options_excerpt');
