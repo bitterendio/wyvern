@@ -38,7 +38,7 @@ function wyvern_add_excerpt_to_posts() {
     $post_types = get_post_types(['public' => true], 'names');
     foreach ($post_types as $type) {
         register_rest_field( $type,
-            'excerpt',
+            'excerpt_custom',
             array(
                 'get_callback'    => 'wyvern_add_excerpt',
                 'update_callback' => null,

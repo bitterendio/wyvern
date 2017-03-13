@@ -18,6 +18,10 @@ export function getMenuLocation(location, callback) {
  * @returns {string} Relative url - f.e. /hello-world
  */
 export function url2Slug(url) {
+  if (typeof url !== 'string') {
+    return null;
+  }
+
   return url.replace(/^.*\/\/[^/]+/, '');
 }
 
