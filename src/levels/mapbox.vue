@@ -30,8 +30,8 @@ export default {
   data() {
     return {
       container: 'map',
-      token: window.wp.extras.mapbox_key,
-      style: window.wp.extras.mapbox_style,
+      token: window.config.extras.mapbox_key,
+      style: window.config.extras.mapbox_style,
       center: [14.453131, 50.096297],
       zoom: 3,
     };

@@ -110,8 +110,8 @@ export default {
           };
         },
       },
-      assets_path: window.wp.assets_path,
-      base_path: window.wp.base_path,
+      assets_path: window.config.assets_path,
+      base_path: window.config.base_path,
       isSingle: false,
       lang: window.lang,
     };
@@ -124,13 +124,13 @@ export default {
         this.post = data;
 
         // Load author
-        this.getAuthor(this.post.author, (response) => {
-          this.author = response;
-        });
+        this.author = this.post._embedded.author[0];
 
         // Load category
         this.post.categories.forEach((category) => {
-          this.getCategory(category);
+          this.getCategory(category, (response) => {
+            this.categories.push(response);
+          });
         });
 
         // Load tags

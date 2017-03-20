@@ -76,9 +76,9 @@
 
     data() {
       return {
-        assets_path: window.wp.assets_path,
-        base_path: window.wp.base_path,
-        site_name: window.wp.site_name,
+        assets_path: window.config.assets_path,
+        base_path: window.config.base_path,
+        site_name: window.config.site_name,
         lang: window.lang,
         show_video: false,
       };

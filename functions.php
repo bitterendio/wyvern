@@ -41,7 +41,7 @@ function rest_theme_scripts() {
     $base_url  = esc_url_raw( home_url() );
     $base_path = rtrim( parse_url( $base_url, PHP_URL_PATH ), '/' );
 
-    wp_localize_script( 'wyvern-vue', 'wp', apply_filters( 'wyvern_wp_settings', [
+    wp_localize_script( 'wyvern-vue', 'config', apply_filters( 'wyvern_wp_settings', [
         'root'          => esc_url_raw( rest_url() ),
         'base_url'      => $base_url,
         'base_path'     => $base_path ? $base_path . '/' : '/',

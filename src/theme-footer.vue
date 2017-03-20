@@ -14,7 +14,7 @@
 
     data() {
       return {
-        wp: window.wp,
+        config: window.config,
       };
     },
 

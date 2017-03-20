@@ -137,7 +137,7 @@
   export default {
     mounted() {
       const vm = this;
-      window.wyvern.http.get(`${vm.wp.root}api/products/${vm.$route.meta.postId}`).then((response) => {
+      window.wyvern.http.get(`${vm.config.root}api/products/${vm.$route.meta.postId}`).then((response) => {
         vm.product = response.data;
         vm.product_gallery_preview = vm.product.images.large[0];
 
@@ -160,7 +160,7 @@
         product_gallery_preview: null,
         quantity: 1,
         added: false,
-        wp: window.wp,
+        config: window.config,
         lang: window.lang,
         selectedVariation: null,
         variation: null,
@@ -183,7 +183,7 @@
           variation: JSON.stringify(this.variation),
         });
 
-        window.wyvern.http.post(`${vm.wp.root}api/cart/${product.id}/?${query}`).then(() => {
+        window.wyvern.http.post(`${vm.config.root}api/cart/${product.id}/?${query}`).then(() => {
           window.eventHub.$emit('cart-add', vm.quantity);
           window.eventHub.$emit('message', {
             type: 'success',
@@ -218,7 +218,7 @@
       },
       getAttributeByKey(key) {
         const attributeKey = key.replace('attribute_pa_', '');
-        return this.wp.attributes[attributeKey].label;
+        return this.config.attributes[attributeKey].label;
       },
       getAttributeSlugByKey(key) {
         return key.replace('attribute_pa_', '');

@@ -35,7 +35,7 @@ new Vue({ // eslint-disable-line no-new
   methods: {
     updateTitle(pageTitle) {
       if (typeof pageTitle !== 'undefined') {
-        if (pageTitle !== window.wp.site_name) {
+        if (pageTitle !== window.config.site_name) {
           document.title = this.getTitle(pageTitle);
           return;
         }
@@ -44,10 +44,10 @@ new Vue({ // eslint-disable-line no-new
       document.title = this.getHomeTitle(pageTitle);
     },
     getTitle(pageTitle) {
-      return `${pageTitle} - ${window.wp.site_name}`;
+      return `${pageTitle} - ${window.config.site_name}`;
     },
     getHomeTitle() {
-      return `${window.wp.site_name} - ${window.wp.site_desc}`;
+      return `${window.config.site_name} - ${window.config.site_desc}`;
     },
     trackGA() {
       if (typeof ga === 'function') {

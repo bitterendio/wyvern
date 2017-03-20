@@ -41,12 +41,17 @@ Vue.component('headline', Headline);
 Vue.component('fb_pageplugin', FBPagePlugin);
 Vue.component('instagram_embed', InstagramEmbed);
 
-window.wp.templates = [];
-window.wp.templates.push('Post');
-window.wp.templates.push('Page');
-window.wp.templates.push('Product');
-window.wp.templates.push('Cart');
-window.wp.templates.push('Home');
+window.config.templates = [];
+window.config.templates.push('Post');
+window.config.templates.push('Page');
+window.config.templates.push('Product');
+window.config.templates.push('Cart');
+window.config.templates.push('Home');
+
+// WPAPI
+const WPAPI = require('wpapi');
+
+window.wp = new WPAPI({ endpoint: window.config.root });
 
 // Routes
 const routes = {
@@ -130,21 +135,21 @@ function capitalize(string) {
 function getTemplateHierarchy(type, id, template) {
   // f.e. Map
   if (typeof template === 'string') {
-    if (window.wp.templates.indexOf(capitalize(template)) !== -1) {
+    if (window.config.templates.indexOf(capitalize(template)) !== -1) {
       return capitalize(template);
     }
   }
 
   // f.e. Page9
   if (typeof type === 'string' && typeof id !== 'undefined') {
-    if (window.wp.templates.indexOf(`${capitalize(type)}${id}`) !== -1) {
+    if (window.config.templates.indexOf(`${capitalize(type)}${id}`) !== -1) {
       return `${capitalize(type)}${id}`;
     }
   }
 
   // f.e. Page
   if (typeof type === 'string') {
-    if (window.wp.templates.indexOf(capitalize(type)) !== -1) {
+    if (window.config.templates.indexOf(capitalize(type)) !== -1) {
       return capitalize(type);
     }
   }
@@ -153,9 +158,9 @@ function getTemplateHierarchy(type, id, template) {
 }
 
 // Front page displays == Your latest posts
-if (window.wp.show_on_front === 'posts') {
+if (window.config.show_on_front === 'posts') {
   routes.add({
-    path: window.wp.base_path,
+    path: window.config.base_path,
     component: Posts,
     name: 'Posts',
     slug: 'home',
@@ -163,25 +168,25 @@ if (window.wp.show_on_front === 'posts') {
 }
 
 // Front page displays == A static page
-if (window.wp.show_on_front === 'page') {
-  if (parseInt(window.wp.page_on_front, 10) !== 0) {
+if (window.config.show_on_front === 'page') {
+  if (parseInt(window.config.page_on_front, 10) !== 0) {
     // type is "Front page"
     routes.add({
-      path: window.wp.base_path,
+      path: window.config.base_path,
       component: Page,
       meta: {
-        postId: window.wp.page_on_front,
+        postId: window.config.page_on_front,
         name: 'Page',
         slug: 'home',
       },
     });
-  } else if (window.wp.page_on_front !== 0) {
+  } else if (window.config.page_on_front !== 0) {
     // type is "Posts page"
     routes.add({
-      path: window.wp.base_path,
+      path: window.config.base_path,
       component: Post,
       meta: {
-        postId: window.wp.page_for_posts,
+        postId: window.config.page_for_posts,
         name: 'Post',
         slug: 'home',
       },
@@ -190,9 +195,9 @@ if (window.wp.show_on_front === 'page') {
 }
 
 // Dynamically generated routes
-window.wp.routes.forEach((wproute) => {
+window.config.routes.forEach((wproute) => {
   routes.add({
-    path: `${window.wp.base_path}${wproute.slug}`,
+    path: `${window.config.base_path}${wproute.slug}`,
     component: {
       extends: Vue.component(getTemplateHierarchy(wproute.type, wproute.id, wproute.template)),
     },

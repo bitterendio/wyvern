@@ -7,7 +7,7 @@
         <div class="container">
           <!-- Site brand -->
           <div class="site-title">
-              <router-link :to="{ path: wp.base_path }">{{ wp.site_name }}</router-link>
+              <router-link :to="{ path: config.base_path }">{{ config.site_name }}</router-link>
           </div>
 
           <!-- Navigation -->
@@ -30,7 +30,7 @@ export default {
 
   data() {
     return {
-      wp: window.wp,
+      config: window.config,
       menu: [],
     };
   },

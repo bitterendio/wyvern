@@ -45,7 +45,7 @@
           content: { rendered: '' },
         },
         lang: window.lang,
-        wp: window.wp,
+        config: window.config,
       };
     },
 

@@ -1,14 +1,16 @@
 import axios from 'axios';
 
 export function getMenuLocation(location, callback) {
-  axios.get(`${window.wp.root}api/menu/${location}`)
-    .then((response) => {
-      if (typeof callback === 'function') {
-        callback(response.data);
-      }
-    })
-    .catch(() => {
-    });
+  const wp = window.wp;
+
+  wp.menu = wp.registerRoute('api', '/menu/(?P<location>\\S+)');
+  wp.menu().location(location).then((data) => {
+    if (typeof callback === 'function') {
+      callback(data);
+    }
+  }).catch(() => {
+
+  });
 }
 
 /**
@@ -33,12 +35,14 @@ export function url2Slug(url) {
  * @param {function} callback - Callback function
  */
 export function getPost(callback) {
-  axios.get(`${window.wp.root}wp/v2/posts/${this.$route.meta.postId}`)
-    .then((response) => {
-      if (typeof callback === 'function') {
-        callback(response.data);
-      }
-    }).catch(() => {});
+  const wp = window.wp;
+
+  wp.posts().id(this.$route.meta.postId).embed().then((data) => {
+    if (typeof callback === 'function') {
+      callback(data);
+    }
+  })
+  .catch(() => {});
 }
 
 /**
@@ -49,12 +53,12 @@ export function getPost(callback) {
  * @param {number} categoryId - Id of the given category
  */
 export function getCategory(categoryId, callback) {
-  axios.get(`${window.wp.root}wp/v2/categories/${categoryId}`)
-    .then((response) => {
-      if (typeof callback === 'function') {
-        callback(response.data);
-      }
-    }).catch(() => {});
+  const wp = window.wp;
+  wp.categories().id(categoryId).then((data) => {
+    if (typeof callback === 'function') {
+      callback(data);
+    }
+  }).catch(() => {});
 }
 
 /**
@@ -65,12 +69,13 @@ export function getCategory(categoryId, callback) {
  * @param {function} callback - Callback function
  */
 export function getTag(tagId, callback) {
-  axios.get(`${window.wp.root}wp/v2/tags/${tagId}`)
-    .then((response) => {
-      if (typeof callback === 'function') {
-        callback(response.data);
-      }
-    }).catch(() => {});
+  const wp = window.wp;
+
+  wp.tags().id(tagId).then((data) => {
+    if (typeof callback === 'function') {
+      callback(data);
+    }
+  }).catch(() => {});
 }
 
 /**
@@ -83,7 +88,7 @@ export function getTag(tagId, callback) {
  * @param {function} callback
  */
 export function getAuthor(authorID, callback) {
-  axios.get(`${window.wp.root}wp/v2/authors/${authorID}?_embed=1`)
+  axios.get(`${window.config.root}wp/v2/authors/${authorID}?_embed=1`)
     .then((response) => {
       if (typeof callback === 'function') {
         callback(response.data);
@@ -101,12 +106,14 @@ export function getAuthor(authorID, callback) {
  * @param {function} callback - Callback function
  */
 export function getCustom(slug, callback) {
-  axios.get(`${window.wp.root}wp/v2/${slug}/?_embed=1&per_page=100`)
-    .then((response) => {
-      if (typeof callback === 'function') {
-        callback(response.data);
-      }
-    }).catch(() => {});
+  const wp = window.wp;
+  wp[slug] = wp.registerRoute('wp/v2', slug);
+
+  wp[slug]().then((data) => {
+    if (typeof callback === 'function') {
+      callback(data);
+    }
+  }).catch(() => {});
 }
 
 /**
@@ -117,10 +124,11 @@ export function getCustom(slug, callback) {
  * @param {number} userId - User ID
  */
 export function getUser(userId) {
-  axios.get(`${window.wp.root}wp/v2/users/${userId}`)
-    .then((response) => {
-      this.author = response.data;
-    }).catch(() => {});
+  const wp = window.wp;
+
+  wp.users().id(userId).then((data) => {
+    this.author = data;
+  }).catch(() => {});
 }
 
 /**
@@ -132,7 +140,14 @@ export function getUser(userId) {
  * @param {function} callback - Callback function
  */
 export function getPage(callback) {
-  const cachekey = `getPage${this.$route.meta.postId}`;
+  const wp = window.wp;
+  wp.pages().id(this.$route.meta.postId).then((data) => {
+    if (typeof callback === 'function') {
+      callback(data);
+    }
+  }).catch(() => {});
+
+  /* const cachekey = `getPage${this.$route.meta.postId}`;
 
   if (window.Cache.has(cachekey)) {
     if (typeof callback === 'function') {
@@ -141,12 +156,13 @@ export function getPage(callback) {
     }
   }
 
-  axios.get(`${window.wp.root}wp/v2/pages/${this.$route.meta.postId}`).then((response) => {
+  axios.get(`${window.config.root}wp/v2/pages/${this.$route.meta.postId}`).then((response) => {
     if (typeof callback === 'function') {
+      console.log(response.data);
       callback(response.data);
     }
     window.Cache.set(cachekey, response.data);
-  }).catch(() => {});
+  }).catch(() => {}); */
 }
 
 /**
@@ -157,10 +173,11 @@ export function getPage(callback) {
  * @todo potentially create functionality for error
  */
 export function getPosts() {
-  axios.get(`${window.wp.root}wp/v2/posts`).then((response) => {
-    this.posts = response.data;
-  }).catch(() => {
-  });
+  const wp = window.wp;
+
+  wp.posts().then((data) => {
+    this.posts = data;
+  }).catch(() => {});
 }
 
 /**
@@ -170,9 +187,11 @@ export function getPosts() {
  * @todo eventually merge single and archive call
  */
 export function getPages() {
-  axios.get(`${window.wp.root}wp/v2/pages`).then((response) => {
-    this.pages = response.data;
-  }, () => {});
+  const wp = window.wp;
+
+  wp.pages().then((data) => {
+    this.pages = data;
+  }).catch(() => {});
 }
 
 /**
@@ -183,12 +202,13 @@ export function getPages() {
  * @param {function} callback - Callback function
  */
 export function getSearch(term, callback) {
-  axios.get(`${window.wp.root}wp/v2/posts?search=${term}`).then((response) => {
+  const wp = window.wp;
+
+  wp.posts().search(term).then((data) => {
     if (typeof callback === 'function') {
-      callback(response.data);
+      callback(data);
     }
-  }).catch(() => {
-  });
+  }).catch(() => {});
 }
 
 /**
@@ -200,12 +220,14 @@ export function getSearch(term, callback) {
  * @param {function} callback - Callback function
  */
 export function getSidebars(callback) {
-  axios.get(`${window.wp.root}api/sidebars`).then((response) => {
+  const wp = window.wp;
+  wp.sidebars = wp.registerRoute('api', 'sidebars');
+
+  wp.sidebars().then((data) => {
     if (typeof callback === 'function') {
-      callback(response.data);
+      callback(data);
     }
-  }).catch(() => {
-  });
+  }).catch(() => {});
 }
 
 /**
@@ -218,7 +240,7 @@ export function getSidebars(callback) {
  * @param {function} callback - Callback function
  */
 export function getSidebar(sidebarId, callback) {
-  axios.get(`${window.wp.root}wp-json/wp-rest-api-sidebars/v1/sidebars/${sidebarId}`).then((response) => {
+  axios.get(`${window.config.root}wp-json/wp-rest-api-sidebars/v1/sidebars/${sidebarId}`).then((response) => {
     if (typeof callback === 'function') {
       callback(response.data);
     }

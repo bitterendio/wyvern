@@ -142,7 +142,7 @@
 
         const query = querystring.stringify({ filters: JSON.stringify(vm.filters) });
 
-        window.wyvern.http.get(`${vm.wp.root}api/products/?${query}`).then((response) => {
+        window.wyvern.http.get(`${vm.config.root}api/products/?${query}`).then((response) => {
           vm.products = response.data;
         });
       },
@@ -214,7 +214,7 @@
         mousemove_gallery: true,
 
         lang: window.lang,
-        wp: window.wp,
+        config: window.config,
       };
     },
 

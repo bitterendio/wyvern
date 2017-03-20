@@ -174,7 +174,7 @@
             <div class="form-group order__selection payment__selection">
               <label class="control-label">{{ lang.choose_payment }}</label>
               <div class="order_selection_options">
-                <div class="order__option payment__option" v-for="payment in wp.gateways" :class="{ 'active' : isSelected('payment', payment.id) }" @click="select('payment', payment.id)">
+                <div class="order__option payment__option" v-for="payment in config.gateways" :class="{ 'active' : isSelected('payment', payment.id) }" @click="select('payment', payment.id)">
                   <code class="order__option__code">{{ payment.id }}</code>
                   <h4 class="order__option__title">{{ payment.title }}</h4>
                   <p class="order__option__description">{{ payment.description }}</p>
@@ -185,7 +185,7 @@
             <div class="form-group order__selection shipping__selection">
               <label class="control-label">{{ lang.choose_shipping }}</label>
               <div class="order_selection_options">
-                <div class="order__option shipping__option" v-for="shipping in wp.shipping" :class="{ 'active' : isSelected('shipping', shipping.id) }" @click="selectShipping(shipping)">
+                <div class="order__option shipping__option" v-for="shipping in config.shipping" :class="{ 'active' : isSelected('shipping', shipping.id) }" @click="selectShipping(shipping)">
                   <code class="order__option__code">{{ shipping.id }}</code>
                   <h4 class="order__option__title">{{ shipping.title }}</h4>
                   <p  class="order__option__description">{{ shipping.description }}</p>
@@ -225,25 +225,25 @@
         window.eventHub.$emit('track-ga');
       });
 
-      vm.payment = vm.wp.wc_selected.payment_method;
-      if (typeof vm.wp.wc_selected.shipping_methods[0] !== 'undefined') {
-        vm.shipping = vm.wp.wc_selected.shipping_methods[0];
+      vm.payment = vm.config.wc_selected.payment_method;
+      if (typeof vm.config.wc_selected.shipping_methods[0] !== 'undefined') {
+        vm.shipping = vm.config.wc_selected.shipping_methods[0];
       }
 
       this.updateCart();
 
-      Object.keys(vm.wp.wc_user.billing).forEach((key) => {
-        if (typeof vm.wp.wc_user.billing[key] !== 'undefined' && vm.wp.wc_user.billing[key] !== false) {
-          vm.billing_address[key] = vm.wp.wc_user.billing[key];
+      Object.keys(vm.config.wc_user.billing).forEach((key) => {
+        if (typeof vm.config.wc_user.billing[key] !== 'undefined' && vm.config.wc_user.billing[key] !== false) {
+          vm.billing_address[key] = vm.config.wc_user.billing[key];
         }
       });
 
-      if ((typeof vm.wp.wc_user.billing.first_name !== 'undefined' || typeof vm.wp.wc_user.billing.last_name !== 'undefined') && vm.wp.wc_user.billing.first_name !== false && vm.wp.wc_user.billing.last_name !== false) {
-        vm.billing_address.name = `${vm.wp.wc_user.billing.first_name} ${vm.wp.wc_user.billing.last_name}`;
+      if ((typeof vm.config.wc_user.billing.first_name !== 'undefined' || typeof vm.config.wc_user.billing.last_name !== 'undefined') && vm.config.wc_user.billing.first_name !== false && vm.config.wc_user.billing.last_name !== false) {
+        vm.billing_address.name = `${vm.config.wc_user.billing.first_name} ${vm.config.wc_user.billing.last_name}`;
       }
 
-      if ((typeof vm.wp.wc_user.billing.address_1 !== 'undefined' || typeof vm.wp.wc_user.billing.address_2 !== 'undefined') && vm.wp.wc_user.billing.address_1 !== false && vm.wp.wc_user.billing.address_2 !== false) {
-        vm.billing_address.address = `${vm.wp.wc_user.billing.address_1}\n${vm.wp.wc_user.billing.address_2}`;
+      if ((typeof vm.config.wc_user.billing.address_1 !== 'undefined' || typeof vm.config.wc_user.billing.address_2 !== 'undefined') && vm.config.wc_user.billing.address_1 !== false && vm.config.wc_user.billing.address_2 !== false) {
+        vm.billing_address.address = `${vm.config.wc_user.billing.address_1}\n${vm.config.wc_user.billing.address_2}`;
       }
     },
 
@@ -255,7 +255,7 @@
           title: { rendered: '' },
           content: { rendered: '' },
         },
-        wp: window.wp,
+        config: window.config,
         lang: window.lang,
         cart: {},
         payment: null,
@@ -281,7 +281,7 @@
     methods: {
       emptyCart() {
         const vm = this;
-        window.wyvern.http.get(`${vm.wp.root}api/empty-cart/`).then(() => {
+        window.wyvern.http.get(`${vm.config.root}api/empty-cart/`).then(() => {
           vm.cart = {};
 
           window.eventHub.$emit('empty-cart');
@@ -296,7 +296,7 @@
           payment: vm.payment,
         });
 
-        window.wyvern.http.get(`${vm.wp.root}api/cart/?${params}`).then((response) => {
+        window.wyvern.http.get(`${vm.config.root}api/cart/?${params}`).then((response) => {
           vm.cart = response.data;
 
           vm.refreshThumbnails();
@@ -313,7 +313,7 @@
           if (typeof vm.thumbnails[item.data.post.ID] !== 'undefined') {
             vm.$set(vm.cart.cart_contents[key], 'thumbnail', vm.thumbnails[item.data.post.ID]);
           } else {
-            window.wyvern.http.get(`${vm.wp.root}api/thumbnails/${item.data.post.ID}`).then((response) => {
+            window.wyvern.http.get(`${vm.config.root}api/thumbnails/${item.data.post.ID}`).then((response) => {
               vm.$set(vm.cart.cart_contents[key], 'thumbnail', response.data);
               vm.thumbnails[item.data.post.ID] = response.data;
             });
@@ -322,7 +322,7 @@
       },
       updateQuantity(id, quantity) {
         const vm = this;
-        window.wyvern.http.post(`${vm.wp.root}api/quantity/`, querystring.stringify({
+        window.wyvern.http.post(`${vm.config.root}api/quantity/`, querystring.stringify({
           id, quantity,
         })).then((response) => {
           vm.$set(vm, 'cart', response.data.cart);
@@ -335,12 +335,12 @@
       order() {
         const vm = this;
 
-        window.wyvern.http.post(`${vm.wp.root}api/order/`, querystring.stringify({
+        window.wyvern.http.post(`${vm.config.root}api/order/`, querystring.stringify({
           shipping_address: JSON.stringify(vm.shipping_address),
           billing_address: JSON.stringify(vm.billing_address),
           shipping: vm.shipping,
           payment: vm.payment,
-          customer_id: vm.wp.customer_id,
+          customer_id: vm.config.customer_id,
           note: vm.note,
         })).then((response) => {
           vm.$set(vm, 'cart', response.data.cart);
