@@ -1,76 +1,39 @@
-import { routes, Vue, VueRouter } from './app';
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue';
+import Vuex from 'vuex';
+import axios from 'axios';
+import * as mixins from './mixins';
+import App from './App';
+import store from './store';
+import router from './router';
 
-// Create router instance
-const router = new VueRouter({
-  mode: 'history',
-  routes: routes.get(),
+// Vuex
+Vue.use(Vuex);
+
+// Mixins
+Vue.mixin({
+  methods: mixins,
 });
 
-// Event bus
-const bus = new Vue({});
+// Standard UI components
+Vue.component('menu-location', require('@/components/partials/menu-location'));
 
-// Start app
-new Vue({ // eslint-disable-line no-new
+/**
+ * Following implementation allows using axios in two ways,
+ * calling this.$http or addressing window.axios.
+ * axios is also added to eslint globals.
+ */
+Vue.prototype.$http = axios;
+window.axios = axios;
+
+Vue.config.productionTip = false;
+
+/* eslint-disable no-new */
+new Vue({
   el: '#app',
-
-  template: '<div class="template-wrapper" :class="this.$route.meta.slug">' +
-    '<theme-header></theme-header>' +
-    '<router-view class="router-view"></router-view>' +
-    '<theme-footer></theme-footer>' +
-  '</div>',
-
   router,
-
-  data() {
-    return {
-      bus,
-    };
-  },
-
-  mounted() {
-    this.updateTitle('');
-    this.trackGA();
-  },
-
-  methods: {
-    updateTitle(pageTitle) {
-      if (typeof pageTitle !== 'undefined') {
-        if (pageTitle !== window.config.site_name) {
-          document.title = this.getTitle(pageTitle);
-          return;
-        }
-      }
-
-      document.title = this.getHomeTitle(pageTitle);
-    },
-    getTitle(pageTitle) {
-      return `${pageTitle} - ${window.config.site_name}`;
-    },
-    getHomeTitle() {
-      return `${window.config.site_name} - ${window.config.site_desc}`;
-    },
-    trackGA() {
-      if (typeof ga === 'function') {
-        window.ga('set', 'page', `/${window.location.pathname.substr(1)}`);
-        window.ga('send', 'pageview');
-      }
-    },
-  },
-
-  created() {
-    window.eventHub.$on('page-title', this.updateTitle);
-    window.eventHub.$on('track-ga', this.trackGA);
-  },
-
-  beforeDestroy() {
-    window.eventHub.$off('page-title', this.updateTitle);
-    window.eventHub.$off('track-ga', this.trackGA);
-  },
-
-  watch: {
-    // Changed route
-    $route(to, from) {
-      window.eventHub.$emit('changed-route', to, from);
-    },
-  },
+  store,
+  template: '<App/>',
+  components: { App },
 });

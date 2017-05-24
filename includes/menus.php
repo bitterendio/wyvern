@@ -9,8 +9,7 @@
 |
 */
 
-register_nav_menus( array(
+register_nav_menus( [
     'primary'   => 'Primary Menu',
     'footer'    => 'Footer Menu',
-    'mega'      => 'Mega Menu',
-) );
+] );
