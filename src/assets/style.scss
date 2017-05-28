@@ -1,5 +1,218 @@
-$background-color: yellow;
+/**
+ * CONTENTS
+ *
+ * SETTINGS
+ * Global...............Globally-available variables and config.
+ * Parent...............Parent styles
+ *
+ * GENERIC
+ * Normalize.css........A level playing field.
+ *
+ * HELPERS
+ * Helpers..............Standard helpers
+ * Responsive helpers...Responsive visibility helpers
+ *
+ * BASE
+ * Sizing...............Element sizing
+ * Layout...............
+ * Links................
+ * Buttons..............
+ */
+
+/*------------------------------------*\
+  #SETTINGS
+\*------------------------------------*/
+
+/**
+ * Global
+ */
+@import "variables";
+
+/*------------------------------------*\
+  #GENERIC
+\*------------------------------------*/
+
+/**
+ * Normalize.css
+ */
+@import "../node_modules/normalize.css/normalize.css";
+
+$assetsPath: "../assets/";
+
+/*------------------------------------*\
+  #HELPERS
+\*------------------------------------*/
+
+/**
+ * Helpers
+ */
+.pull-left { float: left; }
+.pull-right { float: right; }
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.block { display: block; }
+.hidden { display: none !important; }
+
+@import "./helpers/noselect";
+
+/**
+ * Responsive helpers
+ */
+@media(max-width: $screen-xs-max) {
+  .visible-xs { display: block; }
+  .hidden-xs { display: none; }
+}
+
+@media(min-width: $screen-sm-min) {
+  .visible-xs { display: none; }
+}
+
+/*------------------------------------*\
+  #BASE
+\*------------------------------------*/
+
+/**
+ * Sizing
+ */
+html,
+input[type="search"] {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/**
+ * Layout
+ */
+#content { display: none; }
+
+.cols {
+  display: flex;
+
+  & > div {
+    flex: 1;
+  }
+}
+
+.container {
+  max-width: $container-max-width;
+  margin: 0 auto;
+}
+
+.template-wrapper {
+  text-align: center;
+
+  & > * {
+    text-align: left;
+  }
+}
+
+.sidebar {
+  max-width: 270px;
+}
+
+/**
+ * Links
+ */
+a {
+  color: $link-color;
+
+  &:hover,
+  &.active,
+  &.router-link-active {
+    color: $hover-color;
+    text-decoration: none;
+  }
+}
+
+/**
+ * Buttons
+ */
+.btn {
+  appearance: none;
+  outline: 0;
+  border: 0;
+}
+
+/*------------------------------------*\
+  #DEFAULT
+\*------------------------------------*/
 
 body {
-  background: $background-color;
+  background-color: darken($background-color, 5%);
+  font-family: sans-serif;
+}
+
+.sidebar {
+  background-color: $background-color;
+  text-align: center;
+  padding: 60px 40px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+
+  h1 {
+    display: none;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .nav {
+    margin: 30px 0;
+    padding: 0;
+    text-align: left;
+    li {
+      a {
+        display: block;
+        padding: 10px 0;
+      }
+    }
+  }
+}
+
+.main {
+  padding: 60px 80px;
+  .page {
+    padding: 40px 60px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    background-color: $background-color;
+
+    h1 {
+      margin-top: 0;
+    }
+  }
+}
+
+.nav {
+  list-style-type: none;
+}
+
+.footer {
+  color: darken($background-color, 30%);
+  font-size: 11px;
+  padding-top: 60px;
+
+  ul {
+    li {
+      display: inline-block;
+      a {
+        color: darken($background-color, 30%);
+        text-decoration: underline;
+        padding: 5px 15px;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+.template-wrapper > .cols {
+  height: 100vh;
 }

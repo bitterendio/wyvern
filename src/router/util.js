@@ -23,7 +23,7 @@ export function setComponentsToRoutes(routes) {
       // f.e. Page
       newroute.component = window.Templates[item.meta.type];
     } else {
-      newroute.component = window.Templates.Index;
+      newroute.component = window.Templates.index;
     }
     return newroute;
   });

@@ -54,4 +54,16 @@ new Vue({
   store,
   template: '<App/>',
   components: { App },
+  methods: {
+    // Track google analytics pageview
+    trackGA() {
+      if (typeof window.ga === 'function') {
+        window.ga('set', 'page', `/${window.location.pathname.substr(1)}`);
+        window.ga('send', 'pageview');
+      }
+    },
+  },
+  watch: {
+    $route: 'trackGA',
+  },
 });

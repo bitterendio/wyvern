@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapActions } from 'vuex';
 
   export default {
     name: 'pagehello',
@@ -14,20 +14,26 @@
       };
     },
     methods: {
+      ...mapActions([
+        'getPage',
+      ]),
       fetchData() {
-        this.$store.dispatch('getPage', {
+        this.$store.cacheDispatch('getPage', {
           id: this.$route.meta.id,
         });
       },
     },
-    computed: mapGetters({
-      page: 'currentPage',
-    }),
+    computed: {
+      page() {
+        return this.$store.getters.getPageById(this.$route.meta.id);
+      },
+    },
     mounted() {
       this.fetchData();
+      this.title();
     },
     watch: {
-      $route: 'fetchData',
+      $route: ['fetchData', 'title'],
     },
   };
 </script>

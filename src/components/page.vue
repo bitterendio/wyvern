@@ -1,12 +1,12 @@
 <template>
-  <div class="page" v-if="page.id">
+  <div class="page" v-if="page && page.id">
     <h1 v-html="page.title.rendered"></h1>
     <div v-html="page.content.rendered"></div>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapActions } from 'vuex';
 
   export default {
     name: 'page',
@@ -15,20 +15,26 @@
       };
     },
     methods: {
+      ...mapActions([
+        'getPage',
+      ]),
       fetchData() {
-        this.$store.dispatch('getPage', {
+        this.$store.cacheDispatch('getPage', {
           id: this.$route.meta.id,
         });
       },
     },
-    computed: mapGetters({
-      page: 'currentPage',
-    }),
+    computed: {
+      page() {
+        return this.$store.getters.getPageById(this.$route.meta.id);
+      },
+    },
     mounted() {
       this.fetchData();
+      this.title();
     },
     watch: {
-      $route: 'fetchData',
+      $route: ['fetchData', 'title'],
     },
   };
 </script>

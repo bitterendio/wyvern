@@ -5,27 +5,31 @@ import * as types from '../mutation-types';
 
 // initial state
 const state = {
-  currentPage: {},
+  pages: [],
 };
 
 // getters
 const getters = {
-  currentPage: state => state.currentPage,
+  getPageById(state) {
+    return id => state.pages.find(item => item.id === id);
+  },
 };
 
 // actions
 const actions = {
   getPage({ commit }, options) {
-    pages.getPage(options.id, (page) => {
-      commit(types.RECEIVE_PAGE, { page });
-    });
+    if (typeof options.id !== 'undefined') {
+      pages.getPage(options.id, (page) => {
+        commit(types.RECEIVE_PAGE, { page });
+      });
+    }
   },
 };
 
 // mutations
 const mutations = {
   [types.RECEIVE_PAGE](state, { page }) {
-    state.currentPage = page;
+    state.pages.push(page);
   },
 };
 

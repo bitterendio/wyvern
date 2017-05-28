@@ -4,14 +4,30 @@
 
 <template>
   <div id="app">
-    <h1>Wyvern testing app</h1>
-    <router-link to="/">
-      <img src="../logo.png">
-    </router-link>
-    <menu-location :location="'primary'"></menu-location>
-    <menu-location :location="'footer'"></menu-location>
-    <menu-location :location="'primary'"></menu-location>
-    <router-view></router-view>
+
+    <div class="template-wrapper">
+
+      <div class="cols">
+
+        <div class="sidebar">
+          <h1>Wyvern testing app</h1>
+          <router-link to="/" class="block">
+            <img src="../logo.png">
+          </router-link>
+          <menu-location :location="'primary'" class="nav"></menu-location>
+        </div>
+
+        <div class="main">
+          <router-view></router-view>
+          <footer class="footer text-center">
+            <menu-location :location="'footer'" class="nav nav-footer"></menu-location>
+          </footer>
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
 </template>
 

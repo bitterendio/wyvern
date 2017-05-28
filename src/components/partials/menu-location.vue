@@ -1,6 +1,6 @@
 <template>
   <ul v-if="menu">
-    <li v-for="item in menu.items">
+    <li v-for="item in menu.items" :class="['menu-' + item.ID, 'menu-' + item.post_name]">
       <router-link :to="url2Slug(item.url)">
         {{ item.title }}
       </router-link>
