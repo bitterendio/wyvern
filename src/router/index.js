@@ -8,6 +8,14 @@ window.Templates = Templates;
 
 Vue.use(Router);
 
+// Set names from route slugs
+config.routes = config.routes ? config.routes.map((item) => {
+  const route = item;
+  route.name = item.meta.slug;
+  return route;
+}) : [];
+
 export default new Router({
-  routes: setComponentsToRoutes(window.routes),
+  mode: 'history',
+  routes: setComponentsToRoutes(config.routes),
 });

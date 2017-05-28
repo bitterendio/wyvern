@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-
-    <script src="https://cdn.ravenjs.com/3.14.0/vue/raven.min.js"
-          crossorigin="anonymous"></script>
-    <script>Raven.config('https://131f75a00fe1410aa7714142e0855dd6@sentry.io/154236').install();</script>
+    <link rel="author" type="text/plain" href="<?php echo home_url('humans.txt') ?>">
 
     <?php wp_head(); ?>
 
@@ -16,11 +13,12 @@
     <?php if ( $extras_options ) : ?>
         <?php echo $extras_options['custom_header_html'] ?>
     <?php endif; ?>
-
-    <link type="text/plain" rel="author" href="<?php echo home_url('humans.txt') ?>" />
-
 </head>
 <body>
+
+<div id="app"></div>
+
+<!-- @todo: refactoring -->
 <div id="content">
     <?php
     if ( have_posts() ) :
@@ -45,7 +43,18 @@
     ?>
 </div>
 
-<div id="app"></div>
+<script type=text/javascript>window.routes = [
+    {
+      path: '/',
+      name: 'Hello',
+      meta: {
+        postId: 1,
+        type: 'Page',
+        slug: 'hello',
+        template: 'twocols',
+      },
+    },
+  ];</script>
 
 <?php $tracking_options = get_option ( 'wyvern_theme_options_tracking' ) ?>
 <!-- Tracking default -->

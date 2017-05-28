@@ -5,12 +5,29 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   export default {
     name: 'page1',
     data() {
       return {
-        msg: 'Welcome to Page 1',
       };
+    },
+    methods: {
+      fetchData() {
+        this.$store.dispatch('getPage', {
+          id: this.$route.meta.id,
+        });
+      },
+    },
+    computed: mapGetters({
+      page: 'currentPage',
+    }),
+    mounted() {
+      this.fetchData();
+    },
+    watch: {
+      $route: 'fetchData',
     },
   };
 </script>

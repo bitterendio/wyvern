@@ -16,9 +16,9 @@ export function setComponentsToRoutes(routes) {
     } else if (window.Templates[`${item.meta.type}-${item.meta.slug}`]) {
       // (page$slug) f.e. Pageslug
       newroute.component = window.Templates[`${item.meta.type}-${item.meta.slug}`];
-    } else if (window.Templates[`${item.meta.type}-${item.meta.postId}`]) {
+    } else if (window.Templates[`${item.meta.type}-${item.meta.id}`]) {
       // (page$id) f.e. Page1
-      newroute.component = window.Templates[`${item.meta.type}-${item.meta.postId}`];
+      newroute.component = window.Templates[`${item.meta.type}-${item.meta.id}`];
     } else if (window.Templates[item.meta.type]) {
       // f.e. Page
       newroute.component = window.Templates[item.meta.type];

@@ -6,16 +6,16 @@
 |--------------------------------------------------------------------------
 |
 | /menu/<id|name|slug>       - get menu by id, name or slug
-|       - /wp-json/api/menu/25
-|       - /wp-json/api/menu/primary-menu
+|       - /wp-json/wyvern/v1/menu/25
+|       - /wp-json/wyvern/v1/menu/primary-menu
 | /menu/location/<location>  - get menu by location
-|       - /wp-json/api/menu/location/primary/
+|       - /wp-json/wyvern/v1/menu/location/primary/
 |
 */
 
 add_action( 'rest_api_init', function () {
     // {api base url}/menu/location/<location>
-    register_rest_route( 'api', '/menu/location/(?P<location>\S+)', [
+    register_rest_route( 'wyvern/v1', '/menu/location/(?P<location>\S+)', [
         'methods' => WP_REST_Server::READABLE,
         'callback' => 'wyvern_get_menu_items_by_location',
         'args' => [
@@ -24,7 +24,7 @@ add_action( 'rest_api_init', function () {
     ] );
 
     // {api base url}/menu/<id|name|slug>
-    register_rest_route( 'api', '/menu/(?P<id>\S+)', [
+    register_rest_route( 'wyvern/v1', '/menu/(?P<id>\S+)', [
         'methods' => WP_REST_Server::READABLE,
         'callback' => 'wyvern_get_menu_items_by_id',
         'args' => [

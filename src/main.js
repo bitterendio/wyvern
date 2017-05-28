@@ -3,10 +3,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+import WPAPI from 'wpapi';
 import * as mixins from './mixins';
 import App from './App';
 import store from './store';
 import router from './router';
+import { setComponentsToRoutes } from './router/util';
+import routes from './api/routes';
 
 // Vuex
 Vue.use(Vuex);
@@ -16,7 +19,22 @@ Vue.mixin({
   methods: mixins,
 });
 
-// Standard UI components
+/**
+ * WP API
+ * https://github.com/WP-API/node-wpapi
+ */
+window.wp = new WPAPI({ endpoint: config.root });
+
+// Running in dev mode, load routes from API
+if (process.env.NODE_ENV !== 'production') {
+  routes.getRoutes((data) => {
+    router.addRoutes(setComponentsToRoutes(data));
+  });
+}
+
+/**
+ * Standard UI components
+ */
 Vue.component('menu-location', require('@/components/partials/menu-location'));
 
 /**

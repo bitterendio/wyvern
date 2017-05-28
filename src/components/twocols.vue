@@ -1,16 +1,28 @@
 <template>
   <div class="hello">
-    {{ msg }}
+    <ul>
+      <li v-for="post in posts">
+        {{ post }}
+        {{ post.post_title }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   export default {
     name: 'twocols',
     data() {
       return {
-        msg: 'Twocols',
       };
+    },
+    computed: mapGetters({
+      posts: 'allPosts',
+    }),
+    created() {
+      this.$store.dispatch('getAllPosts');
     },
   };
 </script>

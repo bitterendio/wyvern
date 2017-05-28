@@ -1,23 +1,24 @@
-import routes from './index';
 import logger from './logger';
 
 export default {
   find(id, callback) {
-    axios.get(routes.menus.find.replace('{id}', id))
-        .then((response) => {
-          callback(response.data);
-        })
-        .catch((response) => {
-          logger.error(response);
+    wp.menus = wp.registerRoute('wyvern/v1', '/menu/(?P<id>\\S+)');
+    wp.menus().id(id)
+        .get((err, data) => {
+          callback(data);
+          if (err) {
+            logger.error(err);
+          }
         });
   },
   getMenuByLocation(location, callback) {
-    axios.get(routes.menus.location.replace('{location}', location))
-        .then((response) => {
-          callback(response.data);
-        })
-        .catch((response) => {
-          logger.error(response);
+    wp.locations = wp.registerRoute('wyvern/v1', '/menu/location/(?P<location>\\S+)');
+    wp.locations().location(location)
+        .get((err, data) => {
+          callback(data);
+          if (err) {
+            logger.error(err);
+          }
         });
   },
 };

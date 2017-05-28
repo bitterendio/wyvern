@@ -24,24 +24,22 @@ add_theme_support( 'post-thumbnails' );
 */
 
 function rest_theme_scripts() {
+
+    // Get current asset names
+    $current_assets = json_decode(file_get_contents(__DIR__ . '/dist/manifest.json'), true);
+
     // Styles
-    wp_enqueue_style( 'normalize', get_template_directory_uri() . '/assets/normalize.css', false, '3.0.3' );
-    wp_enqueue_style( 'style', get_stylesheet_directory_uri() . '/dist/styles.css', array( 'normalize' ), '1.0.55' );
+    wp_enqueue_style( 'style', get_stylesheet_directory_uri() . '/dist/' . $current_assets['app.css'], array(), '1.0.0' );
 
-    // Pace
-    wp_enqueue_script( 'pace', get_template_directory_uri() . '/assets/js/pace.min.js', array(), '1.0.0', true );
+    wp_enqueue_script( 'wyvern-vue-manifest', get_stylesheet_directory_uri() . '/dist/' . $current_assets['manifest.js'], array(), '1.0.0', true );
+    wp_enqueue_script( 'wyvern-vue-vendor', get_stylesheet_directory_uri() . '/dist/' . $current_assets['vendor.js'], array(), '1.0.0', true );
+    wp_enqueue_script( 'wyvern-vue-app', get_stylesheet_directory_uri() . '/dist/' . $current_assets['app.js'], array(), '1.0.0', true );
 
-    // 3rd party scripts from default setup that will not be used
-    wp_deregister_script('mailpoet_vendor');
-    wp_deregister_script('mailpoet_public');
-    wp_deregister_style('mailpoet_public');
-
-    wp_enqueue_script( 'wyvern-vue', get_stylesheet_directory_uri() . '/dist/build.js', array(), '1.0.55', true );
-
+    // Geenerate config script
     $base_url  = esc_url_raw( home_url() );
     $base_path = rtrim( parse_url( $base_url, PHP_URL_PATH ), '/' );
 
-    wp_localize_script( 'wyvern-vue', 'wp', apply_filters( 'wyvern_wp_settings', [
+    wp_localize_script( 'wyvern-vue-app', 'config', apply_filters( 'wyvern_wp_settings', [
         'root'          => esc_url_raw( rest_url() ),
         'base_url'      => $base_url,
         'base_path'     => $base_path ? $base_path . '/' : '/',
@@ -49,23 +47,18 @@ function rest_theme_scripts() {
         'site_name'     => get_bloginfo( 'name' ),
         'site_desc'     => get_bloginfo('description'),
         'routes'        => rest_theme_routes(),
-        'assets_path'   => get_stylesheet_directory_uri() . '/assets',
-
-        // Inline configurations
-        'show_on_front' => get_option('show_on_front'), // (posts|page) Settings -> Reading -> Front page displays
-        'page_on_front' => get_option('page_on_front'), // (int) Settings -> Reading -> Front page displays when "page" is selected and type is "Front page"
-        'page_for_posts'=> get_option('page_for_posts'), // (int) Settings -> Reading -> Front page displays when "page" is selected and type is "Posts page"
-
-        'excerpt_word'  => is_array(get_option('wyvern_theme_options_excerpt')) ? get_option('wyvern_theme_options_excerpt')['excerpt_word'] : 'Read more', // @todo remove hardcoded Read more
-
-        'ng'            => [
-            'shipping'  => wyvern_wc_get_shipping(),
-            'gateways'  => wyvern_wc_get_gateways(),
-        ]
     ] ) );
 }
 
 add_action( 'wp_enqueue_scripts', 'rest_theme_scripts' );
+
+
+// Hotfix
+// @todo: find out if multiple values in Access-Control can be solved otherwise
+add_action('rest_api_init', function() {
+    remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
+}, 15);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -88,17 +81,30 @@ if (!function_exists('rest_theme_routes'))
             'posts_per_page' => - 1,
         ]);
 
+        // @temp
+        $routes[] = [
+            'path' => '/',
+            'meta' => [
+                'id'        => 2,
+                'type'      => 'page',
+                'slug'      => 'home',
+                'template'  => 'page',
+            ]
+        ];
+
         if ( $query->have_posts() )
         {
             while ( $query->have_posts() )
             {
                 $query->the_post();
                 $routes[] = [
-                    'id'       => get_the_ID(),
-                    'type'     => get_post_type(),
-                    'slug'     => basename(get_permalink()),
-                    'link'     => str_replace(site_url(), '', get_permalink()),
-                    'template' => get_page_template_slug()
+                    'path'     => str_replace(site_url(), '', get_permalink()),
+                    'meta'     => [
+                        'id'       => get_the_ID(),
+                        'type'     => get_post_type(),
+                        'slug'     => basename(get_permalink()),
+                        'template' => get_page_template_slug(),
+                    ],
                 ];
             }
         }
