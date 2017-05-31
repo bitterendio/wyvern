@@ -26,7 +26,7 @@ add_theme_support( 'post-thumbnails' );
 function rest_theme_scripts() {
 
     // Get current asset names
-    $current_assets = json_decode(file_get_contents(__DIR__ . '/dist/manifest.json'), true);
+    $current_assets = json_decode(file_get_contents(get_stylesheet_directory() . '/dist/manifest.json'), true);
 
     // Styles
     wp_enqueue_style( 'style', get_stylesheet_directory_uri() . '/dist/' . $current_assets['app.css'], array(), '1.0.0' );
@@ -59,6 +59,13 @@ add_action('rest_api_init', function() {
     remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
 }, 15);
 
+add_action( 'send_headers', function() {
+    if ( ! did_action('rest_api_init') && $_SERVER['REQUEST_METHOD'] == 'HEAD' ) {
+        // header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Expose-Headers: Link");
+        header("Access-Control-Allow-Methods: HEAD");
+    }
+} );
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +103,8 @@ if (!function_exists('rest_theme_routes'))
             }
         }
 
+        wp_reset_postdata();
+
         // Add all posts to routes
         if ( $query->have_posts() )
         {
@@ -107,6 +116,23 @@ if (!function_exists('rest_theme_routes'))
         }
 
         wp_reset_postdata();
+
+        // Post type archives
+        $post_types = get_post_types([], 'objects');
+
+        foreach($post_types as $post_type)
+        {
+            if ($post_type->has_archive !== false) {
+                $routes[] = [
+                    'path'  => '/' . ($post_type->has_archive === true ? $post_type->name : $post_type->has_archive),
+                    'meta'  => [
+                        'wp_title'  => $post_type->label . ' · ' . get_bloginfo('name'),
+                        'archive'   => true,
+                        'type'      => $post_type->name,
+                    ],
+                ];
+            }
+        }
 
         return $routes;
     }

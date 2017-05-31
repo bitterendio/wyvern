@@ -19,11 +19,23 @@ Vue.mixin({
   methods: mixins,
 });
 
+// Lodash
+window._ = require('lodash');
+
 /**
  * WP API
  * https://github.com/WP-API/node-wpapi
  */
 window.wp = new WPAPI({ endpoint: config.root });
+window.apiPromise = WPAPI.discover(config.base_url);
+
+/**
+ * Standard UI components
+ */
+Vue.component('menu-location', require('@/components/partials/menu-location'));
+Vue.component('gallery', require('@/components/partials/gallery'));
+Vue.component('lightbox', require('@/components/partials/lightbox'));
+Vue.component('theme-header', require('@/components/partials/theme-header'));
 
 // Running in dev mode, load routes from API
 if (process.env.NODE_ENV !== 'production') {
@@ -31,11 +43,6 @@ if (process.env.NODE_ENV !== 'production') {
     router.addRoutes(setComponentsToRoutes(data));
   });
 }
-
-/**
- * Standard UI components
- */
-Vue.component('menu-location', require('@/components/partials/menu-location'));
 
 /**
  * Following implementation allows using axios in two ways,
@@ -67,3 +74,6 @@ new Vue({
     $route: 'trackGA',
   },
 });
+
+/* eslint-disable */
+export { Vue, router, store, App };

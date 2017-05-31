@@ -1,34 +1,30 @@
 <template>
-  <div class="hello">
-    {{ msg }}
+  <div :class="[$route.meta.type]" v-if="post && post.id">
+    <h1 v-html="post.title.rendered"></h1>
+    <div v-html="post.content.rendered"></div>
   </div>
 </template>
 
 <script>
-  import { mapActions } from 'vuex';
-
   export default {
-    name: 'pagehello',
     data() {
       return {
       };
     },
     methods: {
-      ...mapActions([
-        'getPage',
-      ]),
       fetchData() {
-        this.$store.cacheDispatch('getPage', {
+        this.$store.cacheDispatch('getQuery', {
+          post_type: this.$route.meta.type,
           id: this.$route.meta.id,
         });
       },
     },
     computed: {
-      page() {
-        return this.$store.getters.getPageById(this.$route.meta.id);
+      post() {
+        return this.$store.getters.getQueryById(this.$route.meta.id);
       },
     },
-    mounted() {
+    created() {
       this.fetchData();
       this.title();
     },

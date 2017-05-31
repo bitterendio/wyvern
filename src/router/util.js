@@ -19,9 +19,18 @@ export function setComponentsToRoutes(routes) {
     } else if (window.Templates[`${item.meta.type}-${item.meta.id}`]) {
       // (page$id) f.e. Page1
       newroute.component = window.Templates[`${item.meta.type}-${item.meta.id}`];
-    } else if (window.Templates[item.meta.type]) {
+    } else if (item.meta.archive === true && window.Templates[`archive-${item.meta.type}`]) {
+      // f.e. ArchiveProject
+      newroute.component = window.Templates[`archive-${item.meta.type}`];
+    } else if (item.meta.archive === true && window.Templates.archive) {
+      // f.e. Archive
+      newroute.component = window.Templates.archive;
+    } else if (!item.meta.archive && window.Templates[item.meta.type]) {
       // f.e. Page
       newroute.component = window.Templates[item.meta.type];
+    } else if (!item.meta.archive && window.Templates.single) {
+      // f.e. Single
+      newroute.component = window.Templates.single;
     } else {
       newroute.component = window.Templates.index;
     }

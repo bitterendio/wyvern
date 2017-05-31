@@ -124,9 +124,13 @@ a {
 
   &:hover,
   &.active,
-  &.router-link-active {
+  &.router-link-exact-active {
     color: $hover-color;
     text-decoration: none;
+  }
+
+  &.router-link-active {
+
   }
 }
 
@@ -177,6 +181,7 @@ body {
 
 .main {
   padding: 60px 80px;
+  overflow-y: auto;
   .page {
     padding: 40px 60px;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
