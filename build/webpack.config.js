@@ -15,7 +15,7 @@ module.exports = {
     entry: './src/main.js',
 
     output: {
-        path: './dist',
+        path: path.resolve('./dist'),
         filename: 'build.js'
     },
 
