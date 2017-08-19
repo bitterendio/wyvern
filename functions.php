@@ -26,14 +26,25 @@ add_theme_support( 'post-thumbnails' );
 function rest_theme_scripts() {
 
     // Get current asset names
-    $current_assets = json_decode(file_get_contents(get_stylesheet_directory() . '/dist/manifest.json'), true);
+    $filepath = get_stylesheet_directory() . '/dist/manifest.json';
+    if (file_exists($filepath))
+    {
+        $current_assets = json_decode(file_get_contents($filepath), true);
+    }
 
     // Styles
-    wp_enqueue_style( 'style', get_stylesheet_directory_uri() . '/dist/' . $current_assets['app.css'], array(), '1.0.0' );
+    if (isset($current_assets['app.css']))
+        wp_enqueue_style( 'style', get_stylesheet_directory_uri() . '/dist/' . $current_assets['app.css'], array(), '1.0.0' );
 
-    wp_enqueue_script( 'wyvern-vue-manifest', get_stylesheet_directory_uri() . '/dist/' . $current_assets['manifest.js'], array(), '1.0.0', true );
-    wp_enqueue_script( 'wyvern-vue-vendor', get_stylesheet_directory_uri() . '/dist/' . $current_assets['vendor.js'], array(), '1.0.0', true );
-    wp_enqueue_script( 'wyvern-vue-app', get_stylesheet_directory_uri() . '/dist/' . $current_assets['app.js'], array(), '1.0.0', true );
+    // Scripts
+    if (isset($current_assets['manifest.js']))
+        wp_enqueue_script( 'wyvern-vue-manifest', get_stylesheet_directory_uri() . '/dist/' . $current_assets['manifest.js'], array(), '1.0.0', true );
+
+    if (isset($current_assets['vendor.js']))
+        wp_enqueue_script( 'wyvern-vue-vendor', get_stylesheet_directory_uri() . '/dist/' . $current_assets['vendor.js'], array(), '1.0.0', true );
+
+    if (isset($current_assets['app.js']))
+        wp_enqueue_script( 'wyvern-vue-app', get_stylesheet_directory_uri() . '/dist/' . $current_assets['app.js'], array(), '1.0.0', true );
 
     // Geenerate config script
     $base_url  = esc_url_raw( home_url() );

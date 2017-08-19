@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state", "customs"] }]*/
+/* eslint no-shadow: ["error", { "allow": ["state", "customs"] }] */
 /* eslint no-param-reassign: ["off"] */
 import query from '../../api/query';
 import * as types from '../mutation-types';
