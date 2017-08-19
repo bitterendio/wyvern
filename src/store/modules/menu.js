@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state", "menus"] }]*/
+/* eslint no-shadow: ["error", { "allow": ["state", "menus"] }] */
 /* eslint no-param-reassign: ["off"] */
 import menus from '../../api/menus';
 import * as types from '../mutation-types';

@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state", "products"] }]*/
+/* eslint no-shadow: ["error", { "allow": ["state", "products"] }] */
 /* eslint no-param-reassign: ["off"] */
 import products from '../../api/products';
 import * as types from '../mutation-types';

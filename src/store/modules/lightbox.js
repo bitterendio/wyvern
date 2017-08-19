@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }]*/
+/* eslint no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["off"] */
 
 // initial state
