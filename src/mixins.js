@@ -6,6 +6,9 @@
  * @return {string} Relative url - f.e. /hello-world
  */
 export function url2Slug(url) {
+  if (typeof url === 'undefined') {
+    return '';
+  }
   return url.replace(/^.*\/\/[^/]+/, '');
 }
 
