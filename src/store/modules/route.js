@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state", "routes"] }]*/
+/* eslint no-shadow: ["error", { "allow": ["state", "routes"] }] */
 /* eslint no-param-reassign: ["off"] */
 import routes from '../../api/routes';
 import * as types from '../mutation-types';
