@@ -8,6 +8,8 @@
  * GENERIC
  * Normalize.css........A level playing field.
  *
+ * TYPOGRAPHY
+ *
  * HELPERS
  * Helpers..............Standard helpers
  * Responsive helpers...Responsive visibility helpers
@@ -38,6 +40,14 @@
 @import "../node_modules/normalize.css/normalize.css";
 
 $assetsPath: "../assets/";
+
+/*------------------------------------*\
+  #TYPOGRAPHY
+\*------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
+
+$font-family: 'Roboto Condensed', sans-serif;
 
 /*------------------------------------*\
   #HELPERS
@@ -149,7 +159,7 @@ a {
 
 body {
   background-color: darken($background-color, 5%);
-  font-family: sans-serif;
+  font-family: $font-family;
 }
 
 .sidebar {

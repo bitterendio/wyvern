@@ -63,16 +63,9 @@ function rest_theme_scripts() {
 
 add_action( 'wp_enqueue_scripts', 'rest_theme_scripts' );
 
-
-// Hotfix
-// @todo: find out if multiple values in Access-Control can be solved otherwise
-add_action('rest_api_init', function() {
-    remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
-}, 15);
-
 add_action( 'send_headers', function() {
-    if ( ! did_action('rest_api_init') && $_SERVER['REQUEST_METHOD'] == 'HEAD' ) {
-        // header("Access-Control-Allow-Origin: *");
+    if ( ! did_action('rest_api_init') ) {
+        header("Access-Control-Allow-Origin: *");
         header("Access-Control-Expose-Headers: Link");
         header("Access-Control-Allow-Methods: HEAD");
     }
