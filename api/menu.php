@@ -47,7 +47,7 @@ if ( !function_exists('wyvern_get_menu_items_by_id') )
         if ( $source === false )
             return ['msg' => __('Menu has no items')];
 
-        return $source;
+        return apply_filters( 'wyvern_get_menu', $source );
     }
 }
 
@@ -72,6 +72,6 @@ if ( !function_exists('wyvern_get_menu_items_by_location') )
         if ( $source === false )
             return ['msg' => __('Menu has no items')];
 
-        return $source;
+        return apply_filters( 'wyvern_get_menu', $source );
     }
 }
