@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import './../build/wyvern';
+
 export default {
   name: 'app',
 };
