@@ -29,7 +29,7 @@ module.exports = function(callback) {
             }
             file.root = root;
             rl.close();
-          },
+          }
         );
       });
       rl.on('close', function() {
