@@ -138,7 +138,7 @@ if (!function_exists('rest_theme_routes'))
             }
         }
 
-        return $routes;
+        return apply_filters( 'rest_theme_routes', $routes );
     }
 }
 
