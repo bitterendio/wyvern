@@ -57,7 +57,7 @@ function rest_theme_scripts() {
         'nonce'         => wp_create_nonce( 'wp_rest' ),
         'site_name'     => get_bloginfo( 'name' ),
         'site_desc'     => get_bloginfo('description'),
-        'routes'        => rest_theme_routes(),
+        'routes'        => wyvern_theme_routes(),
     ] ) );
 }
 
@@ -80,9 +80,9 @@ add_action( 'send_headers', function() {
 |
 */
 
-if (!function_exists('rest_theme_routes'))
+if (!function_exists('wyvern_theme_routes'))
 {
-    function rest_theme_routes()
+    function wyvern_theme_routes()
     {
         $routes = [];
 
@@ -138,7 +138,7 @@ if (!function_exists('rest_theme_routes'))
             }
         }
 
-        return apply_filters( 'rest_theme_routes', $routes );
+        return apply_filters( 'wyvern_theme_routes', $routes );
     }
 }
 
@@ -212,4 +212,3 @@ foreach( array_unique([get_template_directory(), get_stylesheet_directory()]) as
 {
     autoload_folder($folder . $relative_path);
 }
-

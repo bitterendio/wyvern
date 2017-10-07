@@ -3,6 +3,9 @@
     <h1 v-html="getHighlighted(post.title.rendered)"></h1>
     <div v-html="post.content.rendered"></div>
   </div>
+  <div class="page" v-else-if="$route.meta.content">
+    <div v-html="$route.meta.content"></div>
+  </div>
 </template>
 
 <script>

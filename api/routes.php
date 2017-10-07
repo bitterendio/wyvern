@@ -23,6 +23,6 @@ if ( !function_exists('wyvern_get_routes') )
 {
     function wyvern_get_routes($data)
     {
-        return rest_theme_routes();
+        return wyvern_theme_routes();
     }
 }

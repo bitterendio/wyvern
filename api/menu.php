@@ -39,13 +39,13 @@ if ( !function_exists('wyvern_get_menu_items_by_id') )
     {
         // Check if location was specified
         if ( !isset($data['id']) )
-            return ['msg' => __('Menu was not specified')];
+            return apply_filters( 'wyvern_get_menu', ['msg' => __('Menu was not specified')]);
 
         // Array of menu items, otherwise false
         $source = wp_get_nav_menu_items($data['id']);
 
         if ( $source === false )
-            return ['msg' => __('Menu has no items')];
+            return apply_filters( 'wyvern_get_menu', ['msg' => __('Menu has no items')]);
 
         return apply_filters( 'wyvern_get_menu', $source );
     }
@@ -58,19 +58,19 @@ if ( !function_exists('wyvern_get_menu_items_by_location') )
     {
         // Check if location was specified
         if ( !isset($data['location']) )
-            return ['msg' => __('Menu location was not specified')];
+            return apply_filters( 'wyvern_get_menu', ['msg' => __('Menu location was not specified')]);
 
         // Get available locations
         $available_locations = get_nav_menu_locations();
 
         if ( !isset($available_locations[$data['location']]) )
-            return ['msg' => __('Specified location has no menu attached to it')];
+            return apply_filters( 'wyvern_get_menu', ['msg' => __('Specified location has no menu attached to it')]);
 
         // Array of menu items, otherwise false
         $source = wp_get_nav_menu_items($available_locations[$data['location']]);
 
         if ( $source === false )
-            return ['msg' => __('Menu has no items')];
+            return apply_filters( 'wyvern_get_menu', ['msg' => __('Menu has no items')]);
 
         return apply_filters( 'wyvern_get_menu', $source );
     }
