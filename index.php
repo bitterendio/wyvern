@@ -43,19 +43,6 @@
     ?>
 </div>
 
-<script type=text/javascript>window.routes = [
-    {
-      path: '/',
-      name: 'Hello',
-      meta: {
-        postId: 1,
-        type: 'Page',
-        slug: 'hello',
-        template: 'twocols',
-      },
-    },
-  ];</script>
-
 <?php $tracking_options = get_option ( 'wyvern_theme_options_tracking' ) ?>
 <!-- Tracking default -->
 <?php if ( isset($tracking_options['google_analytics_id']) ) : ?>
