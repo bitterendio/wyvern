@@ -1,0 +1,50 @@
+#wyvern-options {
+  display: none;
+}
+
+#wyvern-options.show {
+  display: block;
+}
+
+.wyvern-options-cols {
+  display: flex;
+  align-items: stretch;
+}
+
+.wyvern-options-cols > * {
+  flex: 1 0 auto;
+  padding: 5px;
+}
+
+.wyvern-options-actions {
+  padding: 5px;
+}
+
+.wyvern-options-wrapper {
+  border: 1px solid #e5e5e5;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.04);
+  box-shadow: 0 1px 1px rgba(0,0,0,.04);
+  background: #fff;
+}
+
+.wyvern-options-wrapper > * {
+  border: 1px solid #e5e5e5;
+}
+
+.wyvern-options-label {
+  max-width: 250px;
+  background-color: #f5f5f5;
+}
+
+.wyvern-options-value {
+  background-color: #fff;
+}
+
+.wyvern-options-flags {
+  max-width: 10%;
+  background-color: #f5f5f5;
+}
+
+.text-right {
+  text-align: right;
+}

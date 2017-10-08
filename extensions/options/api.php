@@ -7,6 +7,7 @@
 |
 | /options/                         - Return all options
 | /options/full/                    - Return all options with full settings (authenticated)
+| /options/update/                  - Update options
 | /options/get_option/<option>      - Get option value by it's slug
 | /options/update_option/<option>   - Update option
 |   [POST] PARAMS:
@@ -28,6 +29,14 @@ add_action( 'rest_api_init', function () {
     register_rest_route( 'wyvern/v1', '/options/full/', [
         'methods' => WP_REST_Server::READABLE,
         'callback' => 'wyvern_get_options_full',
+        'args' => [
+        ],
+    ] );
+
+    // {api base url}/options/full/
+    register_rest_route( 'wyvern/v1', '/options/update/', [
+        'methods' => WP_REST_Server::CREATABLE,
+        'callback' => 'wyvern_get_options_update',
         'args' => [
         ],
     ] );
@@ -67,10 +76,10 @@ if ( !function_exists('wyvern_get_options') )
 
         // Filter options to return only safe to read options
         $returnable_options = array_filter($options, function($item) {
-           if ((isset($item['private']) && !$item['private']) || !isset($item['private'])) {
-               return true;
-           }
-           return false;
+            if ((isset($item['private']) && !$item['private']) || !isset($item['private'])) {
+                return true;
+            }
+            return false;
         });
 
         // Return only values to public API
@@ -104,6 +113,33 @@ if ( !function_exists('wyvern_get_options_full') )
 
         // Return options
         return apply_filters( 'wyvern_get_options_full', $options );
+    }
+}
+
+if ( !function_exists('wyvern_get_options_update') )
+{
+    /**
+     * Update all options
+     *
+     * @param $data
+     * @return array
+     */
+    function wyvern_get_options_update($data)
+    {
+        $input = $_POST['options'];
+        $options = [];
+
+        foreach($input as $key => $value) {
+            if (isset($value['slug'])) {
+                $options[$value['slug']] = $value;
+            }
+        }
+
+        // Update options
+        update_option('wyvern_options', $options);
+
+        // Return options
+        return wyvern_get_options_full([]);
     }
 }
 

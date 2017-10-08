@@ -9,6 +9,9 @@
 |
 */
 
+// Hide admin bar until links in Edit page are eventually resolved
+show_admin_bar(false);
+
 /**
  * Add custom route
  */

@@ -1,0 +1,27 @@
+<div id="wyvern-options" :class="['wyvern-options-wrapper', {'show' : loaded}]">
+  <div v-for="option in options" class="wyvern-options-cols" v-if="typeof option !== 'undefined'">
+    <label :for="'wyvern-options-' + option.slug" class="wyvern-options-label">
+      <input v-model="option.name"><br>
+      <input v-model="option.slug">
+    </label>
+    <div class="wyvern-options-value">
+      <input v-model="option.value" :id="'wyvern-options-' + option.slug">
+    </div>
+    <div class="wyvern-options-flags">
+      <span class="dashicons dashicons-visibility" v-if="!option.private" @click="togglePrivate(option)"></span>
+      <span class="dashicons dashicons-visibility" v-if="option.private" @click="togglePrivate(option)"></span>
+    </div>
+  </div>
+  <div class="wyvern-options-actions wyvern-options-cols">
+    <div>
+      <button type="button" class="button button-large" @click="add">
+        Add option
+      </button>
+    </div>
+    <div class="text-right">
+      <button type="button" class="button button-primary button-large" @click="update">
+        Update
+      </button>
+    </div>
+  </div>
+</div>
