@@ -6,7 +6,7 @@ import product from './modules/product';
 import menu from './modules/menu';
 import search from './modules/search';
 import lightbox from './modules/lightbox';
-import route from './modules/route';
+// import route from './modules/route';
 import query from './modules/query';
 import createLogger from '../plugins/logger';
 import vuexCache from '../plugins/vuex-cache';
@@ -21,7 +21,7 @@ export default new Vuex.Store({
   modules: {
     product,
     menu,
-    route,
+    // route,
     query,
     search,
     lightbox,

@@ -33,7 +33,7 @@ add_action( 'rest_api_init', function () {
         ],
     ] );
 
-    // {api base url}/options/full/
+    // {api base url}/options/update/
     register_rest_route( 'wyvern/v1', '/options/update/', [
         'methods' => WP_REST_Server::CREATABLE,
         'callback' => 'wyvern_get_options_update',
@@ -50,7 +50,7 @@ add_action( 'rest_api_init', function () {
         ],
     ] );
 
-    // {api base url}/options/get_option/<option>
+    // {api base url}/options/update_option/<option>
     register_rest_route( 'wyvern/v1', '/options/update_option/(?P<option>\S+)', [
         'methods' => WP_REST_Server::CREATABLE,
         'callback' => 'wyvern_update_option',
@@ -74,17 +74,16 @@ if ( !function_exists('wyvern_get_options') )
         // - for security reasons, we shall not provide access to general Wordpress options
         $options = get_option('wyvern_options');
 
+        if (!$options) {
+            return ['msg' => __('No options')];
+        }
+
         // Filter options to return only safe to read options
         $returnable_options = array_filter($options, function($item) {
             if ((isset($item['private']) && !$item['private']) || !isset($item['private'])) {
                 return true;
             }
             return false;
-        });
-
-        // Return only values to public API
-        array_walk($returnable_options, function(&$item) {
-            $item = $item['value'];
         });
 
         // Return options
@@ -130,9 +129,8 @@ if ( !function_exists('wyvern_get_options_update') )
         $options = [];
 
         foreach($input as $key => $value) {
-            if (isset($value['slug'])) {
-                $options[$value['slug']] = $value;
-            }
+            $value['private'] = $value['private'] === 'true' ? true : false;
+            $options[$key] = $value;
         }
 
         // Update options
@@ -161,10 +159,16 @@ if ( !function_exists('wyvern_get_option') )
         // - for security reasons, we shall not provide access to general Wordpress options
         $options = get_option('wyvern_options');
 
+        $key = array_search($data['option'], array_column($options, 'slug'));
+
         // Check if option is available
-        if (isset($options[$data['option']]) && isset($options[$data['option']]['value'])) {
+        /* if (isset($options[$data['option']]) && isset($options[$data['option']]['value'])) {
             // @todo: check if option is private or public before returning it
             return apply_filters( 'wyvern_get_option', [$data['option'] => $options[$data['option']]['value']] );
+        } */
+
+        if ($key !== false) {
+            return apply_filters('wyvern_get_option', $options[$key]);
         }
 
         return ['msg' => __('Option was not found')];
@@ -189,10 +193,14 @@ if ( !function_exists('wyvern_update_option') )
         // - for security reasons, we shall not provide access to general Wordpress options
         $options = get_option('wyvern_options');
 
+        $key = array_search($data['option'], array_column($options, 'slug'));
+
         // Update options object
-        $options[$data['option']] = [
-            'value' => isset($_POST['value']) ? $_POST['value'] : null,
-            'private' => isset($_POST['private']) ? (bool)$_POST['private'] : false,
+        $options[$key] = [
+            'name'  => isset($_POST['name']) ? $_POST['name'] : $options[$key]['name'],
+            'slug'  => isset($_POST['slug']) ? $_POST['slug'] : $options[$key]['slug'],
+            'value' => isset($_POST['value']) ? $_POST['value'] : $options[$key]['value'],
+            'private' => isset($_POST['private']) ? (bool)$_POST['private'] : $options[$key]['private'],
         ];
 
         // Update theme options object

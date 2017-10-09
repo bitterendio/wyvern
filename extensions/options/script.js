@@ -3,25 +3,12 @@ var vm = new Vue({
   data: function() {
     return {
       loaded: false,
-      options: wyvernOptions.options,
+      options: wyvernOptions.options ? wyvernOptions.options : [],
       nonce: wyvernOptions.nonce,
       root: wyvernOptions.root,
     };
   },
   created: function() {
-    var options = [];
-    for (var key in this.options) {
-      var option = this.options[key];
-      if (typeof option !== 'undefined') {
-        if (option.slug) {
-          options[option.slug] = option;
-        } else {
-          options[key]      = option;
-          options[key].slug = key;
-        }
-      }
-    }
-    this.$set(this.options, options);
     this.loaded = true;
   },
   methods: {
@@ -41,15 +28,25 @@ var vm = new Vue({
       } );
     },
     add: function() {
-      this.$set(this.options, '', {
+      this.$set(this.options, this.options.length, {
         name: '',
         value: '',
         slug: '',
-        private: true,
+        private: false,
       });
     },
-    togglePrivate: function(option) {
-      this.$set(option, !option.private);
+    slugify: function(option) {
+      const slug =  option.name.toString().toLowerCase()
+          .replace(/\s+/g, '_')           // Replace spaces with -
+          .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+          .replace(/\-\-+/g, '_')         // Replace multiple - with single -
+          .replace(/^-+/, '')             // Trim - from start of text
+          .replace(/-+$/, '');            // Trim - from end of text
+      option.slug = slug;
+    },
+    togglePrivate: function(option, index) {
+      option.private = !option.private;
+      this.$set(this.options, index, option);
     },
   },
 });

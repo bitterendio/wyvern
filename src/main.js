@@ -9,7 +9,7 @@ import App from './App';
 import store from './store';
 import router from './router';
 import { setComponentsToRoutes } from './router/util';
-import routes from './api/routes';
+import WPConfig from './api/config';
 
 // Vuex
 Vue.use(Vuex);
@@ -39,8 +39,9 @@ Vue.component('theme-header', require('@/components/partials/theme-header'));
 
 // Running in dev mode, load routes from API
 if (process.env.NODE_ENV !== 'production') {
-  routes.getRoutes((data) => {
-    router.addRoutes(setComponentsToRoutes(data));
+  WPConfig.getConfig((data) => {
+    config = data;
+    router.addRoutes(setComponentsToRoutes(window.config.routes));
   });
 }
 

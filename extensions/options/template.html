@@ -1,15 +1,15 @@
 <div id="wyvern-options" :class="['wyvern-options-wrapper', {'show' : loaded}]">
-  <div v-for="option in options" class="wyvern-options-cols" v-if="typeof option !== 'undefined'">
+  <div v-for="(option, index) in options" class="wyvern-options-cols" v-if="typeof option !== 'undefined'">
     <label :for="'wyvern-options-' + option.slug" class="wyvern-options-label">
-      <input v-model="option.name"><br>
-      <input v-model="option.slug">
+      <input v-model="option.name" placeholder="Name" @keyup="slugify(option)"><br>
+      <input v-model="option.slug" placeholder="Slug">
     </label>
     <div class="wyvern-options-value">
-      <input v-model="option.value" :id="'wyvern-options-' + option.slug">
+      <input v-model="option.value" :id="'wyvern-options-' + option.slug" placeholder="Value">
     </div>
     <div class="wyvern-options-flags">
-      <span class="dashicons dashicons-visibility" v-if="!option.private" @click="togglePrivate(option)"></span>
-      <span class="dashicons dashicons-visibility" v-if="option.private" @click="togglePrivate(option)"></span>
+      <span class="dashicons dashicons-visibility" v-if="!option.private" @click="togglePrivate(option, index)"></span>
+      <span class="dashicons dashicons-hidden" v-if="option.private" @click="togglePrivate(option, index)"></span>
     </div>
   </div>
   <div class="wyvern-options-actions wyvern-options-cols">

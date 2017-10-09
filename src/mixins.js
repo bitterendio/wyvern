@@ -23,3 +23,25 @@ export function title() {
     document.title = `${config.site_name} · ${config.site_desc}`;
   }
 }
+
+/**
+ * Get Wyvern option
+ */
+export function getWyvernOption(slug, all = false) {
+  const options = config.wyvernOptions;
+  const found = options.find(option => option.slug === slug);
+  if (all) {
+    return found;
+  }
+  return found.value;
+}
+
+/**
+ * Set Wyvern option
+ */
+export function setWyvernOption(slug, value) {
+  const data = new FormData();
+  data.append('value', value);
+  axios.post(`${config.root}/wyvern/v1/options/update_option/${slug}`, data).then(() => {
+  });
+}

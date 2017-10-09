@@ -1,9 +1,9 @@
 import logger from './logger';
 
 export default {
-  getRoutes(callback) {
-    wp.routes = wp.registerRoute('wyvern/v1', '/routes/');
-    wp.routes().get((err, data) => {
+  getConfig(callback) {
+    wp.config = wp.registerRoute('wyvern/v1', '/config/');
+    wp.config().get((err, data) => {
       callback(data);
       if (err) {
         logger.error(err);

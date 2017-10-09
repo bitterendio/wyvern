@@ -32,7 +32,7 @@ if (!function_exists('wyvern_theme_routes'))
             {
                 the_post();
 
-                $routes[] = get_rest_theme_route();
+                $routes[] = wyvern_get_rest_theme_route();
             }
         }
 
