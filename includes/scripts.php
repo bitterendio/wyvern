@@ -40,7 +40,7 @@ if ( !function_exists('wyvern_theme_scripts') )
 
 add_action( 'wp_enqueue_scripts', 'wyvern_theme_scripts' );
 
-if ( !function_exists('wyvern_theme_scripts') )
+if ( !function_exists('wyvern_theme_config') )
 {
 
     function wyvern_theme_config()
