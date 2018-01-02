@@ -9,10 +9,10 @@
 
       <div class="cols">
         <div class="sidebar">
-          <h1>{{ window.config.site_name }}</h1>
-          <p>{{ window.config.site_desc }}</p>
+          <h1>{{ config.site_name }}</h1>
+          <p>{{ config.site_desc }}</p>
           <router-link to="/" class="block">
-            {{ window.config.site_name }}
+            {{ config.site_name }}
           </router-link>
           <menu-location :location="'primary'" class="nav"></menu-location>
         </div>
@@ -34,13 +34,19 @@
 
 <script>
 import './../build/wyvern';
+import EventBus from './event-bus';
 
 export default {
   name: 'app',
   data() {
     return {
-      window,
+      config: window.config,
     };
+  },
+  created() {
+    EventBus.$on('config', (data) => {
+      this.config = data;
+    });
   },
 };
 </script>

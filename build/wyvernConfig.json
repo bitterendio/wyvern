@@ -1,4 +1,4 @@
 {
-    "base_url": "",
-    "root": ""
+    "base_url": "http://wordpress.dev",
+    "root": "http://wordpress.dev/wp-json"
 }
