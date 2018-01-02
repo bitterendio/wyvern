@@ -60,6 +60,8 @@ if ( !function_exists('wyvern_theme_config') )
 
                 return false;
             });
+        else:
+            $non_private = [];
         endif;
 
         return [
