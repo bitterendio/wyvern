@@ -8,11 +8,11 @@
     <div class="template-wrapper">
 
       <div class="cols">
-
         <div class="sidebar">
-          <h1>Wyvern testing app</h1>
+          <h1>{{ window.config.site_name }}</h1>
+          <p>{{ window.config.site_desc }}</p>
           <router-link to="/" class="block">
-            Test
+            {{ window.config.site_name }}
           </router-link>
           <menu-location :location="'primary'" class="nav"></menu-location>
         </div>
@@ -37,6 +37,11 @@ import './../build/wyvern';
 
 export default {
   name: 'app',
+  data() {
+    return {
+      window,
+    };
+  },
 };
 </script>
 
