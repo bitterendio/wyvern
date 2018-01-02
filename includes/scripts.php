@@ -51,14 +51,16 @@ if ( !function_exists('wyvern_theme_config') )
 
         // Get Wyvern options
         $options = get_option('wyvern_options');
-        $non_private = array_filter($options, function ($item) {
-            if ( (isset($item['private']) && !$item['private']) || !isset($item['private']) )
-            {
-                return true;
-            }
+        if (is_array($options)):
+            $non_private = array_filter($options, function ($item) {
+                if ( (isset($item['private']) && !$item['private']) || !isset($item['private']) )
+                {
+                    return true;
+                }
 
-            return false;
-        });
+                return false;
+            });
+        endif;
 
         return [
             'root'          => esc_url_raw(rest_url()),
