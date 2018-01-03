@@ -34,6 +34,8 @@ export function setComponentsToRoutes(routes) {
     } else {
       newroute.component = window.Templates.index;
     }
+    // Remove domain from path
+    newroute.path = newroute.path.replace(/^.*\/\/[^/]+/, '');
     return newroute;
   });
 }
