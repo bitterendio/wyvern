@@ -1,3 +1,7 @@
+<?php
+if( !defined( 'ABSPATH' ) )
+    exit;
+?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -18,30 +22,40 @@
 
 <div id="app"></div>
 
-<!-- @todo: refactoring -->
-<div id="content">
+<!-- Prerendered content -->
+<div id="prerendered">
     <?php
-    if ( have_posts() ) :
-
-        if ( is_home() && ! is_front_page() ) {
-            echo '<h1>' . single_post_title( '', false ) . '</h1>';
-        }
-
-        while ( have_posts() ) : the_post();
-
-            if ( is_singular() ) {
-                the_title( '<h1>', '</h1>' );
-            } else {
-                the_title( '<h2><a href="' . esc_url( get_permalink() ) . '">', '</a></h2>' );
-            }
-
-            the_content();
-
-        endwhile;
-
-    endif;
+    /**
+     * If there is no Javascript support,
+     * show prerendered content.
+     *
+     * To generate prerendered content,
+     * @use node prerender.js
+     * @use npm prerender
+     */
+    $path = $_SERVER['REQUEST_URI'];
+    $prerender_path = __DIR__ . '/prerender' . $path . 'index.html';
+    if (file_exists($prerender_path)) {
+      echo file_get_contents($prerender_path);
+    }
     ?>
 </div>
+
+<!-- Disable prerendered if Javascript support found -->
+<script type="text/javascript">
+  var css = '#prerendered { display: none; }',
+      head = document.head || document.getElementsByTagName('head')[0],
+      style = document.createElement('style');
+
+  style.type = 'text/css';
+  if (style.styleSheet){
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+
+  head.appendChild(style);
+</script>
 
 <?php $tracking_options = get_option ( 'wyvern_theme_options_tracking' ) ?>
 <!-- Tracking default -->
