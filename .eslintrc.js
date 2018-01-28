@@ -36,7 +36,8 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     // allow snail cased properties in wp 'post_type'
-    'camelcase': ['off']
+    'camelcase': ['off'],
+    'arrow-parens': ['off']
   },
   "globals": {
     "_": true,
