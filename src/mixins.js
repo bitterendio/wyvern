@@ -18,9 +18,9 @@ export function url2Slug(url) {
  */
 export function title() {
   if (this.$route && this.$route.meta && this.$route.meta.wp_title) {
-    document.title = this.$route.meta.wp_title;
+    document.querySelector('title').innerHTML(this.$route.meta.wp_title);
   } else if (config && config.site_name && config.site_desc) {
-    document.title = `${config.site_name} · ${config.site_desc}`;
+    document.querySelector('title').innerHTML(`${config.site_name} · ${config.site_desc}`);
   }
 }
 
